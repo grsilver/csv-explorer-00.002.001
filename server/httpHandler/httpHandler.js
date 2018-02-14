@@ -15,7 +15,7 @@ function listen(){
 }
 
 function onHttpRequest (req, res) {
-  console.log(`${req.method} ${req.url}`);
+  //console.log(`${req.method} ${req.url}`);
 
   if( isApiRequest(req)){
     apiManager.handleHttpRequest(req, res)

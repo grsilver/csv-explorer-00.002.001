@@ -11,6 +11,7 @@ function handleHttpRequest(req, res){
   responseHandler.forEachMethodPathItem(function(item,count,isMethod){
     requirePath += "/" + item
     if(isMethod){
+
       callApiMethod(requirePath,responseHandler)
     }
   })
