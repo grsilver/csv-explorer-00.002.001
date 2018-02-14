@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script src="app.bundle.js"></script>
+    <!--<script src="main.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+      <div class="div1">
+        <textarea id="input1" rows="4" cols="50">
+          SELECT COUNT(0) FROM SSD1
+          WHERE session_tags LIKE '%c3.player.name=TSN+VIDI+Web%'
+          AND  starttime >= 1516047600
+          AND  starttime < 1516048500
+          AND  startuptime = -1;
+        </textarea>
+        <div>
+            <button id="btn_about" type="button">about</button>
+            <button id="btn_boxLogon" type="button">boxLogon</button>
+            <button id="btn_template" type="button">Template</button>
+        </div>
+
+      </div>
+      <div id="pnlResponse">
+          response
+          <table id="responseTable">
+            <thead id="responseTableHeader"></thead>
+            <tbody id="responseTableBody"></tbody>
+          </table>
+      </div>
+
+  </body>
+</html>

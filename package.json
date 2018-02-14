@@ -1,0 +1,25 @@
+{
+  "name": "development",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "build_webpack": "webpack",
+    "build_server": "node server/app.js",
+    "webpack_and_server": "webpack && npm run build_server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "file-loader": "^1.1.6",
+    "webpack": "^3.11.0"
+  },
+  "dependencies": {
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "main": "webpack.config.js",
+  "description": ""
+}

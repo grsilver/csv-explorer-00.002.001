@@ -1,0 +1,30 @@
+.div1{
+  border: 1px solid red;
+}
+.section{
+  border: 1px solid black;
+}
+
+#responseTable td {
+  border: 1px solid black;
+  padding: 2px;
+}
+#responseTable th {
+  border: 1px solid black;
+  padding: 2px;
+}
+
+#input1{
+  margin: 0px;
+  width: 666px;
+  height: 206px;
+}
+#pnlResponse{
+  margin: 2px;
+  border: 1px solid red;
+
+}
+#responseTable{
+  border: 1px solid red;
+  margin: 2px;
+}
