@@ -13,10 +13,24 @@ m.init = function(){
   onWindowLoad(function(){
     //document.getElementById("btn_query").addEventListener("click", query);
     document.getElementById("btn_about").addEventListener("click", about);
+    document.getElementById("btn_importSSD").addEventListener("click", importSSD);
+
     setPredefinedQueries();
   })
 }
-
+function importSSD(){
+  var methodParam ={
+    ddd:"ssss"
+  }
+  apiHandler.call("ssd.importSSD",methodParam,function(success, objResp){
+    if( success ){
+      console.log("importSSD success: "+ JSON.stringify(objResp))
+    }
+    else{
+      console.log("importSSD error: "+ JSON.stringify(objResp))
+    }
+  })
+}
 function setPredefinedQueries(){
   btn_template = document.getElementById("btn_template")
   var parentNode = btn_template.parentNode;
@@ -31,7 +45,6 @@ function setPredefinedQueries(){
     });
   })
 }
-
 function query(queryStr){
   document.getElementById("input1").value = queryStr
   apiHandler.query(queryStr,function(success, objResp){
