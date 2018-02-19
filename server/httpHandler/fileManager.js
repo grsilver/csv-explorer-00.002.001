@@ -21,7 +21,7 @@ function handleHttpRequest(req, res){
 function checkIfPathExists(strRequestedPath, res,callback){
   var strRelativePath = dirRoot + "/" + strRequestedPath;
   fs.exists(strRelativePath, function (boolExists) {
-      console.log(`loadRequestedPath: ${strRelativePath}. boolExists:${boolExists}`);
+      //console.log(`loadRequestedPath: ${strRelativePath}. boolExists:${boolExists}`);
       if(!boolExists) {
         // if the file is not found, return 404
         res.statusCode = 404;

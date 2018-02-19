@@ -1,0 +1,11 @@
+"ReferenceError: x is not defined
+    at /Users/gsilvestri/galendev/ssd-explorer-00.002.001/server/apiMethods/listMethods.js:19:19
+    at Object.forEachMethodRegistration (/Users/gsilvestri/galendev/ssd-explorer-00.002.001/server/configHandler.js:13:10)
+    at getRegisteredMethods (/Users/gsilvestri/galendev/ssd-explorer-00.002.001/server/apiMethods/listMethods.js:15:17)
+    at Object.listMethods [as method] (/Users/gsilvestri/galendev/ssd-explorer-00.002.001/server/apiMethods/listMethods.js:10:14)
+    at callMethod (/Users/gsilvestri/galendev/ssd-explorer-00.002.001/server/api/apiManager.js:48:29)
+    at /Users/gsilvestri/galendev/ssd-explorer-00.002.001/server/api/apiManager.js:17:7
+    at /Users/gsilvestri/galendev/ssd-explorer-00.002.001/server/api/ApiResponseHandler.js:64:7
+    at IncomingMessage.<anonymous> (/Users/gsilvestri/galendev/ssd-explorer-00.002.001/server/api/ApiResponseHandler.js:113:9)
+    at IncomingMessage.emit (events.js:160:13)
+    at endReadableNT (_stream_readable.js:1101:12)"

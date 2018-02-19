@@ -2,13 +2,12 @@
 
 const readCSV = require("./importSSD/readCSV.js")
 var m = module.exports = {};
-m.parseRequest = parseRequest
+m.importFile = importFile
 
 
 
-
-
-function parseRequest(apiRequestHandler){
+// API Method
+function importFile(apiRequestHandler){
   var paramObj = apiRequestHandler.getMethodParam()
   try{
     readCSV(paramObj,function(success,returnObj){

@@ -16,7 +16,7 @@
     "webpack": "^3.11.0"
   },
   "dependencies": {
-    "webpack": "^3.10.0",
+    "serialize-error": "^2.1.0",
     "webpack-dev-server": "^2.11.1",
     "whatwg-fetch": "^2.0.3"
   },

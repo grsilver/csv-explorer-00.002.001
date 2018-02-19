@@ -1,5 +1,10 @@
 //server\api\ApiResponseHandler.js
+/* how to delete require cachse https://stackoverflow.com/questions/9210542/node-js-require-cache-possible-to-invalidate
+
+*/
+
 var qs = require('querystring');
+const serializeErrorLib = require('serialize-error');
 const url = require('url');
 
 module.exports = ApiResponseHandler;
@@ -11,7 +16,12 @@ function ApiResponseHandler(request, response){
   t.respondSuccess = respondSuccess;
   t.respondError = respondError;
   t.getMethodParam = getMethodParam
-  t.forEachMethodPathItem = forEachMethodPathItem
+  t.getRequestedMethodPath  = getRequestedMethodPath
+  t.errorMethodNotRegistered  = errorMethodNotRegistered
+  t.errorLoadingMethod  = errorLoadingMethod
+  t.errorModuleLoadedButNoMethod  = errorModuleLoadedButNoMethod
+  t.errorMethodCalled  = errorMethodCalled
+  t.apiMethodRegistration = null
   var params;
   /* params :{
     methodPath : "a.b.c",
@@ -19,25 +29,43 @@ function ApiResponseHandler(request, response){
     version: "",
     sessionToken:"";
   }*/
+  function errorMethodCalled(err){
+    respondError({
+      type:"methodCalledError"
+      ,message:"The API was Called But There was an error "
+    }
+    ,err)
+  }
+  function errorLoadingMethod(err){
+    respondError({
+      type:"errorLoadingMethod"
+      ,message:"The requested method could not be loaded: "+ params.methodPath
+    }
+    ,err)
+  }
+  function errorModuleLoadedButNoMethod(err){
+    respondError({
+      type:"errorModuleLoadedButNoMethod"
+      ,message:"The requested method could not be loaded: "+ params.methodPath
+    }
+    ,err)
+  }
+  function errorMethodNotRegistered(err){
+    respondError({
+      type:"errorMethodNotRegistered"
+      ,message:"The requested method is not registered: "+ params.methodPath
+    }
+    ,err)
+  }
   function getMethodParam(){
     return params.methodParam
   }
-  function geMethodPathWhole(){
-    return params.methodPath
-  }
-  function forEachMethodPathItem(fn){
+  function getRequestedMethodPath(fn){
     getParams(function(params){
-      var a = params.methodPath.split(".")
-      var count,item
-      var isMethod = false
-
-      for(count=0;count<a.length;count++){
-        item = a[count]
-        if(count == a.length-1)
-          isMethod = true
-        fn(item,count,isMethod)
-      }
+      fn(params.methodPath)
     })
+    if (params)
+      return params.methodPath
   }
   function respondSuccess(obj){
     response.writeHead(200, {"Content-Type": "application/json"});
@@ -47,11 +75,12 @@ function ApiResponseHandler(request, response){
     });
     response.end(json);
   }
-  function respondError(obj){
+  function respondError(obj,innerError){
     response.writeHead(200, {"Content-Type": "application/json"});
     var json = JSON.stringify({
       success: false,
-      response:obj
+      response:obj,
+      innerError : serializeError(innerError)
     });
     response.end(json);
   }
@@ -99,4 +128,8 @@ function ApiResponseHandler(request, response){
     return params
   }
 
+}
+
+function serializeError(err){
+   return serializeErrorLib(err)
 }

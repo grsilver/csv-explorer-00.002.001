@@ -2,32 +2,62 @@
   <head>
     <script src="app.bundle.js"></script>
     <!--<script src="main.js"></script>-->
+    <title>ssd explorer</title>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-      <div class="div1">
-        <textarea id="input1" rows="4" cols="50">
-          SELECT COUNT(0) FROM SSD1
-          WHERE session_tags LIKE '%c3.player.name=TSN+VIDI+Web%'
-          AND  starttime >= 1516047600
-          AND  starttime < 1516048500
-          AND  startuptime = -1;
-        </textarea>
-        <div>
-            <button id="btn_about" type="button">about</button>
-            <button id="btn_importSSD" type="button">btn_importSSD</button>
-            <button id="btn_boxLogon" type="button">boxLogon</button>
-            <button id="btn_template" type="button">Template</button>
-        </div>
+    <h1>ssd explorer</h1>
 
+    <div id="panel1_container">
+      <div id="panel1_title">
+        title
       </div>
+      <div id="panel1_body">
+        body
+      </div>
+    </div><!-- <div id="panel1Container"> -->
+
+
+    <div id="hidden" style="visibility: hidden;">
+      <div id="template_listTemplate">
+      </div><!-- <div id="pnlResponse"> -->
+
+      <div id="template_method">
+      </div><!-- <div id="pnlResponse"> -->
+
       <div id="pnlResponse">
           response
           <table id="responseTable">
             <thead id="responseTableHeader"></thead>
             <tbody id="responseTableBody"></tbody>
           </table>
-      </div>
+      </div><!-- <div id="pnlResponse"> -->
+
+
+      <div id="methodList_pnl" class="panel1">
+        <div class="method_record" template="method_record">
+          <div class="method_nameContainer">
+            <span class="textBtn" data="requestPath">methodListName</span>
+          </div>
+          
+          <div class="method_details">
+            <div data="description">
+              methodListDescription
+            </div>
+            <div class="method_params">
+              <div class="method_param" template="method_param">
+                  <span class="method_param_label" data="name">name</span>
+                  <input type="text">
+              </div>
+            </div> <!--method_params -->
+            <div class="method_submit_container">
+              <span class="textBtn">submit</span>
+            </div>
+          </div><!--method_details -->
+        </div><!-- method_record -->
+      </div><!-- method_pnl -->
+
+    </div> <!-- <div id="template"> -->
 
   </body>
 </html>
