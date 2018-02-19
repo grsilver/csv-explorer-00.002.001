@@ -82,9 +82,14 @@ function MethodRecord(){
     _.forEach(dataRecord.params,function(param){
       paramsExport[param.name] = param.getValue()
     })
-    apiCallHandler.call(dataRecord.requestPath,paramsExport,function(success, objResp){
+    apiCallHandler.call(dataRecord.requestPath,paramsExport).then(function(objResp){
+      var ary = objResp.response
       debugger
     })
+    .catch(function (err) {
+      debugger
+    })
+
   }
 
 

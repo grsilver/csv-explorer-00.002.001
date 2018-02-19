@@ -4,44 +4,48 @@ export {m as apiCallHandler};
 m.call = call;
 var sessionToken = "dsafkjhdk;afjhd;akfjhew" // todo
 
-function call(methodPath,methodParam,callback){ //
+function call(methodPath,methodParam,callback){
   if (typeof methodParam == 'object') methodParam = JSON.stringify(methodParam)
-
   var data = {
     version:"ver.00.00.001",
     methodPath: methodPath,
     methodParam:methodParam,
     sessionToken:sessionToken
   }
-  post("/api",data,callback)
-}
-function post(url,data,callback){
-  data = data || {}
+  var url = "/api"
   var strEncodedData = encodeData(data)
-  log(`sending: ${url} : \ndata: ${JSON.stringify(data)} \n encoded:${strEncodedData} `)
-
-  var req = new XMLHttpRequest();
-  req.open('POST', url);
-  req.onreadystatechange = function() {
-      if (req.readyState>3 && req.status==200){
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+    xhr.onload = function () {
+      if (this.status >= 200 && this.status < 300) {
         try{
-          var objResp = JSON.parse(req.responseText)
+          var objResp = JSON.parse(xhr.responseText)
           if(!objResp || !objResp.success){
-            callback(false, {message:"API Communication Successful But API Error",innerError:objResp})
+            reject({message:"API Communication Successful But API Error. objResp.success is false.",innerError:objResp})
           }
-          callback(true, objResp)
+          resolve(objResp)
         }catch(e){
-          callback(false, {message:"response has bad JSON",responseText:req.responseText})
+          reject({message:"response has bad JSON",responseText:xhr.responseText})
         }
+      } else {
+        reject({
+          messsage:"!(this.status >= 200 && this.status < 300)",
+          status: this.status,
+          statusText: xhr.statusText
+        });
       }
-      if (req.readyState>3 && req.status!=200){
-        callback(false, {message:"req.status!=200"})
-      }
-  };
-  req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  req.send(strEncodedData);
-  return req;
+    };
+    xhr.onerror = function () {
+      reject({
+        status: this.status,
+        statusText: xhr.statusText
+      });
+    };
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(strEncodedData);
+  });
 }
 function encodeData(data){
   return typeof data == 'string' ? data : Object.keys(data).map(

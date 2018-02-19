@@ -1,5 +1,11 @@
 module.exports = {
   version: "00.002.001"
+  ,database: {
+    host: '127.0.0.1'
+    ,user: 'root'
+    //,password: 'password'
+    ,database: 'convivaSSD'
+  }
   ,registeredMethods :[
     {
       requestPath : "importSSD.importFile"

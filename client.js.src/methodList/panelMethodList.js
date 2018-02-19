@@ -3,66 +3,77 @@ import {log as log} from '../helpers/log.js';
 import {EventListenerManager as EventListenerManager} from '../helpers/EventListenerManager.js';
 import {apiCallHandler as apiCallHandler} from '../api/apiCallHandler.js';
 import {MethodRecord as MethodRecord} from './MethodRecord.js';
-import {panelContainerMain as panelContainerMain} from '../panelContainerMain.js';
+//import {addWindowLoadedListener as addWindowLoadedListener} from '../helpers/addWindowLoadedListener.js';
+import {document_ready as document_ready} from '../helpers/document_ready.js';
 
 
 
 var m = {}
 export {m as panelMethodList};
+m.init = init
+m.element = null
+m.expand = expand// todo
+m.collapse = collapse// todo
 
-m.element = null;
-m.show = show
-m.remove = remove
-m.title = "Method Lists"
 
+//private
 var pnl;
 var methodRecordTemplate
-
-
-
-
-function remove(){
-  if(!m.element.parentNode )
-    m.element.parentNode.remove(m.element)
-}
-function show(){
-  prepUI()
-  panelContainerMain.showPanel(m)
-  getList(function(success,response){
-  //getTempList(function(success,ary){
-    if(!success)
-      throw {message:"failed to load list",innerError:response}
-    dataBind(response)
+function init(){
+  //getTempList(function(response){
+  api_listMethods(function(response){
+    log("list got")
+    try{
+      bindToUi(function(){
+        log("post bindToUi")
+        dataBind(response)
+      })
+    }
+    catch(e){
+      e.message = "panelMethodList got list but error with bindToUI" + e.message
+      throw e
+    }
   })
 }
-function prepUI(){
-  pnl = m.element = document.querySelector("#methodList_pnl");
-  methodRecordTemplate = pnl.querySelector('*[template="method_record"]');
-  methodRecordTemplate.remove();
+function handleLoadError(error){
+  throw error
 }
+function bindToUi (callback){
+  log("bindToUi()1")
+  document_ready(function(){
+    log("bindToUi()2")
+    pnl = m.element = document.querySelector("#panelMethodList");
+    methodRecordTemplate = pnl.querySelector('*[template="method_record"]');
+    methodRecordTemplate.remove();
+    if(callback)
+      callback()
+  })
+}
+function expand(){ // todo
 
+}
+function collapse(){// todo
+
+}
 function dataBind(dataRecordS){
   _.forEach(dataRecordS,dataBindRecord)
 }
-
 function dataBindRecord(dataRecord){
   var methodRecord = new MethodRecord()
   var methodRecordEle  = methodRecordTemplate.cloneNode(true);
   pnl.appendChild(methodRecordEle)
   methodRecord.setElement(methodRecordEle).dataBind(dataRecord)
 }
-function getList(callback){
+function api_listMethods(callback){
   //call(methodPath,methodParam,callback){
-  apiCallHandler.call("listMethods",{},function(success, objResp){
-    if(!success){
-      callback(false,objResp)
-    }
+  apiCallHandler.call("listMethods",{}).then(function(objResp){
     var ary = objResp.response
-    callback(success,ary)
+    callback(ary)
+  })
+  .catch(function (err) {
+    handleLoadError({message:"failed to load list",innerError:err})
   })
 }
-
-
 function getTempList(callback){
   var ary = [
     {
