@@ -4,6 +4,7 @@
 */
 
 var qs = require('querystring');
+var _ = require('lodash');
 const serializeErrorLib = require('serialize-error');
 const url = require('url');
 
@@ -22,6 +23,7 @@ function ApiResponseHandler(request, response){
   t.errorModuleLoadedButNoMethod  = errorModuleLoadedButNoMethod
   t.errorMethodCalled  = errorMethodCalled
   t.apiMethodRegistration = null
+  t.respondWithRow = respondWithRow
   var params;
   /* params :{
     methodPath : "a.b.c",
@@ -29,6 +31,9 @@ function ApiResponseHandler(request, response){
     version: "",
     sessionToken:"";
   }*/
+  function respondWithRow(){
+
+  }
   function errorMethodCalled(err){
     respondError({
       type:"methodCalledError"
@@ -67,12 +72,18 @@ function ApiResponseHandler(request, response){
     if (params)
       return params.methodPath
   }
-  function respondSuccess(obj){
+  function respondSuccess(resp,objMetaResponse){
     response.writeHead(200, {"Content-Type": "application/json"});
-    var json = JSON.stringify({
-      success: true,
-      response:obj
-    });
+    responseContainer = {
+      success:true
+      ,response:resp
+    }
+    if(typeof (objMetaResponse) === "object"){
+      _.forEach(objMetaResponse,function(v,n){
+        responseContainer[n]=v
+      })
+    }
+    var json = JSON.stringify(responseContainer);
     response.end(json);
   }
   function respondError(obj,innerError){

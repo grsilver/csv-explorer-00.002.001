@@ -26,6 +26,9 @@ function post(url,data,callback){
       if (req.readyState>3 && req.status==200){
         try{
           var objResp = JSON.parse(req.responseText)
+          if(!objResp || !objResp.success){
+            callback(false, {message:"API Communication Successful But API Error",innerError:objResp})
+          }
           callback(true, objResp)
         }catch(e){
           callback(false, {message:"response has bad JSON",responseText:req.responseText})

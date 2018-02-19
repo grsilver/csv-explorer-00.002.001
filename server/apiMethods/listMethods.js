@@ -5,10 +5,12 @@ module.exports = listMethods;
 var aryKeysFilterOut = ["filePath","methodName"]
 
 function listMethods(apiRequestHandler){
-  apiRequestHandler.respondSuccess({
-    version : configHandler.version(),
-    methods: getRegisteredMethods()
-  })
+  apiRequestHandler.respondSuccess(
+    getRegisteredMethods()
+    ,{
+      version : configHandler.version()
+    }
+  )
 }
 function getRegisteredMethods(){
   var regAryExport = []

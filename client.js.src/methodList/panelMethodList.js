@@ -28,11 +28,11 @@ function remove(){
 function show(){
   prepUI()
   panelContainerMain.showPanel(m)
-  getList(function(success,ary){
+  getList(function(success,response){
   //getTempList(function(success,ary){
     if(!success)
-      throw "failed to load list"
-    dataBind(ary)
+      throw {message:"failed to load list",innerError:response}
+    dataBind(response)
   })
 }
 function prepUI(){
@@ -57,7 +57,7 @@ function getList(callback){
     if(!success){
       callback(false,objResp)
     }
-    var ary = objResp.response.methods
+    var ary = objResp.response
     callback(success,ary)
   })
 }
