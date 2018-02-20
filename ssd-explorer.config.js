@@ -3,14 +3,14 @@ module.exports = {
   ,database: {
     host: '127.0.0.1'
     ,user: 'root'
-    //,password: 'password'
+    ,password: 'password'
     ,database: 'convivaSSD'
   }
   ,registeredMethods :[
     {
       requestPath : "importSSD.importFile"
       ,filePath:"importSSD/main.js"
-      ,methodName:"importFile"
+      ,methodName:"apiImportFile"
       ,description:"description1 description1"
       ,access : ["tier2"]
       ,params : [
@@ -40,6 +40,16 @@ module.exports = {
       ,params : [
         {name:"param1",defaultValue:"default1"}
         ,{name:"param2",defaultValue:"default2"}
+      ]
+    }
+    ,{
+      requestPath : "query"
+      ,filePath:"query/main.js"
+      ,methodName:"apiQuery"
+      ,description:"an open ended query call. Default: list frist 5 rows"
+      ,access : ["tier2"]
+      ,params : [
+        {name:"sql",defaultValue:"SELECT * FROM SSD1 LIMIT 5"}
       ]
     }
   ]

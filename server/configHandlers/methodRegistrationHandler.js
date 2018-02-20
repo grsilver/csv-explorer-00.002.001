@@ -1,4 +1,7 @@
-const config = require('../ssd-explorer.config.js');
+const config = require('../../ssd-explorer.config.js');
+
+
+
 var m = module.exports = {}
 m.version = version;
 m.forEachMethodRegistration = forEachMethodRegistration;

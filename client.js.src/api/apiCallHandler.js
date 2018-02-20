@@ -13,7 +13,8 @@ function call(methodPath,methodParam,callback){
     sessionToken:sessionToken
   }
   var url = "/api"
-  var strEncodedData = encodeData(data)
+  //var strData = encodeData(data)
+  var strData = "data="+JSON.stringify(data)
   return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url);
@@ -44,7 +45,7 @@ function call(methodPath,methodParam,callback){
     };
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(strEncodedData);
+    xhr.send(strData);
   });
 }
 function encodeData(data){

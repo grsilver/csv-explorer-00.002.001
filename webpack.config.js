@@ -4,6 +4,7 @@ var path = require("path");
 //npm run build_webpack
 //npm run build_server
 //npm run webpack_and_server
+///Users/gsilvestri/galendev/
 
 module.exports = {
   entry: {

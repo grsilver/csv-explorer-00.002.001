@@ -1,10 +1,10 @@
 
-const configHandler = require("../configHandler.js");
+const methodRegistrationHandler = require("../configHandlers/methodRegistrationHandler.js");
 module.exports = about;
 
 function about(apiRequestHandler){
   apiRequestHandler.respondSuccess({
-    version : configHandler.version(),
-    methodParam: apiRequestHandler.getMethodParam()
+    version : methodRegistrationHandler.version(),
+    methodParam: apiRequestHandler.getMethodParamObj()
   })
 }

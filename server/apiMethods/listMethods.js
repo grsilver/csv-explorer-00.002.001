@@ -1,5 +1,5 @@
 
-const configHandler = require("../configHandler.js");
+const methodRegistrationHandler = require("../configHandlers/methodRegistrationHandler.js");
 module.exports = listMethods;
 
 var aryKeysFilterOut = ["filePath","methodName"]
@@ -8,13 +8,13 @@ function listMethods(apiRequestHandler){
   apiRequestHandler.respondSuccess(
     getRegisteredMethods()
     ,{
-      version : configHandler.version()
+      version : methodRegistrationHandler.version()
     }
   )
 }
 function getRegisteredMethods(){
   var regAryExport = []
-  configHandler.forEachMethodRegistration(function(reg,i){
+  methodRegistrationHandler.forEachMethodRegistration(function(reg,i){
     var regExport = {}
     for(var key in reg){
       if(!filterOutKey(key)){
