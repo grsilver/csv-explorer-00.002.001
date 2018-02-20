@@ -18,9 +18,9 @@ function MethodRecord(){
   function setElement(element){
     eleRecord = element
 
+
     eleTemplate_param = eleRecord.querySelector('*[template="method_param"]');
     eleTemplate_param.remove();
-
     eleDetails = eleRecord.querySelector('.method_details');
     return t
   }
@@ -38,20 +38,9 @@ function MethodRecord(){
       }
 
     })
-    _.forEach(record.params,function(param){
-
-      var eleParam = eleTemplate_param.cloneNode(true);
-      eleRecord.querySelector(".method_params").appendChild(eleParam);
-
-      eleParam.querySelector('*[data="name"]').innerHTML = param.name;
-      var input = eleParam.querySelector('input')
-      input.value = param.defaultValue
-      param.getValue = function(){
-        return input.value
-      }
-    })
-
-    var btnSubmit = eleRecord.querySelector(".method_submit_container").querySelector("span")
+    _.forEach(record.params,bindParam2Ui)
+    var method_submit_container = eleRecord.querySelector(".method_submit_container")
+    var btnSubmit = method_submit_container.querySelector("span")
     btnSubmit.addEventListener("click",submit);
 
     var btnExpandCollapse = eleRecord.querySelector(".method_nameContainer").querySelector("span")
@@ -65,6 +54,17 @@ function MethodRecord(){
     });
     collapse();
     return t
+  }
+  function bindParam2Ui(param){
+
+    var eleParam = eleTemplate_param.cloneNode(true);
+    eleRecord.querySelector(".method_params").appendChild(eleParam);
+    eleParam.querySelector('*[data="name"]').innerHTML = param.name;
+    var input = eleParam.querySelector('input')
+    input.value = param.defaultValue
+    param.getValue = function(){
+      return input.value
+    }
   }
   function expand(){
     expanded = true

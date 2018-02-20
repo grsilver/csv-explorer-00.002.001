@@ -3,59 +3,20 @@
     <script src="app.bundle.js"></script>
     <!--<script src="main.js"></script>-->
     <title>ssd explorer</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
   </head>
   <body>
     <h1>ssd explorer</h1>
 
-    <div id="panelMethodList" class="pnl_container">
-      <div class="pnl_title">
-        title
-      </div>
-      <div class="pnl_body">
-        <div class="method_record" template="method_record">
-          <div class="method_nameContainer">
-            <span class="textBtn" data="requestPath">methodListName</span>
-          </div>
-
-          <div class="method_details">
-            <div data="description">
-              methodListDescription
-            </div>
-            <div class="method_params">
-              <div class="method_param" template="method_param">
-                  <span class="method_param_label" data="name">name</span>
-                  <input type="text">
-              </div>
-            </div> <!--method_params -->
-            <div class="method_submit_container">
-              <span class="textBtn">submit</span>
-            </div>
-          </div><!--method_details -->
-        </div><!-- method_record -->
-      </div><!-- pnl_body -->
-    </div><!--pnl_container-->
 
 
-    <div id="hidden" style="visibility: hidden;">
-      <div id="template_listTemplate">
-      </div><!-- <div id="pnlResponse"> -->
-
-      <div id="template_method">
-      </div><!-- <div id="pnlResponse"> -->
-
-      <div id="pnlResponse">
-          response
-          <table id="responseTable">
-            <thead id="responseTableHeader"></thead>
-            <tbody id="responseTableBody"></tbody>
-          </table>
-      </div><!-- <div id="pnlResponse"> -->
-
-
-
-
-    </div> <!-- <div id="template"> -->
+    <div id="panelResponse">
+        response
+        <table id="responseTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+    </div><!-- <div id="pnlResponse"> -->
 
   </body>
 </html>

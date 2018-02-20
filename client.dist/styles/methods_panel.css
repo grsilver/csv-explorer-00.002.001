@@ -1,24 +1,20 @@
-#panel1Container{
+#methods_panel{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 100;
+}
+#panelResponse{
   border: 1px solid black;
   padding: 2px;
+  margin:2px;
+  background-color: red;
 }
-.panel1{
-  border: 1px solid red;
-  padding: 2px;
-}
-.panel1_body{
-  background-color: #DDDDDD;
-}
-.textBtn{
-  cursor:pointer;
-  color:blue;
-  text-decoration:underline;
-}
-
 .method_record{
   border: 1px solid black;
   padding: 2px;
   margin:2px;
+  background-color: red;
 }
 .method_record:nth-child(even) {background: #F6F5F5}
 .method_record:nth-child(odd) {background: #FFF}
@@ -42,7 +38,4 @@
   background: #FFF;
   padding: 2px;
   margin:2px;
-}
-.hidden{
-  visibility: hidden;
 }

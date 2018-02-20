@@ -1,6 +1,6 @@
 import {log as log} from './helpers/log.js';
-import {panelMethodList as panelMethodList} from './methodList/panelMethodList.js';
+import {methods_panel as methods_panel} from './method/methods_panel.js';
 
 
 log("main.js");
-panelMethodList.init()
+methods_panel.init()
