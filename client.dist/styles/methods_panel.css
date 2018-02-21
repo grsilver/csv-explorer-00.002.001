@@ -25,7 +25,7 @@
 }
 .method_details{
   border: 1px solid black;
-  background: #FFF;
+  background: #8D8C8C;
   padding: 2px;
   margin:2px;
 }
@@ -41,4 +41,16 @@
 }
 .method_param input{
   width:400px
+}
+.method_submit_container{
+  text-align: right;
+}
+.method_details_item{
+  background: white;
+  padding: 2px;
+  margin:2px;
+}
+.method_details_key{
+  font-weight: bold;
+  margin-right: 2px;
 }

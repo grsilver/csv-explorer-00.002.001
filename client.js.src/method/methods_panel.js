@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {log as log} from '../helpers/log.js';
-import {EventListenerManager as EventListenerManager} from '../helpers/EventListenerManager.js';
+import {EventManager as EventManager} from '../helpers/EventManager.js';
 import {apiCallHandler as apiCallHandler} from '../api/apiCallHandler.js';
 import {MethodRecord as MethodRecord} from './MethodRecord.js';
 import {expand_collaspe_panel as expand_collaspe_panel} from './expand_collaspe_panel.js';
@@ -15,6 +15,7 @@ m.init = init
 m.element = null
 m.collapse = expand_collaspe_panel.collapse
 m.expand = expand_collaspe_panel.expand
+m.eventManager = new EventManager(m).registerEvent("cr8MethodRecord")
 
 
 //private
@@ -64,6 +65,7 @@ function dataBindRecord(dataRecord){
   var methodRecordEle  = methodRecordTemplate.cloneNode(true);
   pnl.querySelector(".pnl_body").appendChild(methodRecordEle)
   methodRecord.setElement(methodRecordEle).dataBind(dataRecord)
+  m.eventManager.broadcast.cr8MethodRecord({methodRecord:methodRecord})
 }
 function api_listMethods(callback){
   //call(methodPath,methodParam,callback){

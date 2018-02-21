@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {log as log} from '../helpers/log.js';
 import {apiCallHandler as apiCallHandler} from '../api/apiCallHandler.js';
+import {EventManager as EventManager} from '../helpers/EventManager.js';
 
 export {MethodRecord as MethodRecord};
 
@@ -9,8 +10,14 @@ function MethodRecord(){
   var t = this;
   t.setElement = setElement
   t.dataBind = dataBind
+  t.dataRecord;
+  t.eventManager = new EventManager(t)
+    .registerEvent("submit")
+    .registerEvent("responseSuccess")
+    .registerEvent("responseError")
+
+
   var eleRecord
-  var dataRecord
   var eleTemplate_param
   var eleDetails
   var expanded
@@ -18,27 +25,26 @@ function MethodRecord(){
   function setElement(element){
     eleRecord = element
 
-
     eleTemplate_param = eleRecord.querySelector('*[template="method_param"]');
     eleTemplate_param.remove();
     eleDetails = eleRecord.querySelector('.method_details');
     return t
   }
   function dataBind(record){
-    dataRecord = record
+    t.dataRecord = record
     var aryFieldElements = eleRecord.querySelectorAll('*[data]');
 
     _.forEach(aryFieldElements,function(eleField){
       var fieldName = eleField.getAttribute("data")
-      if(dataRecord[fieldName]){
-        eleField.innerHTML = dataRecord[fieldName]
+      if(record[fieldName]){
+        eleField.innerHTML = record[fieldName]
       }
       else{
         eleField.innerHTML = "no data for: "+ fieldName
       }
 
     })
-    _.forEach(record.params,bindParam2Ui)
+    displayParameterInputs()
     var method_submit_container = eleRecord.querySelector(".method_submit_container")
     var btnSubmit = method_submit_container.querySelector("span")
     btnSubmit.addEventListener("click",submit);
@@ -55,16 +61,23 @@ function MethodRecord(){
     collapse();
     return t
   }
-  function bindParam2Ui(param){
+  function displayParameterInputs(){
+    var container = eleRecord.querySelector(".method_params")
 
-    var eleParam = eleTemplate_param.cloneNode(true);
-    eleRecord.querySelector(".method_params").appendChild(eleParam);
-    eleParam.querySelector('*[data="name"]').innerHTML = param.name;
-    var input = eleParam.querySelector('input')
-    input.value = param.defaultValue
-    param.getValue = function(){
-      return input.value
-    }
+    var count = 0
+    _.forEach(t.dataRecord.params,function(param){
+      count ++
+      var eleParam = eleTemplate_param.cloneNode(true);
+      container.appendChild(eleParam);
+      eleParam.querySelector('*[data="name"]').innerHTML = param.name;
+      var input = eleParam.querySelector('input')
+      input.value = param.defaultValue
+      param.getValue = function(){
+        return input.value
+      }
+    })
+    if(count== 0)
+      container.remove()
   }
   function expand(){
     expanded = true
@@ -76,22 +89,43 @@ function MethodRecord(){
   }
   function submit(){
 
-    log("submit")
 
-    var paramsExport = {}
-    _.forEach(dataRecord.params,function(param){
-      paramsExport[param.name] = param.getValue()
+    //log("submit")
+
+    var methodParams = {}
+    _.forEach(t.dataRecord.params,function(param){
+      methodParams[param.name] = param.getValue()
     })
-    apiCallHandler.call(dataRecord.requestPath,paramsExport).then(function(objResp){
-      var ary = objResp.response
-      debugger
+
+    t.eventManager.broadcast.submit({
+      methodRecord:t
+      ,method: t.dataRecord.requestPath
+      ,params:methodParams
+      ,methodRegistrationData: t.dataRecord
+    })
+
+    apiCallHandler.call(t.dataRecord.requestPath,methodParams).then(function(objResp){
+      t.eventManager.broadcast.responseSuccess({
+        methodRecord:t
+        ,metaResponse:objResp
+        ,response: objResp.response
+        ,method: t.dataRecord.requestPath
+        ,params:methodParams
+        ,methodRegistrationData: t.dataRecord
+      })
+
     })
     .catch(function (err) {
-      debugger
+      t.eventManager.broadcast.responseError({
+        methodRecord:t
+        ,err: err
+        ,method: t.dataRecord.requestPath
+        ,params:methodParams
+        ,methodRegistrationData: t.dataRecord
+      })
+
     })
 
   }
-
-
 
 }

@@ -1,28 +1,29 @@
-export {EventListenerManager as EventListenerManager};
-function EventListenerManager(scope){
+export {EventManager as EventManager};
+function EventManager(scope){
 
   var t = this;
   t.registerEvent = registerEvent
-  t.setMethodAssignmentScope = setMethodAssignmentScope
+  t.add = t.addListener = {}
+  t.cast = t.broadcast = {}
+  t.rmv = t.removeListener = {}
+  t.br = t.break = {}
+  t.eventRegistrations = []
 
   var scope = t
-  var eventRegistrations = []
-  var methodAssignmentScope = t
+  var eventRegistrations = t.eventRegistrations
 
-  function setMethodAssignmentScope(s){
-    methodAssignmentScope = s
-    return t;
-  }
-  function registerEvent(eventName){
+
+
+  function registerEvent(eventName){ //listener(evt,scope,listenerReg)listenerReg.break. listenerReg.break listenerReg.eventManager
     var eventRegistration = {
-      name:eventName,
-      listenerRegistrations : []
+      name:eventName
+      ,listenerRegistrations : []
+      ,breakRequested : false
     }
     eventRegistrations.push(eventRegistration)
     function add(listener){
       if(typeof (listener)!= "function"){
-        throw "add"+eventName + "Listener() is not a function: "+ listener
-        //throw new TypeError([message[, fileName[, lineNumber]]])
+        throw new Error ("addListener."+eventName+"() listener is not a function: "+ listener)
       }
       var listenerRegistration = {
         listener:listener
@@ -30,6 +31,8 @@ function EventListenerManager(scope){
       listenerRegistration.remove = function(){
         remove(listener)
       }
+      listenerRegistration.break = breakCast
+      listenerRegistration.eventManager = t;
       eventRegistration.listenerRegistrations.push(listenerRegistration)
       return listenerRegistration
     }
@@ -46,6 +49,7 @@ function EventListenerManager(scope){
       eventRegistration.listenerRegistrations = newAry
     }
     function broadcast(evt){
+      eventRegistration.breakRequested = false
       if(!evt)
         evt = eventName
 
@@ -57,7 +61,6 @@ function EventListenerManager(scope){
       }
       var oldAry = eventRegistration.listenerRegistrations
       var lastListenerReg
-      var boolStop = false
       alertListener(0)
       function alertListener(i){
         var listenerRegistration = eventRegistration.listenerRegistrations[i]
@@ -65,25 +68,21 @@ function EventListenerManager(scope){
           return
         if (listenerRegistration == lastListenerReg)
           return
-        if(boolStop)
+        if(eventRegistration.breakRequested)
           return
 
-        var options = {
-          stopBroadcast : function(){
-            boolStop = true
-          }
-          ,remove : function(){
-            listenerRegistration.remove()
-          }
-        }
-        listenerRegistration.listener(evt,scope,options)
+        listenerRegistration.listener(evt,scope,listenerRegistration)
         alertListener(0+1)
       }
 
     }
-    methodAssignmentScope["add"+eventName + "Listener"] = add
-    methodAssignmentScope["remove"+eventName + "Listener"] = remove
-    methodAssignmentScope["broadcast"+eventName ] = broadcast
+    function breakCast(){
+      eventRegistration.breakRequested = true
+    }
+    t.addListener[eventName] = add
+    t.broadcast[eventName] =  broadcast
+    t.removeListener[eventName] =  remove
+    t.break[eventName] =  breakCast
     return t;
   }
 }

@@ -14,10 +14,11 @@ module.exports = {
       ,description:"description1 description1"
       ,access : ["tier2"]
       ,params : [
-        {name:"param1",defaultValue:"default1"}
-        ,{name:"param2",defaultValue:"default2"}
+        {name:"tableName",defaultValue:"SSD1"}
+        ,{name:"filePath",defaultValue:"default2"}
       ]
-      ,return:"STRING"
+      ,returnType:"OBJECT"
+      ,implemented:"50"
     }
     ,{
       requestPath : "listMethods"
@@ -26,10 +27,10 @@ module.exports = {
       ,description:"description1 description1"
       ,access : ["everyone","tier1","tier2"]
       ,params : [
-        {name:"param1",defaultValue:"default1"}
-        ,{name:"param2",defaultValue:"default2"}
+        {name:"access",defaultValue:"ALL"}
       ]
-      ,return:{version:"STRING",rows:"ARRAY"}
+      ,returnType:"OBJECT_ARRAY"
+      ,implemented:"100"
     }
     ,{
       requestPath : "about"
@@ -38,9 +39,9 @@ module.exports = {
       ,description:"description2 description2"
       ,access : ["everyone","tier1","tier2"]
       ,params : [
-        {name:"param1",defaultValue:"default1"}
-        ,{name:"param2",defaultValue:"default2"}
       ]
+      ,returnType:"OBJECT"
+      ,implemented:"100"
     }
     ,{
       requestPath : "query"
@@ -51,6 +52,8 @@ module.exports = {
       ,params : [
         {name:"sql",defaultValue:"SELECT * FROM SSD1 LIMIT 5"}
       ]
+      ,returnType:"OBJECT_ARRAY"
+      ,implemented:"80"
     }
   ]
 };
