@@ -118,7 +118,7 @@ function MethodRecord(){
     .catch(function (err) {
       t.eventManager.broadcast.responseError({
         methodRecord:t
-        ,err: err
+        ,error: err
         ,method: t.dataRecord.requestPath
         ,params:methodParams
         ,methodRegistrationData: t.dataRecord

@@ -1,0 +1,30 @@
+#response_panel{
+  border: 1px solid black;
+  padding: 2px;
+  margin:2px;
+
+}
+#response_panel_title{
+  border: 1px solid black;
+  padding: 2px;
+  margin:2px;
+
+}
+#response_panel_body{
+  border: 1px solid black;
+  padding: 2px;
+  margin:2px;
+
+}
+#response_table{
+  border: 1px solid green;
+}
+#response_object{
+  border: 1px solid green;
+}
+#response_string{
+  border: 1px solid green;
+}
+
+#response_table tr:nth-child(even) {background: #CCC}
+#response_table tr:nth-child(odd) {background: #FFF}

@@ -2,12 +2,13 @@ import {document_ready as document_ready} from './document_ready.js';
 export {findElementOrLoadInclude as findElementOrLoadInclude};
 
 
-function findElementOrLoadInclude(querySelector,includePath){
+function findElementOrLoadInclude(querySelector,includePath,scope){
+  scope = scope || document
   var ele
   var url = includePath
   return new Promise(function (resolve, reject) {
     document_ready(function(){
-      ele = document.querySelector(querySelector);
+      ele = scope.querySelector(querySelector);
       if(ele){
         console.log("findElementOrLoadInclude D")
         resolve(ele)
