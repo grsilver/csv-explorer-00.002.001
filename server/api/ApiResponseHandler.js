@@ -45,6 +45,10 @@ function ApiResponseHandler(request, response){
     var json = JSON.stringify(responseContainer);
     response.end(json);
   }
+  function respondLargeFileStream(){
+    //to do
+    //https://medium.freecodecamp.org/node-js-streams-everything-you-need-to-know-c9141306be93
+  }
   function respondError(obj,innerError){
     response.writeHead(200, {"Content-Type": "application/json"});
     var json = JSON.stringify({

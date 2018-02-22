@@ -61,6 +61,14 @@ function MethodRecord(){
     collapse();
     return t
   }
+  /**
+   * Returns Description
+   * @param {Object} paramObj - Description.
+   * @param {string} paramObj.key1 - Description  Key.
+   * @param {string} paramObj.key1 - Description  Key.
+   * @returns {(number|Array)} Description return
+   * http://usejsdoc.org/tags-param.html
+   */
   function displayParameterInputs(){
     var container = eleRecord.querySelector(".method_params")
 

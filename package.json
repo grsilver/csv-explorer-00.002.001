@@ -16,8 +16,10 @@
     "webpack": "^3.11.0"
   },
   "dependencies": {
+    "event-stream": "^3.3.4",
     "mysql": "^2.15.0",
     "serialize-error": "^2.1.0",
+    "stream": "0.0.2",
     "webpack-dev-server": "^2.11.1",
     "whatwg-fetch": "^2.0.3"
   },

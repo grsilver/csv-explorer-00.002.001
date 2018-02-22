@@ -6,16 +6,18 @@ module.exports = {
     ,password: 'password'
     ,database: 'convivaSSD'
   }
+  ,readCsvLine:{
+    defaultDirectoryRoot:"./import_cache"
+  }
   ,registeredMethods :[
     {
-      requestPath : "importSSD.importFile"
-      ,filePath:"importSSD/main.js"
-      ,methodName:"apiImportFile"
+      requestPath : "ssdFileHandling.getLineCount"
+      ,filePath:"ssdFileHandling/main.js"
+      ,methodName:"getLineCount"
       ,description:"description1 description1"
       ,access : ["tier2"]
       ,params : [
-        {name:"tableName",defaultValue:"SSD1"}
-        ,{name:"filePath",defaultValue:"default2"}
+        {name:"filePath",defaultValue:"Book1.csv"}
       ]
       ,returnType:"OBJECT"
       ,implemented:"50"

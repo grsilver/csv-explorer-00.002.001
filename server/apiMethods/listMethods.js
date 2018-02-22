@@ -1,4 +1,4 @@
-
+const config = require('../../ssd-explorer.config.js');
 const methodRegistrationHandler = require("../configHandlers/methodRegistrationHandler.js");
 module.exports = listMethods;
 

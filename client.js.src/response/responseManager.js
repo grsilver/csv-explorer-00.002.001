@@ -58,6 +58,9 @@ function onSubmit(evt,scope,listenerReg){
 
 function onSuccess(evt,scope,listenerReg){
 
+
+  debugger
+
   var returnType = evt.methodRegistrationData.returnType
   var responseHandler
   if(returnType =="OBJECT")
@@ -73,6 +76,7 @@ function onSuccess(evt,scope,listenerReg){
 }
 
 function onError(evt,scope,listenerReg){
+  debugger
   throw evt.error
   elements.response_panel_body.appendChild(response_type_error.element)
   response_type_error.dataBind(evt.error)

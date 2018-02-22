@@ -9,8 +9,8 @@ function apiQuery(apiRequestHandler){
   console.log("apiQuery: paramObj: "+ paramObj)
   console.log("apiQuery: sql:"+ paramObj.sql)
   query.singleQueryPromise(paramObj.sql)
-    .then(function(rows){
-      apiRequestHandler.respondSuccess(rows)
+    .then(function(responseObj){
+      apiRequestHandler.respondSuccess(responseObj)
     })
     .catch(function(err){
       apiRequestHandler.respondError(err)

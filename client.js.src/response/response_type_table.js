@@ -26,7 +26,6 @@ m.dataBind = function(records){
     displayRow(record)
   })
 }
-
 function displayHeader(record){
 
   _.forEach(record,function(val,key){
