@@ -2,7 +2,7 @@
 
 const readCsvFileLine = require("./readCsvFileLine.js")
 var m = module.exports = {};
-m.apiImportFile = apiImportFile
+m.getLineCount = getLineCount
 
 
 
