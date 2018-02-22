@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import {log as log} from '../helpers/log.js';
+import {log as log} from '../lib/log.js';
 import {apiCallHandler as apiCallHandler} from '../api/apiCallHandler.js';
-import {EventManager as EventManager} from '../helpers/EventManager.js';
+import {EventManager as EventManager} from '../lib/EventManager.js';
 
 export {MethodRecord as MethodRecord};
 

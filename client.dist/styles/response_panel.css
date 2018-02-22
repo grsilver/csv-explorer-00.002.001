@@ -28,3 +28,23 @@
 
 #response_table tr:nth-child(even) {background: #CCC}
 #response_table tr:nth-child(odd) {background: #FFF}
+
+
+.response_object_child_object_grandchildren{
+  border: 1px solid red;
+  padding: 2px;
+  padding-right: none;
+
+  margin:2px;
+  margin-right:none;
+  margin-left: 10px;
+}
+.response_object_item_key{
+  font-weight: bold;
+}
+.response_object_item_val{
+  color: green;
+}
+.response_object_item{
+  border: 1px solid green;
+}

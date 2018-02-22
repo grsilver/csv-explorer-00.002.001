@@ -1,11 +1,11 @@
-import _ from 'lodash';
-import {log as log} from '../helpers/log.js';
-import {EventManager as EventManager} from '../helpers/EventManager.js';
+import {forEach as forEach}  from '../lib/forEach.js';
+import {log as log} from '../lib/log.js';
+import {EventManager as EventManager} from '../lib/EventManager.js';
 import {apiCallHandler as apiCallHandler} from '../api/apiCallHandler.js';
 import {MethodRecord as MethodRecord} from './MethodRecord.js';
 import {expand_collaspe_panel as expand_collaspe_panel} from './expand_collaspe_panel.js';
 //import {tempData as tempData} from './tempData.js';
-import {findElementOrLoadInclude as findElementOrLoadInclude} from '../helpers/findElementOrLoadInclude.js';
+import {findElementOrLoadInclude as findElementOrLoadInclude} from '../lib/findElementOrLoadInclude.js';
 
 
 
@@ -25,7 +25,7 @@ function init(){
   //tempData(function(response){ // need to uncomment import
   api_listMethods(function(response){
     log("api_listMethods")
-    getMarkup().then(function(ele){
+    aquireMarkup().then(function(ele){
       pnl = m.element = ele;
       methodRecordTemplate = ele.querySelector('*[template="method_record"')
       methodRecordTemplate.remove();
@@ -43,8 +43,8 @@ function init(){
 function handleLoadError(error){
   throw error
 }
-function getMarkup (callback){
-  log("getMarkup")
+function aquireMarkup (callback){
+  log("aquireMarkup")
   return new Promise(function (resolve, reject) {
     findElementOrLoadInclude("#methods_panel","/includes/methods_panel.html")
     .then(function(ele){
@@ -58,7 +58,7 @@ function getMarkup (callback){
 }
 function dataBind(dataRecordS){
   log("dataBind")
-  _.forEach(dataRecordS,dataBindRecord)
+  forEach(dataRecordS,dataBindRecord)
 }
 function dataBindRecord(dataRecord){
   var methodRecord = new MethodRecord()

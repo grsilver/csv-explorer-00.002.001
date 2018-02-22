@@ -10,36 +10,29 @@
         <thead></thead>
         <tbody>
           <tr>
-            <td template="template_cell_default"></td>
-            <td template="template_cell_time">to do</td>
           </tr>
         </tbody>
       </table>
 
       <div id="response_object">
-        OBJECT
+
         <div class="response_object_item" template="response_object_item">
-          <span class="response_object_item_key" data="key">KEY</span>
-          <span class="response_object_item_val" data="value">Value</span>
+          <span class="response_object_item_key" data="data.key">KEY</span>:
+          <span class="response_object_item_val" data="data.value">Value</span>
         </div>
         <div class="response_object_child_object" template="response_object_child_object">
-          <span class="response_object_child_object_key" data="key">KEY</span>
-          <div class="response_object_child_object_container" data="value">Children</div>
+          <span class="response_object_child_object_key" data="data.key">KEY</span>:
+          <div class="response_object_child_object_grandchildren"></div>
         </div>
-      </div>
+
+
+      </div><!-- response_object -->
 
       <div id="response_string">
         STRING
         <span data="value">Value</span>
       </div>
 
-      <div id="response_error">
-        ERROR
-        <div class="response_object_item" template="response_error_item">
-          <span class="response_object_item_key" data="key">KEY</span>
-          <span class="response_object_item_val" data="value">Value</span>
-        </div>
-      </div>
 
   </div><!-- response_panel -->
 

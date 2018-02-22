@@ -1,4 +1,4 @@
-//helpers/addWindowLoadedListener.js
+//lib/addWindowLoadedListener.js
 export {document_ready as document_ready};
 
 function document_ready(callback){

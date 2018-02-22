@@ -1,21 +1,26 @@
 //responseManager
-import {findElementOrLoadInclude as findElementOrLoadInclude} from '../helpers/findElementOrLoadInclude.js';
+import {findElementOrLoadInclude as findElementOrLoadInclude} from '../lib/findElementOrLoadInclude.js';
 import {methods_panel as methods_panel} from '../method/methods_panel.js';
-import _ from 'lodash';
-import {log as log} from '../helpers/log.js';
+import {log as log} from '../lib/log.js';
 
 
-import {response_type_error as response_type_error} from './response_type_error.js';
-import {response_type_object as response_type_object} from './response_type_object.js';
-import {response_type_string as response_type_string} from './response_type_string.js';
-import {response_type_table as response_type_table} from './response_type_table.js';
+
+import {Response_DataMarkup_Object as Response_DataMarkup_Object} from './Response_DataMarkup_Object.js';
+import {Response_DataMarkup_String as Response_DataMarkup_String} from './Response_DataMarkup_String.js';
+import {Response_DataMarkup_Table as Response_DataMarkup_Table} from './Response_DataMarkup_Table.js';
 
 var m = {}
 export {m as responseManager};
 
 m.init = init;
+m.element
 var pnl
-var elements = {}
+var subElements = {}
+
+var response_DataMarkup_Object = new Response_DataMarkup_Object()
+var response_DataMarkup_String = new Response_DataMarkup_String()
+var response_DataMarkup_Table = new Response_DataMarkup_Table()
+var last_response_DataMarkup;
 
 function init(){
 
@@ -27,19 +32,13 @@ function init(){
     addListener.responseError(onError)
   })
 
-  getMarkup().then(function(ele){
+  aquireMarkup().then(function(ele){
     pnl = m.element = ele;
-    elements.response_panel_body = ele.querySelector('*[id="response_panel_body"')
-    //elements.template_cell_default = ele.querySelector('*[template="template_cell_default"')
-    //elements.response_table = ele.querySelector('#response_table')
-    //elements.response_object = ele.querySelector('#response_object')
+    subElements.response_panel_body = ele.querySelector('*[id="response_panel_body"')
 
-    //elements.response_table.remove()
-    //elements.response_object.remove()
-    response_type_error.getMarkup(ele)
-    response_type_object.getMarkup(ele)
-    response_type_string.getMarkup(ele)
-    response_type_table.getMarkup(ele)
+    response_DataMarkup_Object.aquireMarkup(ele)
+    response_DataMarkup_String.aquireMarkup(ele)
+    response_DataMarkup_Table.aquireMarkup(ele)
 
     document.body.appendChild(ele)
 
@@ -48,42 +47,47 @@ function init(){
     e.message = "panelMethodList got list but error with bindToUI: " + e.message
     throw e
   })
-
-
 }
 
 function onSubmit(evt,scope,listenerReg){
-
+  if(last_response_DataMarkup)
+    last_response_DataMarkup.remove()
 }
 
 function onSuccess(evt,scope,listenerReg){
-
-
-  debugger
+  methods_panel.collapse()
 
   var returnType = evt.methodRegistrationData.returnType
-  var responseHandler
-  if(returnType =="OBJECT")
-    responseHandler = response_type_object
+  var responseDataMarkup
+  if(returnType =="OBJECT" || returnType =="ARRAY")
+    responseDataMarkup = response_DataMarkup_Object
   else if(returnType =="OBJECT_ARRAY")
-    responseHandler = response_type_table
+    responseDataMarkup = response_DataMarkup_Table
   else
-    responseHandler = response_type_string
+    responseDataMarkup = response_DataMarkup_String
 
-  elements.response_panel_body.appendChild(responseHandler.element)
-  responseHandler.dataBind(evt.response)
+  subElements.response_panel_body.appendChild(responseDataMarkup.element)
+  dealWith_last_response_DataMarkup(responseDataMarkup)
+  responseDataMarkup.dataBind(evt.response)
 
 }
 
 function onError(evt,scope,listenerReg){
+  methods_panel.collapse()
   debugger
   throw evt.error
-  elements.response_panel_body.appendChild(response_type_error.element)
-  response_type_error.dataBind(evt.error)
+  subElements.response_panel_body.appendChild(response_DataMarkup_Object.element)
+  dealWith_last_response_DataMarkup(response_DataMarkup_Object)
+  response_DataMarkup_Object.dataBind(evt.error)
+
 }
 
-function getMarkup (callback){
-  log("getMarkup")
+function dealWith_last_response_DataMarkup(current_response_DataMarkup){
+  last_response_DataMarkup = current_response_DataMarkup
+}
+
+function aquireMarkup (callback){
+  log("aquireMarkup")
   return new Promise(function (resolve, reject) {
     findElementOrLoadInclude("#response_panel","/includes/response_panel.html")
     .then(function(ele){

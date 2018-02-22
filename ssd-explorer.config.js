@@ -31,7 +31,7 @@ module.exports = {
       ,params : [
         {name:"access",defaultValue:"ALL"}
       ]
-      ,returnType:"OBJECT_ARRAY"
+      ,returnType:"ARRAY"
       ,implemented:"100"
     }
     ,{

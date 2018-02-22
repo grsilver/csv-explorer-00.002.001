@@ -1,4 +1,4 @@
-import {log as log} from '../helpers/log.js';
+import {log as log} from '../lib/log.js';
 var m = {};
 export {m as apiCallHandler};
 m.call = call;
