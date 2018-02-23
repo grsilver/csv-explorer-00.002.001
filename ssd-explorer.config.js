@@ -20,6 +20,18 @@ module.exports = {
         {name:"filePath",defaultValue:"Book1.csv"}
       ]
       ,returnType:"OBJECT"
+      ,implemented:"100"
+    }
+    ,{
+      requestPath : "ssdFileHandling.getMainColumnNames"
+      ,filePath:"ssdFileHandling/main.js"
+      ,methodName:"getMainColumnNames"
+      ,description:"looks at file and sends back MAIN column names"
+      ,access : ["tier2"]
+      ,params : [
+        {name:"filePath",defaultValue:"Book1.csv"}
+      ]
+      ,returnType:"OBJECT_ARRAY"
       ,implemented:"50"
     }
     ,{
@@ -54,6 +66,15 @@ module.exports = {
       ,params : [
         {name:"sql",defaultValue:"SELECT * FROM SSD1 LIMIT 5"}
       ]
+      ,returnType:"OBJECT_ARRAY"
+      ,implemented:"90"
+    }
+    ,{
+      requestPath : "getDataBaseSize"
+      ,filePath:"query/main.js"
+      ,methodName:"getDataBaseSize"
+      ,description:"Get Size Of DB"
+      ,access : ["tier2"]
       ,returnType:"OBJECT_ARRAY"
       ,implemented:"80"
     }

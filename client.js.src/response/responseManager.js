@@ -75,7 +75,6 @@ function onSuccess(evt,scope,listenerReg){
 function onError(evt,scope,listenerReg){
   methods_panel.collapse()
   debugger
-  throw evt.error
   subElements.response_panel_body.appendChild(response_DataMarkup_Object.element)
   dealWith_last_response_DataMarkup(response_DataMarkup_Object)
   response_DataMarkup_Object.dataBind(evt.error)

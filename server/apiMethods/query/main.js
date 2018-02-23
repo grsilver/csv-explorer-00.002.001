@@ -1,16 +1,29 @@
+const config = require('../../../ssd-explorer.config.js');
+const queryPRIV = require("../../query/query.js");
+const getDataBaseSizePRIV = require("../../query/getDataBaseSize.js");
 
-const query = require("../../query/query.js");
 var m = {}
 module.exports = m;
 m.apiQuery = apiQuery
+m.getDataBaseSize = getDataBaseSize
 
-function apiQuery(apiRequestHandler){
+function query(apiRequestHandler){
   var paramObj = apiRequestHandler.getMethodParamObj()
-  console.log("apiQuery: paramObj: "+ paramObj)
-  console.log("apiQuery: sql:"+ paramObj.sql)
-  query.singleQueryPromise(paramObj.sql)
-    .then(function(responseObj){
-      apiRequestHandler.respondSuccess(responseObj)
+  //console.log("apiQuery: paramObj: "+ paramObj)
+  //console.log("apiQuery: sql:"+ paramObj.sql)
+  queryPRIV.singleQueryPromise(paramObj.sql)
+    .then(function(rows){
+      apiRequestHandler.respondSuccess(rows)
+    })
+    .catch(function(err){
+      apiRequestHandler.respondError(err)
+    })
+}
+
+function getDataBaseSize(apiRequestHandler){
+  getDataBaseSizePRIV()
+    .then(function(rows){
+      apiRequestHandler.respondSuccess(rows)
     })
     .catch(function(err){
       apiRequestHandler.respondError(err)

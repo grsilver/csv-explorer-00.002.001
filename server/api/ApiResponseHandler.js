@@ -49,17 +49,19 @@ function ApiResponseHandler(request, response){
     //to do
     //https://medium.freecodecamp.org/node-js-streams-everything-you-need-to-know-c9141306be93
   }
-  function respondError(obj,innerError){
+  function respondError(errObj,innerError){
+    innerError = innerError || errObj
     response.writeHead(200, {"Content-Type": "application/json"});
     var json = JSON.stringify({
       success: false,
-      response:obj,
+      response:errObj,
       innerError : serializeError(innerError)
     });
     response.end(json);
   }
 
   function errorMethodCalled(err){
+    console.log("errorMethodCalled")
     respondError({
       type:"methodCalledError"
       ,message:"The API was Called But There was an error "

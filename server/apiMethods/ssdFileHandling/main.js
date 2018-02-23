@@ -1,8 +1,9 @@
 
-
-const readCsvFileLine = require("./readCsvFileLine.js")
+const readCsvFileLine = require("../../ssdFileHandling/readCsvFileLine.js")
+const getMainColumnNamesPRIV = require("../../ssdFileHandling/getMainColumnNames.js")
 var m = module.exports = {};
 m.getLineCount = getLineCount
+m.getMainColumnNames = getMainColumnNames
 
 
 
@@ -12,11 +13,19 @@ function getLineCount(apiRequestHandler){
 
   readCsvFileLine(paramObj)
     .then(function(returnObj){
-      console.log("apiImportFile: then")
       apiRequestHandler.respondSuccess(returnObj)
     })
     .catch(function(err){
-      console.log("apiImportFile: catch: "+err)
+      apiRequestHandler.respondError(err)
+    })
+}
+function getMainColumnNames(apiRequestHandler){
+  var paramObj = apiRequestHandler.getMethodParamObj()
+  getMainColumnNamesPRIV(paramObj)
+    .then(function(returnObj){
+      apiRequestHandler.respondSuccess(returnObj)
+    })
+    .catch(function(err){
       apiRequestHandler.respondError(err)
     })
 }

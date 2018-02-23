@@ -6,7 +6,7 @@ const path = require('path');
 const fs         = require('fs');
 const readline = require('readline')
 const stream = require('stream')
-const config = require('../../../ssd-explorer.config.js');
+const config = require('../../ssd-explorer.config.js');
 //const { Readable } = require('stream'); // same as const Readable = require('stream').Readable?; https://medium.com/the-node-js-collection/an-update-on-es6-modules-in-node-js-42c958b890c
 
 
@@ -14,7 +14,7 @@ module.exports = readCsvFileLine;
 
 const appDir = path.normalize(path.dirname(require.main.filename )+"/../")
 
-console.log("readCsvFileLine: appDir: "+ appDir)
+//console.log("readCsvFileLine: appDir: "+ appDir)
 const defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
 
 /**
@@ -23,6 +23,7 @@ const defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
  * @param {Requester~requestCallback} paramObj.onLine called on every line.
  * @param {number} paramObj.limit - // number of lines
  * @param {string} paramObj.filePath - // if start with "/" then root. else
+ * @param {boolean} paramObj.resolveLines - // if true, will an array of lines to promise resolve
  * @return {Promise}
  * http://usejsdoc.org/tags-param.html
  */
@@ -39,7 +40,7 @@ function readCsvFileLine(paramObj){
 
     var fullFilePath = (function(filePath){
         //return  "/mnt/c/dev/SSDQuery/v.00.002.001/import_cache"
-        console.log("readCsvFileLine: filePath: "+ filePath)
+        //console.log("readCsvFileLine: filePath: "+ filePath)
         if(!filePath || filePath===""){
           return false
         }
@@ -55,7 +56,7 @@ function readCsvFileLine(paramObj){
         return s = path.normalize(filePath)
       })(paramObj.filePath)
 
-    console.log("readCsvFileLine: fullFilePath: "+ fullFilePath)
+    //console.log("readCsvFileLine: fullFilePath: "+ fullFilePath)
 
     if(!fullFilePath){
       return reject({message:"bad fullFilePath:"+fullFilePath})
@@ -63,8 +64,11 @@ function readCsvFileLine(paramObj){
     if(! fs.existsSync(fullFilePath)){
       return reject({message:"path doesn't exist:"+fullFilePath})
     }
+
+    paramObj.fullFilePath = fullFilePath
+
     try{
-      readFile(fullFilePath,function(responseObj){
+      readFile(paramObj,function(responseObj){
         resolve(responseObj)
       })
     }
@@ -73,12 +77,12 @@ function readCsvFileLine(paramObj){
     }
   })
 }
-function readFile(path,callback){
+function readFile(paramObj,callback){
   //https://nodejs.org/api/readline.html
   //https://stackoverflow.com/questions/16010915/parsing-huge-logfiles-in-node-js-read-in-line-by-line
 
 
-  var instream = fs.createReadStream(path);
+  var instream = fs.createReadStream(paramObj.fullFilePath);
   var outstream = new stream;
   outstream.readable = true;
   //outstream.writable = true;
@@ -87,7 +91,10 @@ function readFile(path,callback){
 
   var responseObj = {
     lineCount:0
-    ,lines: []
+  }
+
+  if(paramObj.resolveLines){
+    responseObj.lines = []
   }
 
   var rl = readline.createInterface({
@@ -107,9 +114,18 @@ function readFile(path,callback){
     if(boolStop){
       return
     }
+    //console.log("line: "+ line)
     count++
     responseObj.lineCount++;
-    //responseObj.lines.push(line);
+    if(paramObj.resolveLines){
+      responseObj.lines.push(line)
+    }
+    if(responseObj.onLine){
+      responseObj.onLine(line,count,false,stop)
+    }
+    if(paramObj.limit && paramObj.limit <= count){
+      stop()
+    }
   });
   rl.on('close', function(){
     //console.log("closed")
@@ -117,11 +133,9 @@ function readFile(path,callback){
     var timeEllapsed = timeEnd - timeStart
     responseObj.timeEllapsed = timeEllapsed
     callback (responseObj)
-
  });
   function stop(){
     //console.log("stop")
-
     boolStop = true;
     rl.close()
     instream.close()
