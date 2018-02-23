@@ -60,7 +60,7 @@ module.exports = {
     ,{
       requestPath : "query"
       ,filePath:"query/main.js"
-      ,methodName:"apiQuery"
+      ,methodName:"query"
       ,description:"an open ended query call. Default: list frist 5 rows"
       ,access : ["tier2"]
       ,params : [

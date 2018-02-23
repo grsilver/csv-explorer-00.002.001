@@ -4,7 +4,7 @@ const getDataBaseSizePRIV = require("../../query/getDataBaseSize.js");
 
 var m = {}
 module.exports = m;
-m.apiQuery = apiQuery
+m.query = query
 m.getDataBaseSize = getDataBaseSize
 
 function query(apiRequestHandler){

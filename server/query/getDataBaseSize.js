@@ -1,5 +1,6 @@
 const query = require("./query.js");
 const forEach = require ('../lib/forEach.js');
+const config = require('../../ssd-explorer.config.js');
 module.exports = getDataBaseSize;
 
 
@@ -20,14 +21,14 @@ function getDataBaseSize(){
        .then(function(responseObj){
          try{
            var filteredRows = filterOutTablesNotForApp(responseObj)
-           apiRequestHandler.respondSuccess(filteredRows)
+           resolve(filteredRows)
          }
          catch(err){
-           apiRequestHandler.respondError(err)
+           reject(err)
          }
        })
        .catch(function(err){
-         apiRequestHandler.respondError(err)
+         reject(err)
        })
    })
 }
