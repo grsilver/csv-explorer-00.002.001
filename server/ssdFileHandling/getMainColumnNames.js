@@ -56,6 +56,7 @@ function getDbProperName(ssd_col_name){
 }
 function getDbPlanned_db_type(planned_db_type){
   //https://stackoverflow.com/questions/219569/best-database-field-type-for-a-url
+
   /* http://dev.mysql.com/doc/refman/5.0/en/char.html
   Values in VARCHAR columns are variable-length strings.
   The length can be specified as a value from 0 to 255 before MySQL 5.0.3,
@@ -64,17 +65,75 @@ function getDbPlanned_db_type(planned_db_type){
    (65,535 bytes, which is shared among all columns) and the character set used.
 
   */
-  var type = "VARCHAR(20)"
-  if(planned_db_type.indexOf("time") > 0){
+
+  /* from jose
+  `viewerId` varchar(255) DEFAULT NULL,
+   `asset` varchar(255) DEFAULT NULL,
+   `device/os` varchar(255) DEFAULT NULL,
+   `country` varchar(255) DEFAULT NULL,
+   `state` varchar(255) DEFAULT NULL,
+   `city` varchar(255) DEFAULT NULL,
+   `asn` int(11) DEFAULT NULL,
+   `isp` varchar(255) DEFAULT NULL,
+   `start time (unix time)` bigint(11) DEFAULT NULL,
+   `startup time (ms)` int(11) DEFAULT NULL,
+   `playing time (ms)` int(11) DEFAULT NULL,
+   `buffering time (ms)` int(11) DEFAULT NULL,
+   `interrupts` int(11) DEFAULT NULL,
+   `average bitrate (kbps)` int(11) DEFAULT NULL,
+   `startup error` int(11) DEFAULT NULL,
+   `session tags` varchar(255) DEFAULT NULL,
+   `ip address` varchar(255) DEFAULT NULL,
+   `cdn` varchar(255) DEFAULT NULL,
+   `browser` varchar(255) DEFAULT NULL,
+   `conviva session id` varchar(255) DEFAULT NULL,
+   `stream url` varchar(255) DEFAULT NULL,
+   `error list` varchar(255) DEFAULT NULL,
+   `percentage complete` int(11) DEFAULT NULL,
+   `Connection Induced Rebuffering Time` int(11) DEFAULT NULL,
+   `Video Restart Time` int(11) DEFAULT NULL,
+   `Video Restart Count` int(11) DEFAULT NULL,
+   `Video Playback Failure` int(11) DEFAULT NULL,
+   `Video Playback Failure Error List` varchar(255) DEFAULT NULL
+
+
+
+  */
+
+  var type = "VARCHAR(255)"
+
+  if(contains(planned_db_type,["asn"])){
+    return  "int(11)"
+  }
+
+  if(contains(planned_db_type,[
+    "time"
+    ,"average_bitrate"
+    ,"startup_error"
+    ,"percentage"
+    ,"count"
+    ,"video_playback_failure"
+    ,"interrupts"
+  ])){
     return  "int(8)"
   }
-  if(planned_db_type.indexOf("url") > 0){
-    return  "VARCHAR(2083)"
-  }
-  if(planned_db_type.indexOf("tags") > 0){
-    return  "VARCHAR(2083)"
-  }
 
+  if(planned_db_type.indexOf("url") !=-1){
+    return  "VARCHAR(255)"//2083
+  }
+  if(planned_db_type.indexOf("tags") !=-1){
+    return  "VARCHAR(2083)"
+  }
 
   return type;
+}
+
+function contains(planned_db_type,ary){
+  planned_db_type = planned_db_type.toLowerCase();
+  return forEach(ary,function(item,count,fnBreak){
+    item = item.toLowerCase();
+    if(planned_db_type.indexOf(item)!=-1){
+      fnBreak(true)
+    }
+  })
 }

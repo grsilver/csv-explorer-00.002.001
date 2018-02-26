@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "event-stream": "^3.3.4",
+    "knex": "^0.14.4",
+    "mariasql": "^0.2.6",
     "mysql": "^2.15.0",
     "serialize-error": "^2.1.0",
     "stream": "0.0.2",

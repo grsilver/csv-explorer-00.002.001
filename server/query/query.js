@@ -1,3 +1,6 @@
+/* knex
+http://knexjs.org/
+*/
 const mysql = require('mysql');
 const config = require('../../ssd-explorer.config.js');
 

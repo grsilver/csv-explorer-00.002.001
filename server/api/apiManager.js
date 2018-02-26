@@ -16,11 +16,21 @@ function handleHttpRequest(req, res){
 
       apiRegHandler.getMethod(responseHandler)
       .then(function(method){
+        var paramObj = responseHandler.getMethodParamObj()
         try{
-          method(responseHandler)
+          method(paramObj,responseHandler)
+          .then(function(responseObj){
+            responseHandler.respondSuccess(responseObj)
+          })
+          .catch(function(err){
+            responseHandler.respondError(err)
+            throw err
+          })
+
         }
         catch(err){
           responseHandler.errorMethodCalled(err)
+          throw err
         }
       })
   }).catch(function(err){

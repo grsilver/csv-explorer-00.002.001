@@ -12,7 +12,7 @@ module.exports = {
   ,registeredMethods :[
     {
       requestPath : "ssdFileHandling.getLineCount"
-      ,filePath:"ssdFileHandling/main.js"
+      ,filePath:"ssdFileHandling/ssdFileHandlingAPI.js"
       ,methodName:"getLineCount"
       ,description:"description1 description1"
       ,access : ["tier2"]
@@ -24,7 +24,7 @@ module.exports = {
     }
     ,{
       requestPath : "ssdFileHandling.getMainColumnNames"
-      ,filePath:"ssdFileHandling/main.js"
+      ,filePath:"ssdFileHandling/ssdFileHandlingAPI.js"
       ,methodName:"getMainColumnNames"
       ,description:"looks at file and sends back MAIN column names"
       ,access : ["tier2"]
@@ -32,6 +32,19 @@ module.exports = {
         {name:"filePath",defaultValue:"Book1.csv"}
       ]
       ,returnType:"OBJECT_ARRAY"
+      ,implemented:"100"
+    }
+    ,{
+      requestPath : "ssdFileHandling.cr8TableForSSDImport"
+      ,filePath:"ssdFileHandling/ssdFileHandlingAPI.js"
+      ,methodName:"cr8TableForSSDImport"
+      ,description:"cr8's a table with fields from SSD"
+      ,access : ["tier2"]
+      ,params : [
+        {name:"tblName",defaultValue:"ssd2018_02_22_001"}
+        ,{name:"filePath",defaultValue:"Book1.csv"}
+      ]
+      ,returnType:"BOOLEAN"
       ,implemented:"50"
     }
     ,{
@@ -59,7 +72,7 @@ module.exports = {
     }
     ,{
       requestPath : "query"
-      ,filePath:"query/main.js"
+      ,filePath:"query/queryAPI.js"
       ,methodName:"query"
       ,description:"an open ended query call. Default: list frist 5 rows"
       ,access : ["tier2"]
@@ -71,7 +84,7 @@ module.exports = {
     }
     ,{
       requestPath : "getDataBaseSize"
-      ,filePath:"query/main.js"
+      ,filePath:"query/queryAPI.js"
       ,methodName:"getDataBaseSize"
       ,description:"Get Size Of DB"
       ,access : ["tier2"]
