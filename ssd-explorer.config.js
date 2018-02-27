@@ -10,9 +10,8 @@ module.exports = {
     defaultDirectoryRoot:"./import_cache"
   }
   ,registeredMethods :[
-    {
-      requestPath : "ssdFileHandling.getLineCount"
-      ,filePath:"ssdFileHandling/ssdFileHandlingAPI.js"
+    {requestPath : "ssdFileHandling.getLineCount"
+      ,filePath:"apiMethods/ssdFileHandling/ssdFileHandlingAPI.js"
       ,methodName:"getLineCount"
       ,description:"description1 description1"
       ,access : ["tier2"]
@@ -22,9 +21,8 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"100"
     }
-    ,{
-      requestPath : "ssdFileHandling.getMainColumnNames"
-      ,filePath:"ssdFileHandling/ssdFileHandlingAPI.js"
+    ,{requestPath : "ssdFileHandling.getMainColumnNames"
+      ,filePath:"apiMethods/ssdFileHandling/ssdFileHandlingAPI.js"
       ,methodName:"getMainColumnNames"
       ,description:"looks at file and sends back MAIN column names"
       ,access : ["tier2"]
@@ -34,22 +32,20 @@ module.exports = {
       ,returnType:"OBJECT_ARRAY"
       ,implemented:"100"
     }
-    ,{
-      requestPath : "ssdFileHandling.cr8TableForSSDImport"
-      ,filePath:"ssdFileHandling/ssdFileHandlingAPI.js"
-      ,methodName:"cr8TableForSSDImport"
+    ,{requestPath : "ssdFileHandling.cr8TableForSSDImport"
+      ,filePath:"ssdFileHandling/cr8TableForSSDImport.js"
+      ,methodName:null
       ,description:"cr8's a table with fields from SSD"
       ,access : ["tier2"]
       ,params : [
         {name:"tblName",defaultValue:"ssd2018_02_22_001"}
         ,{name:"filePath",defaultValue:"Book1.csv"}
       ]
-      ,returnType:"BOOLEAN"
+      ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{
-      requestPath : "listMethods"
-      ,filePath:"listMethods.js"
+    ,{requestPath : "listMethods"
+      ,filePath:"apiMethods/listMethods.js"
       ,methodName: null
       ,description:"description1 description1"
       ,access : ["everyone","tier1","tier2"]
@@ -59,9 +55,8 @@ module.exports = {
       ,returnType:"ARRAY"
       ,implemented:"100"
     }
-    ,{
-      requestPath : "about"
-      ,filePath:"about.js"
+    ,{requestPath : "about"
+      ,filePath:"apiMethods/about.js"
       ,methodName:null
       ,description:"description2 description2"
       ,access : ["everyone","tier1","tier2"]
@@ -70,9 +65,8 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"100"
     }
-    ,{
-      requestPath : "query"
-      ,filePath:"query/queryAPI.js"
+    ,{requestPath : "query"
+      ,filePath:"apiMethods/query/queryAPI.js"
       ,methodName:"query"
       ,description:"an open ended query call. Default: list frist 5 rows"
       ,access : ["tier2"]
@@ -82,9 +76,8 @@ module.exports = {
       ,returnType:"OBJECT_ARRAY"
       ,implemented:"90"
     }
-    ,{
-      requestPath : "getDataBaseSize"
-      ,filePath:"query/queryAPI.js"
+    ,{requestPath : "getDataBaseSize"
+      ,filePath:"apiMethods/query/queryAPI.js"
       ,methodName:"getDataBaseSize"
       ,description:"Get Size Of DB"
       ,access : ["tier2"]

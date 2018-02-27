@@ -1,6 +1,6 @@
 
 module.exports = MethodRegistrationHandler
-const apiMethodModuleRoot = "../apiMethods"
+const apiMethodModuleRoot = ".."
 
 
 

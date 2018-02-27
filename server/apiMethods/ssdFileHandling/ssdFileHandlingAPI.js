@@ -32,13 +32,14 @@ function getMainColumnNames(paramObj){
       })
   })
 }
-function cr8TableForSSDImport(apiRequestHandler){
-  var paramObj = apiRequestHandler.getMethodParamObj()
-  cr8TableForSSDImportPRIV(paramObj)
-    .then(function(returnObj){
-      apiRequestHandler.respondSuccess(returnObj)
-    })
-    .catch(function(err){
-      apiRequestHandler.respondError(err)
-    })
+function cr8TableForSSDImport(paramObj){
+  return new Promise(function(resolve,reject){
+    cr8TableForSSDImportPRIV(paramObj)
+      .then(function(returnObj){
+        resolve(returnObj)
+      })
+      .catch(function(err){
+        reject(err)
+      })
+  })
 }
