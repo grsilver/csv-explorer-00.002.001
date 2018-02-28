@@ -7,7 +7,7 @@ module.exports = listAllTagNames;
 
 function listAllTagNames(paramObj,resolve,reject){
   paramObj.filePath = paramObj.filePath
-  //paramObj.limit = 10;
+  //paramObj.endLineNum = 10;
   paramObj.onLine = onLine;
 
   var tagHolder = {}
@@ -38,7 +38,7 @@ function listAllTagNames(paramObj,resolve,reject){
   function onLineTry(line,lineCount){
     //console.log("onLineTry:"+ lineCount + ", line: "+ line)
     aryColumns = line.split(",");
-    if(lineCount==1){
+    if(lineCount==0){
       tagColNum = forEach(aryColumns,function(colName,colCount,fnBreak){
         colName = colName.replace(/["]+/g, '') // remove quotes: "viewerId","asset","device/os","country","state","city","asn","isp","start time (unix time)","startup time (ms)","playing time (ms)","buffering time (ms)","interrupts","average bitrate (kbps)","startup error","session tags","ip address","cdn","browser","conviva session id","stream url","error list","percentage complete"
         if(colName==colNameTags){

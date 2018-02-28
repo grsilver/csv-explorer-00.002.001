@@ -56,14 +56,28 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "ssdFileHandling.importSSD"
-      ,filePath:"ssdFileHandling/importSSD.js"
+    ,{requestPath : "ssdFileHandling.importSSDLineByLine"
+      ,filePath:"ssdFileHandling/importSSDLineByLine.js"
       ,methodName:null
       ,description:`imports csv into existing table`
       ,access : ["tier2"]
       ,params : [
         {name:"tblName",defaultValue:"ssd2018_02_22_001"}
         ,{name:"filePath",defaultValue:"Book1.csv"}
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"50"
+    }
+    ,{requestPath : "ssdFileHandling.copyPortionSSD2File"
+      ,filePath:"ssdFileHandling/copyPortionSSD2File.js"
+      ,methodName:null
+      ,description:`copies a portion of an SSD to another file`
+      ,access : ["tier2"]
+      ,params : [
+        {name:"filePath",defaultValue:"DailySessionLog_BellMedia_2018-01-17.csv"}
+        ,{name:"destinationPath",defaultValue:"copy.csv"}
+        ,{name:"startLineNum",defaultValue:"0"}
+        ,{name:"endLineNum",defaultValue:"10"}
       ]
       ,returnType:"OBJECT"
       ,implemented:"50"

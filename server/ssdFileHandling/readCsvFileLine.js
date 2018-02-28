@@ -21,7 +21,8 @@ const defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
  * Read a file.
  * @param {Object} paramObj - The employee who is responsible for the project.
  * @param {Requester~requestCallback} paramObj.onLine called on every line. paramObj.onLine=function(line,count,last,functionBreak){}
- * @param {number} paramObj.limit - // number of lines
+ * @param {number} paramObj.startLineNum - // number of lines
+ * @param {number} paramObj.endLineNum - // number of lines
  * @param {string} paramObj.filePath - // if start with "/" then root. else
  * @param {boolean} paramObj.resolveLines - // if true, will an array of lines to promise resolve
  * @return {Promise}
@@ -37,26 +38,8 @@ const defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
 function readCsvFileLine(paramObj){
   return new Promise(function(resolve,reject){
 
-    var fullFilePath = (function(filePath){
-        //return  "/mnt/c/dev/SSDQuery/v.00.002.001/import_cache"
-        //console.log("readCsvFileLine: filePath: "+ filePath)
-        if(!filePath || filePath===""){
-          return false
-        }
-        if(filePath.indexOf("/")==0){
-          return filePath
-        }
-        if(defaultDirectoryRoot.indexOf("/")==0){
-          filePath =  defaultDirectoryRoot + "/" + filePath;
-        }
-        else{
-          filePath =  appDir + "/" + defaultDirectoryRoot + "/" + filePath;
-        }
-        return s = path.normalize(filePath)
-      })(paramObj.filePath)
-
+    var fullFilePath = setFullFilePath()
     //console.log("readCsvFileLine: fullFilePath: "+ fullFilePath)
-
     if(!fullFilePath){
       return reject({message:"bad fullFilePath:"+fullFilePath})
     }
@@ -64,91 +47,111 @@ function readCsvFileLine(paramObj){
       return reject({message:"path doesn't exist:"+fullFilePath})
     }
 
-    paramObj.fullFilePath = fullFilePath
-
     try{
-      readFile(paramObj,resolve,reject)
+      readFile()
     }
     catch(err){
       reject(err)
     }
+    function setFullFilePath(){
+      //return  "/mnt/c/dev/SSDQuery/v.00.002.001/import_cache"
+      //console.log("readCsvFileLine: filePath: "+ filePath)
+      var filePath = paramObj.filePath
+      if(!filePath || filePath===""){
+        return false
+      }
+      if(filePath.indexOf("/")==0){
+        return filePath
+      }
+      if(defaultDirectoryRoot.indexOf("/")==0){
+        filePath =  defaultDirectoryRoot + "/" + filePath;
+      }
+      else{
+        filePath =  appDir + "/" + defaultDirectoryRoot + "/" + filePath;
+      }
+      paramObj.fullFilePath = path.normalize(filePath)
+      return paramObj.fullFilePath
+    }
+    function readFile(){
+      //https://nodejs.org/api/readline.html
+      //https://stackoverflow.com/questions/16010915/parsing-huge-logfiles-in-node-js-read-in-line-by-line
+
+
+      var instream = fs.createReadStream(paramObj.fullFilePath);
+      var outstream = new stream;
+      outstream.readable = true;
+      //outstream.writable = true;
+
+      var timeStart = new Date().getTime();
+
+      var responseObj = {
+        lineCount:0
+      }
+
+      if(paramObj.resolveLines){
+        responseObj.lines = []
+      }
+
+      var rl = readline.createInterface({
+          input: instream,
+          //output: outstream,
+          terminal: false
+      });
+
+      var count = -1
+      /* bug with readline
+      it keeps executing after rl.pause() or rl.close has been pushed through. this is because it finnished what's in the buffer. it doesn't go all the way through tho.
+      https://github.com/nodejs/node-v0.x-archive/issues/8340
+
+      */
+      var boolStop = false
+      var errorThrown = null
+      rl.on('line', function(line) {
+        if(boolStop){
+          return
+        }
+        count++
+        if(paramObj.startLineNum != null && count < paramObj.startLineNum){
+          return
+        }
+        responseObj.lineCount++;
+        if(paramObj.resolveLines){
+          responseObj.lines.push(line)
+        }
+        if(paramObj.onLine){
+          paramObj.onLine(line,count,functionBreak,throwError)
+        }
+        if(paramObj.endLineNum  && count >= paramObj.endLineNum){
+          functionBreak()
+        }
+
+      });
+      rl.on('close', function(){
+        //console.log("closed")
+        var timeEnd = new Date().getTime();
+        var msecsEllasped = timeEnd - timeStart
+        responseObj.msecsEllasped = msecsEllasped
+        if(errorThrown)
+          reject(errorThrown)
+        else{
+          resolve (responseObj)
+        }
+
+     });
+      function throwError(err){
+        errorThrown = err;
+        functionBreak();
+      }
+      function functionBreak(breakParams){
+        //console.log("stop")
+        if(breakParams)
+          responseObj.breakParams = breakParams
+        boolStop = true;
+        rl.close()
+        instream.close()
+        instream.destroy()
+      }
+
+    }
   })
-}
-function readFile(paramObj,resolve,reject){
-  //https://nodejs.org/api/readline.html
-  //https://stackoverflow.com/questions/16010915/parsing-huge-logfiles-in-node-js-read-in-line-by-line
-
-
-  var instream = fs.createReadStream(paramObj.fullFilePath);
-  var outstream = new stream;
-  outstream.readable = true;
-  //outstream.writable = true;
-
-  var timeStart = new Date().getTime();
-
-  var responseObj = {
-    lineCount:0
-  }
-
-  if(paramObj.resolveLines){
-    responseObj.lines = []
-  }
-
-  var rl = readline.createInterface({
-      input: instream,
-      //output: outstream,
-      terminal: false
-  });
-
-  var count = 0
-  /* bug with readline
-  it keeps executing after rl.pause() or rl.close has been pushed through. this is because it finnished what's in the buffer. it doesn't go all the way through tho.
-  https://github.com/nodejs/node-v0.x-archive/issues/8340
-
-  */
-  var boolStop = false
-  var errorThrown = null
-  rl.on('line', function(line) {
-    if(boolStop){
-      return
-    }
-    //console.log("line: "+ line)
-    count++
-    responseObj.lineCount++;
-    if(paramObj.resolveLines){
-      responseObj.lines.push(line)
-    }
-    if(paramObj.onLine){
-      paramObj.onLine(line,count,functionBreak,throwError)
-    }
-    if(paramObj.limit && paramObj.limit <= count){
-      functionBreak()
-    }
-  });
-  rl.on('close', function(){
-    //console.log("closed")
-    var timeEnd = new Date().getTime();
-    var msecsEllasped = timeEnd - timeStart
-    responseObj.msecsEllasped = msecsEllasped
-    if(errorThrown)
-      reject(errorThrown)
-    else{
-      resolve (responseObj)
-    }
-
- });
-  function throwError(err){
-    errorThrown = err;
-    functionBreak();
-  }
-  function functionBreak(breakParams){
-    //console.log("stop")
-    if(breakParams)
-      responseObj.breakParams = breakParams
-    boolStop = true;
-    rl.close()
-    instream.close()
-    instream.destroy()
-  }
-
 }

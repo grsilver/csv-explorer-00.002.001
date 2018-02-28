@@ -8,7 +8,7 @@ const mysql = require('mysql');
 //const knex =  require('knex');
 //const mariasql =  require('mariasql');
 
-module.exports = importSSD;
+module.exports = importSSDLineByLine;
 
 /* insert multiple browser
 https://stackoverflow.com/questions/6889065/inserting-multiple-rows-in-mysql
@@ -20,12 +20,13 @@ VALUES
     (7,8,9);
 */
 
-function importSSD(paramObj,resolve,reject){
+function importSSDLineByLine(paramObj,resolve,reject){
   //paramObj.tblName
   //paramObj.filePath
   var tblName = paramObj.tblName
   var filePath = paramObj.filePath
-  var connection,sql, columuns
+  var connection
+  var strInsertColumnsSubSql // column,column, column
   var returnObj = {
     insertedCount:0
     ,attemptedCount:0
@@ -34,7 +35,7 @@ function importSSD(paramObj,resolve,reject){
   }
 
 
-  paramObj.limit = 5
+  paramObj.endLineNum = 5
   //paramObj.resolveLines = true
   paramObj.onLine = onLine;
 
@@ -52,6 +53,7 @@ function importSSD(paramObj,resolve,reject){
 
   readCsvFileLine(paramObj)
   .then(function(readLineInfo){
+    returnObj.Line = true
     returnObj.readLineInfo = readLineInfo
   })
   .catch(function(err){
@@ -67,16 +69,12 @@ function importSSD(paramObj,resolve,reject){
       resolve(returnObj)
     }
   }
-
-
   function onLine(line,lineCount,functionBreak,throwError){
-    if(lineCount==1){
-      return setColumuns(line)
+    if(lineCount==0){
+      return setStrInsertColumnsSubSql(line)
     }
 
-    var values = parseValuesLine(line)
-    sql  = `INSERT INTO ${tblName} (${columuns}) VALUES(${values});`
-
+    var sql  = getInsertLineSql(line)
     returnObj.attemptedCount++
     connection.query(sql, (err,rows) => {
       if(err){
@@ -95,20 +93,22 @@ function importSSD(paramObj,resolve,reject){
     });
 
   }
-  function parseValuesLine(line){
+  function getInsertLineSql(line){
     line = line.replace(/'/g, "\\'");
     line = `'${line}'`
     line = line.replace(/,/g, "','");
-    return line
+    var values = lines
+    var sql = `INSERT INTO ${tblName} (${strInsertColumnsSubSql}) VALUES(${values});`
+    return sql;
   }
-  function setColumuns(line){
-    columuns = ""
+  function setStrInsertColumnsSubSql(line){
+    strInsertColumnsSubSql = ""
     var ary = fieldNameUtils.parseHeaderLine(line)
     forEach(ary,function(obj,count){
       if(count > 0){
-        columuns += ","
+        strInsertColumnsSubSql += ","
       }
-      columuns += obj.db_friendly_field_name
+      strInsertColumnsSubSql += obj.db_friendly_field_name
     })
   }
 

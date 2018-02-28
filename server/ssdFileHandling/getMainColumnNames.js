@@ -6,7 +6,7 @@ module.exports = getMainColumnNames;
 
 
 function getMainColumnNames(paramObj,resolve,reject){
-  paramObj.limit = 1
+  paramObj.endLineNum = 0
   //paramObj.filePath = paramObj.filePath
   paramObj.resolveLines = true
   readCsvFileLine(paramObj)
