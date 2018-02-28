@@ -59,10 +59,13 @@ function onSuccess(evt,scope,listenerReg){
 
   var returnType = evt.methodRegistrationData.returnType
   var responseDataMarkup
-  if(returnType =="OBJECT" || returnType =="ARRAY")
-    responseDataMarkup = response_DataMarkup_Object
-  else if(returnType =="OBJECT_ARRAY")
+
+  if(returnType =="OBJECT_ARRAY" && Array.isArray(evt.response) && typeof evt.response[0]==="object"){
     responseDataMarkup = response_DataMarkup_Table
+  }
+  else if(typeof evt.response==="object"){
+    responseDataMarkup = response_DataMarkup_Object
+  }
   else
     responseDataMarkup = response_DataMarkup_String
 
@@ -74,6 +77,7 @@ function onSuccess(evt,scope,listenerReg){
 
 function onError(evt,scope,listenerReg){
   methods_panel.collapse()
+  //if( evt.error instanceof Error){debugger}
   debugger
   subElements.response_panel_body.appendChild(response_DataMarkup_Object.element)
   dealWith_last_response_DataMarkup(response_DataMarkup_Object)

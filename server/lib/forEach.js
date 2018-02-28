@@ -2,7 +2,11 @@ module.exports = forEach;
 
 
 function forEach(source,callback){
-  if(source && source.length){
+  //if(source && source.length){
+  if( typeof(NodeList) !== 'undefined' && NodeList.prototype.isPrototypeOf(source)){
+    return forEachArrayItem(source,callback)
+  }
+  else if(source && Array.isArray(source)){
     return forEachArrayItem(source,callback)
   }
   else if(typeof(source) == "object"){

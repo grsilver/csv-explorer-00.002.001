@@ -1,5 +1,5 @@
 const http = require('http');
-const port = process.argv[2] || 9000;
+const config = require('../../ssd-explorer.config.js');
 const fileManager = require('./fileManager.js')
 const apiManager = require('../api/apiManager.js')
 const isApiRequest = require('../api/isApiRequest.js')
@@ -10,8 +10,8 @@ exports.listen = listen;
 
 
 function listen(){
-  http.createServer(onHttpRequest).listen(parseInt(port));
-  console.log(`Server listening on port ${port}`);
+  http.createServer(onHttpRequest).listen(parseInt(config.port));
+  console.log(`Server listening on port ${config.port}`);
 }
 
 function onHttpRequest (req, res) {

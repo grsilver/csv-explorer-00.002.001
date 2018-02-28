@@ -1,5 +1,6 @@
 module.exports = {
   version: "00.002.001"
+  ,port:8081
   ,database: {
     host: '127.0.0.1'
     ,user: 'root'
@@ -41,7 +42,7 @@ module.exports = {
         {name:"tblName",defaultValue:"ssd2018_02_22_001"}
         ,{name:"filePath",defaultValue:"Book1.csv"}
       ]
-      ,returnType:"OBJECT"
+      ,returnType:"OBJECT_ARRAY"
       ,implemented:"50"
     }
     ,{requestPath : "ssdFileHandling.listAllTagNames"
@@ -51,6 +52,18 @@ module.exports = {
       ,access : ["tier2"]
       ,params : [
         {name:"filePath",defaultValue:"Book1.csv"}
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"50"
+    }
+    ,{requestPath : "ssdFileHandling.importSSD"
+      ,filePath:"ssdFileHandling/importSSD.js"
+      ,methodName:null
+      ,description:`imports csv into existing table`
+      ,access : ["tier2"]
+      ,params : [
+        {name:"tblName",defaultValue:"ssd2018_02_22_001"}
+        ,{name:"filePath",defaultValue:"Book1.csv"}
       ]
       ,returnType:"OBJECT"
       ,implemented:"50"
@@ -95,7 +108,7 @@ module.exports = {
       ,params : [
         {name:"tblName",defaultValue:"tblName"}
       ]
-      ,returnType:"OBJECT_ARRAY"
+      ,returnType:"OBJECT"
       ,implemented:"90"
     }
     ,{requestPath : "listSizesOfTables"

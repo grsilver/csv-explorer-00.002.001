@@ -10,7 +10,7 @@ m.api_query = api_query
 
 
 function api_query(paramObj,resolve,reject){
-  queryPRIV.singleQueryPromise(paramObj.sql)
+  singleQueryPromise(paramObj.sql)
     .then(function(rows){
       resolve(rows)
     })

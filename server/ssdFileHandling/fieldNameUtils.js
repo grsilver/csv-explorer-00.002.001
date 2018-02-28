@@ -1,9 +1,24 @@
 const forEach = require ('../lib/forEach.js');
 var m = module.exports = {};
+m.parseHeaderLine = parseHeaderLine
 m.convertToProperDBFieldName = convertToProperDBFieldName
 m.proposeDbFieldTypeByName = proposeDbFieldTypeByName
 m.strMatchInAry = strMatchInAry
 
+function parseHeaderLine(firstLine){
+  var aryColNames = firstLine.split(",");
+  var aryReturn = []
+  forEach(aryColNames,function(csv_col_name){
+    var db_friendly_field_name = convertToProperDBFieldName(csv_col_name)
+    var proposedFieldType = proposeDbFieldTypeByName(db_friendly_field_name)
+    aryReturn.push({
+      csv_col_name:csv_col_name
+      ,db_friendly_field_name:db_friendly_field_name
+      ,proposedFieldType:proposedFieldType
+    })
+  })
+  return aryReturn
+}
 
 function convertToProperDBFieldName(csv_col_name){
   var db_friendly_field_name = csv_col_name;
