@@ -20,7 +20,7 @@ const defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
 /**
  * Read a file.
  * @param {Object} paramObj - The employee who is responsible for the project.
- * @param {Requester~requestCallback} paramObj.onLine called on every line.
+ * @param {Requester~requestCallback} paramObj.onLine called on every line. paramObj.onLine=function(line,count,last,functionBreak){}
  * @param {number} paramObj.limit - // number of lines
  * @param {string} paramObj.filePath - // if start with "/" then root. else
  * @param {boolean} paramObj.resolveLines - // if true, will an array of lines to promise resolve
@@ -32,7 +32,6 @@ const defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
  * @callback Requester~requestCallback
  * @param {string} line
  * @param {number} count
- * @param {bool} last
  * @param {function} functionBreak
  */
 function readCsvFileLine(paramObj){
@@ -68,16 +67,14 @@ function readCsvFileLine(paramObj){
     paramObj.fullFilePath = fullFilePath
 
     try{
-      readFile(paramObj,function(responseObj){
-        resolve(responseObj)
-      })
+      readFile(paramObj,resolve,reject)
     }
     catch(err){
       reject(err)
     }
   })
 }
-function readFile(paramObj,callback){
+function readFile(paramObj,resolve,reject){
   //https://nodejs.org/api/readline.html
   //https://stackoverflow.com/questions/16010915/parsing-huge-logfiles-in-node-js-read-in-line-by-line
 
@@ -110,6 +107,7 @@ function readFile(paramObj,callback){
 
   */
   var boolStop = false
+  var errorThrown = null
   rl.on('line', function(line) {
     if(boolStop){
       return
@@ -120,22 +118,33 @@ function readFile(paramObj,callback){
     if(paramObj.resolveLines){
       responseObj.lines.push(line)
     }
-    if(responseObj.onLine){
-      responseObj.onLine(line,count,false,stop)
+    if(paramObj.onLine){
+      paramObj.onLine(line,count,functionBreak,throwError)
     }
     if(paramObj.limit && paramObj.limit <= count){
-      stop()
+      functionBreak()
     }
   });
   rl.on('close', function(){
     //console.log("closed")
     var timeEnd = new Date().getTime();
-    var timeEllapsed = timeEnd - timeStart
-    responseObj.timeEllapsed = timeEllapsed
-    callback (responseObj)
+    var msecsEllasped = timeEnd - timeStart
+    responseObj.msecsEllasped = msecsEllasped
+    if(errorThrown)
+      reject(errorThrown)
+    else{
+      resolve (responseObj)
+    }
+
  });
-  function stop(){
+  function throwError(err){
+    errorThrown = err;
+    functionBreak();
+  }
+  function functionBreak(breakParams){
     //console.log("stop")
+    if(breakParams)
+      responseObj.breakParams = breakParams
     boolStop = true;
     rl.close()
     instream.close()

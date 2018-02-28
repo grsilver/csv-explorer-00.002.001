@@ -1,10 +1,10 @@
 const query = require("./query.js");
 const forEach = require ('../lib/forEach.js');
 const config = require('../../ssd-explorer.config.js');
-module.exports = getDataBaseSize;
+module.exports = listSizesOfTables;
 
 
-function getDataBaseSize(){
+function listSizesOfTables(paramObj,resolve,reject){
   //https://stackoverflow.com/questions/1733507/how-to-get-size-of-mysql-database
   //https://forums.mysql.com/read.php?108,201578,201578
   // https://stackoverflow.com/questions/18014392/select-sql-server-database-size
@@ -16,21 +16,20 @@ function getDataBaseSize(){
    FROM information_schema.TABLES
    ORDER BY (data_length + index_length) DESC;`
 
-   return new Promise(function(resolve,reject){
-     query.singleQueryPromise(sql)
-       .then(function(responseObj){
-         try{
-           var filteredRows = filterOutTablesNotForApp(responseObj)
-           resolve(filteredRows)
-         }
-         catch(err){
-           reject(err)
-         }
-       })
-       .catch(function(err){
-         reject(err)
-       })
-   })
+  query.singleQueryPromise(sql)
+    .then(function(responseObj){
+     try{
+       var filteredRows = filterOutTablesNotForApp(responseObj)
+       resolve(filteredRows)
+     }
+     catch(err){
+       reject(err)
+     }
+    })
+    .catch(function(err){
+     reject(err)
+    })
+
 }
 
 

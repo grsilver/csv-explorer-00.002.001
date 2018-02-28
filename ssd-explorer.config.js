@@ -11,7 +11,7 @@ module.exports = {
   }
   ,registeredMethods :[
     {requestPath : "ssdFileHandling.getLineCount"
-      ,filePath:"apiMethods/ssdFileHandling/ssdFileHandlingAPI.js"
+      ,filePath:"ssdFileHandling/ssdFileHandling_some_api.js"
       ,methodName:"getLineCount"
       ,description:"description1 description1"
       ,access : ["tier2"]
@@ -22,8 +22,8 @@ module.exports = {
       ,implemented:"100"
     }
     ,{requestPath : "ssdFileHandling.getMainColumnNames"
-      ,filePath:"apiMethods/ssdFileHandling/ssdFileHandlingAPI.js"
-      ,methodName:"getMainColumnNames"
+      ,filePath:"ssdFileHandling/getMainColumnNames.js"
+      ,methodName:null
       ,description:"looks at file and sends back MAIN column names"
       ,access : ["tier2"]
       ,params : [
@@ -40,6 +40,17 @@ module.exports = {
       ,params : [
         {name:"tblName",defaultValue:"ssd2018_02_22_001"}
         ,{name:"filePath",defaultValue:"Book1.csv"}
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"50"
+    }
+    ,{requestPath : "ssdFileHandling.listAllTagNames"
+      ,filePath:"ssdFileHandling/listAllTagNames.js"
+      ,methodName:null
+      ,description:`List All Tags in SSD's "column session tags"`
+      ,access : ["tier2"]
+      ,params : [
+        {name:"filePath",defaultValue:"Book1.csv"}
       ]
       ,returnType:"OBJECT"
       ,implemented:"50"
@@ -66,8 +77,8 @@ module.exports = {
       ,implemented:"100"
     }
     ,{requestPath : "query"
-      ,filePath:"apiMethods/query/queryAPI.js"
-      ,methodName:"query"
+      ,filePath:"query/query.js"
+      ,methodName:"api_query"
       ,description:"an open ended query call. Default: list frist 5 rows"
       ,access : ["tier2"]
       ,params : [
@@ -76,10 +87,21 @@ module.exports = {
       ,returnType:"OBJECT_ARRAY"
       ,implemented:"90"
     }
-    ,{requestPath : "getDataBaseSize"
-      ,filePath:"apiMethods/query/queryAPI.js"
-      ,methodName:"getDataBaseSize"
-      ,description:"Get Size Of DB"
+    ,{requestPath : "deleteTable"
+      ,filePath:"query/deleteTable.js"
+      ,methodName:null
+      ,description:"deletes a tbl by name"
+      ,access : ["tier2"]
+      ,params : [
+        {name:"tblName",defaultValue:"tblName"}
+      ]
+      ,returnType:"OBJECT_ARRAY"
+      ,implemented:"90"
+    }
+    ,{requestPath : "listSizesOfTables"
+      ,filePath:"query/listSizesOfTables.js"
+      ,methodName:null
+      ,description:"List all tables and their size"
       ,access : ["tier2"]
       ,returnType:"OBJECT_ARRAY"
       ,implemented:"80"

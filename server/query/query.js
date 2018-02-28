@@ -6,6 +6,19 @@ const config = require('../../ssd-explorer.config.js');
 
 var m = module.exports = {};
 m.singleQueryPromise = singleQueryPromise
+m.api_query = api_query
+
+
+function api_query(paramObj,resolve,reject){
+  queryPRIV.singleQueryPromise(paramObj.sql)
+    .then(function(rows){
+      resolve(rows)
+    })
+    .catch(function(err){
+      reject(err)
+    })
+}
+
 
 function singleQueryPromise(sql){
   //var sql = "SELECT * FROM SSD1 LIMIT 5"

@@ -7,18 +7,24 @@ const getMainColumnNames = require('./getMainColumnNames.js');
 const query =  require('../query/query.js');
 const listSizesOfTables =  require('../query/listSizesOfTables.js');
 
-module.exports = cr8TableForSSDImport;
+module.exports = importSSD;
 
-function cr8TableForSSDImport(paramObj,resolve,reject){
+function importSSD(paramObj,resolve,reject){
   //paramObj.tblName
   //paramObj.filePath
   var tblName = paramObj.tblName
   var filePath = paramObj.filePath
+
+  promiseWrap(listSizesOfTables,paramObj)
+  .then(function(aryTables){
+
+  })
+  .catch(function(err){
+    reject(err)
+  })
   listSizesOfTables(paramObj
     ,function(aryTables){//listSizesOfTables success
-      if(tblExisits(tblName,aryTables)){
-        return reject({type:"TableExists",message:`a table with the name ${tblName} already exists.`} )
-      }
+
       else{
         getMainColumnNames(paramObj
           ,function(fieldObjArray){ //getMainColumnNames success
