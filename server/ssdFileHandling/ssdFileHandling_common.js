@@ -1,9 +1,37 @@
+//ssdFileHandling_common
+const path = require('path');
+const config = require('../../ssd-explorer.config.js');
 const forEach = require ('../lib/forEach.js');
+
 var m = module.exports = {};
 m.parseHeaderLine = parseHeaderLine
 m.convertToProperDBFieldName = convertToProperDBFieldName
 m.proposeDbFieldTypeByName = proposeDbFieldTypeByName
 m.strMatchInAry = strMatchInAry
+m.normalizeFilePath = normalizeFilePath;
+m.appDir = path.normalize(path.dirname(require.main.filename )+"/../")
+m.defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
+
+
+function normalizeFilePath(requestedPath){
+  //return  "/mnt/c/dev/SSDQuery/v.00.002.001/import_cache"
+  //console.log("readCsvFileLine: filePath: "+ filePath)
+  var filePath = requestedPath
+  if(!filePath || filePath===""){
+    return false
+  }
+  if(filePath.indexOf("/")==0){
+    return filePath
+  }
+  if(m.defaultDirectoryRoot.indexOf("/")==0){
+    filePath =  m.defaultDirectoryRoot + "/" + filePath;
+  }
+  else{
+    filePath =  m.appDir  + "/" + m.defaultDirectoryRoot + "/" + filePath;
+  }
+  filePath = path.normalize(filePath)
+  return filePath
+}
 
 function parseHeaderLine(firstLine){
   var aryColNames = firstLine.split(",");

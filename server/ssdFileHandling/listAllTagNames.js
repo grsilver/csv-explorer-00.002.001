@@ -1,18 +1,18 @@
-const readCsvFileLine = require("./readCsvFileLine.js")
+const readLineByLine = require("./readLineByLine.js")
+const ssdFileHandling_common = require("./ssdFileHandling_common.js")
 const forEach = require ('../lib/forEach.js');
-const fieldNameUtils = require ('./fieldNameUtils.js');
 module.exports = listAllTagNames;
 
 
 
 function listAllTagNames(paramObj,resolve,reject){
-  paramObj.filePath = paramObj.filePath
+  paramObj.filePath = ssdFileHandling_common.normalizeFilePath(paramObj.filePath)
   //paramObj.endLineNum = 10;
   paramObj.onLine = onLine;
 
   var tagHolder = {}
 
-  readCsvFileLine(paramObj)
+  readLineByLine(paramObj)
   .then(function(readCsvFileLine_returnObj){
     readCsvFileLine_returnObj.tagHolder = tagHolder
     resolve(readCsvFileLine_returnObj)
@@ -68,7 +68,7 @@ function listAllTagNames(paramObj,resolve,reject){
           tagHolder[tagName] = {
             count:0
             ,examples : []
-            ,db_friendly_field_name: fieldNameUtils.convertToProperDBFieldName(tagName)
+            ,db_friendly_field_name: ssdFileHandling_common.convertToProperDBFieldName(tagName)
           }
         }
         tagHolder[tagName].count++

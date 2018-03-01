@@ -23,11 +23,11 @@ function cr8TableForSSDImport(paramObj,resolve,reject){
     }
 
     promiseWrap(getMainColumnNames,paramObj)
-    .then(function(fieldObjArray){
-      var sql2cr8 = cr8Sql2Cr8Tble(tblName,fieldObjArray)
+    .then(function(columnNames){
+      var sql2cr8 = cr8Sql2Cr8Tble(tblName,columnNames)
       query.singleQueryPromise(sql2cr8)
           .then(function(rows){
-            var sql2forTbleInfo = cr8SqlForTableInfo(tblName,fieldObjArray)
+            var sql2forTbleInfo = cr8SqlForTableInfo(tblName)
             query.singleQueryPromise(sql2forTbleInfo)
                 .then(function(rows){
                   resolve(rows)
@@ -58,12 +58,12 @@ function tblExisits(tblName,aryTables){
   })
 }
 
-function cr8Sql2Cr8Tble(tblName,fieldObjArray){
+function cr8Sql2Cr8Tble(tblName,columnNames){
   var sql = `CREATE TABLE ${tblName}
   (`
-    forEach(fieldObjArray,function(fieldObj,count){
-      var field_name = fieldObj.db_friendly_field_name
-      var db_type = fieldObj.proposedFieldType
+    forEach(columnNames,function(columnNameObj,count){
+      var field_name =  columnNameObj.db_friendly_field_name
+      var db_type = columnNameObj.proposedFieldType
       //(name VARCHAR(20), owner VARCHAR(20)
       if(count >0)
         sql+= ","

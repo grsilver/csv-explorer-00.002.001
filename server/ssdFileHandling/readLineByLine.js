@@ -1,26 +1,23 @@
-
+//readLineByLine
 // https://medium.freecodecamp.org/node-js-streams-everything-you-need-to-know-c9141306be93
 // https://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
 //https://techsparx.com/nodejs/howto/csv2mysql.html
-const path = require('path');
+
 const fs         = require('fs');
 const readline = require('readline')
 const stream = require('stream')
-const config = require('../../ssd-explorer.config.js');
+
 //const { Readable } = require('stream'); // same as const Readable = require('stream').Readable?; https://medium.com/the-node-js-collection/an-update-on-es6-modules-in-node-js-42c958b890c
 
 
-module.exports = readCsvFileLine;
+module.exports = readLineByLine;
 
-const appDir = path.normalize(path.dirname(require.main.filename )+"/../")
 
-//console.log("readCsvFileLine: appDir: "+ appDir)
-const defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
 
 /**
  * Read a file.
  * @param {Object} paramObj - The employee who is responsible for the project.
- * @param {Requester~requestCallback} paramObj.onLine called on every line. paramObj.onLine=function(line,count,last,functionBreak){}
+ * @param {Requester~requestCallback} paramObj.onLine called on every line. paramObj.onLine=function(line,count,functionBreak,throwError){}
  * @param {number} paramObj.startLineNum - // number of lines
  * @param {number} paramObj.endLineNum - // number of lines
  * @param {string} paramObj.filePath - // if start with "/" then root. else
@@ -34,17 +31,17 @@ const defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
  * @param {string} line
  * @param {number} count
  * @param {function} functionBreak
+ * @param {function} throwError
  */
-function readCsvFileLine(paramObj){
+function readLineByLine(paramObj){
   return new Promise(function(resolve,reject){
-
-    var fullFilePath = setFullFilePath()
+    var filePath = paramObj.filePath
     //console.log("readCsvFileLine: fullFilePath: "+ fullFilePath)
-    if(!fullFilePath){
+    if(!filePath){
       return reject({message:"bad fullFilePath:"+fullFilePath})
     }
-    if(! fs.existsSync(fullFilePath)){
-      return reject({message:"path doesn't exist:"+fullFilePath})
+    if(!fs.existsSync(filePath)){
+      return reject({message:"path doesn't exist:"+filePath})
     }
 
     try{
@@ -53,31 +50,13 @@ function readCsvFileLine(paramObj){
     catch(err){
       reject(err)
     }
-    function setFullFilePath(){
-      //return  "/mnt/c/dev/SSDQuery/v.00.002.001/import_cache"
-      //console.log("readCsvFileLine: filePath: "+ filePath)
-      var filePath = paramObj.filePath
-      if(!filePath || filePath===""){
-        return false
-      }
-      if(filePath.indexOf("/")==0){
-        return filePath
-      }
-      if(defaultDirectoryRoot.indexOf("/")==0){
-        filePath =  defaultDirectoryRoot + "/" + filePath;
-      }
-      else{
-        filePath =  appDir + "/" + defaultDirectoryRoot + "/" + filePath;
-      }
-      paramObj.fullFilePath = path.normalize(filePath)
-      return paramObj.fullFilePath
-    }
+
     function readFile(){
       //https://nodejs.org/api/readline.html
       //https://stackoverflow.com/questions/16010915/parsing-huge-logfiles-in-node-js-read-in-line-by-line
 
 
-      var instream = fs.createReadStream(paramObj.fullFilePath);
+      var instream = fs.createReadStream(filePath);
       var outstream = new stream;
       outstream.readable = true;
       //outstream.writable = true;

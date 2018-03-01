@@ -1,8 +1,7 @@
-
+const readLineByLine = require("./readLineByLine.js")
+const ssdFileHandling_common = require("./ssdFileHandling_common.js")
 const forEach = require ('../lib/forEach.js');
 const config = require('../../ssd-explorer.config.js');
-const fieldNameUtils = require ('./fieldNameUtils.js');
-const readCsvFileLine = require("./readCsvFileLine.js")
 const promiseWrap = require('../lib/promiseWrap.js');
 const mysql = require('mysql');
 //const knex =  require('knex');
@@ -38,6 +37,7 @@ function importSSDLineByLine(paramObj,resolve,reject){
   paramObj.endLineNum = 5
   //paramObj.resolveLines = true
   paramObj.onLine = onLine;
+  paramObj.filePath = ssdFileHandling_common.normalizeFilePath(paramObj.filePath)
 
   connection = mysql.createConnection({
     host: config.database.host,
@@ -51,7 +51,7 @@ function importSSDLineByLine(paramObj,resolve,reject){
     connection = null;
   }
 
-  readCsvFileLine(paramObj)
+  readLineByLine(paramObj)
   .then(function(readLineInfo){
     returnObj.Line = true
     returnObj.readLineInfo = readLineInfo
@@ -103,7 +103,7 @@ function importSSDLineByLine(paramObj,resolve,reject){
   }
   function setStrInsertColumnsSubSql(line){
     strInsertColumnsSubSql = ""
-    var ary = fieldNameUtils.parseHeaderLine(line)
+    var ary = ssdFileHandling_common.parseHeaderLine(line)
     forEach(ary,function(obj,count){
       if(count > 0){
         strInsertColumnsSubSql += ","

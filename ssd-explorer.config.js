@@ -12,9 +12,9 @@ module.exports = {
   }
   ,registeredMethods :[
     {requestPath : "ssdFileHandling.getLineCount"
-      ,filePath:"ssdFileHandling/ssdFileHandling_some_api.js"
-      ,methodName:"getLineCount"
-      ,description:"description1 description1"
+      ,filePath:"ssdFileHandling/getLineCount.js"
+      ,methodName:null
+      ,description:"get the total line count of a file"
       ,access : ["tier2"]
       ,params : [
         {name:"filePath",defaultValue:"Book1.csv"}
@@ -60,6 +60,18 @@ module.exports = {
       ,filePath:"ssdFileHandling/importSSDLineByLine.js"
       ,methodName:null
       ,description:`imports csv into existing table`
+      ,access : ["tier2"]
+      ,params : [
+        {name:"tblName",defaultValue:"ssd2018_02_22_001"}
+        ,{name:"filePath",defaultValue:"Book1.csv"}
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"50"
+    }
+    ,{requestPath : "ssdFileHandling.importSSDbyStreamChunks"
+      ,filePath:"ssdFileHandling/importSSDbyStreamChunks.js"
+      ,methodName:null
+      ,description:`copies an SSD into a table in streaming chunks`
       ,access : ["tier2"]
       ,params : [
         {name:"tblName",defaultValue:"ssd2018_02_22_001"}
