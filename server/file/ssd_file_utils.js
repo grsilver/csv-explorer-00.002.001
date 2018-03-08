@@ -11,7 +11,12 @@ m.strMatchInAry = strMatchInAry
 m.normalizeFilePath = normalizeFilePath;
 m.appDir = path.normalize(path.dirname(require.main.filename )+"/../")
 m.defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
+m.getPrimaryKey = getPrimaryKey
 
+
+function getPrimaryKey(){
+  return config.tblPrimaryKey
+}
 
 function normalizeFilePath(requestedPath){
   //return  "/mnt/c/dev/SSDQuery/v.00.002.001/import_cache"
@@ -32,7 +37,6 @@ function normalizeFilePath(requestedPath){
   filePath = path.normalize(filePath)
   return filePath
 }
-
 function parseHeaderLine(firstLine){
   var aryColNames = firstLine.split(",");
   var aryReturn = []
@@ -40,14 +44,20 @@ function parseHeaderLine(firstLine){
     var db_friendly_field_name = convertToProperDBFieldName(csv_col_name)
     var proposedFieldType = proposeDbFieldTypeByName(db_friendly_field_name)
     aryReturn.push({
-      csv_col_name:csv_col_name
-      ,db_friendly_field_name:db_friendly_field_name
-      ,proposedFieldType:proposedFieldType
+      originalName:csv_col_name
+      ,name:db_friendly_field_name
+      ,fieldType:proposedFieldType
     })
   })
+  aryReturn = aryReturn.sort(function (a, b) {
+    if(a == getPrimaryKey())
+      return -1
+    else {
+      return 0
+    }
+  });
   return aryReturn
 }
-
 function convertToProperDBFieldName(csv_col_name){
   var db_friendly_field_name = csv_col_name;
   db_friendly_field_name = db_friendly_field_name.replace(/["]+/g, '') // remove quotes:
@@ -60,7 +70,6 @@ function convertToProperDBFieldName(csv_col_name){
   db_friendly_field_name = db_friendly_field_name.replace(/_$/, '') // remove _   $ means end
   return db_friendly_field_name;
 }
-
 function proposeDbFieldTypeByName(name){
   //https://stackoverflow.com/questions/219569/best-database-field-type-for-a-url
 
@@ -134,7 +143,6 @@ function proposeDbFieldTypeByName(name){
 
   return type;
 }
-
 function strMatchInAry(str,ary){
   name = str.toLowerCase();
   return forEach(ary,function(item,count,fnBreak){

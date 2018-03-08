@@ -19,14 +19,15 @@ function handleHttpRequest(req, res){
 
       apiRegHandler.getMethod(responseHandler)
       .then(function(method){
-        var paramObj = responseHandler.getMethodParamObj()
-        promiseWrap(method,paramObj)
-        .then(function(responseObj){ // after method calls resolve
-          responseHandler.respondSuccess(responseObj)
-        })
-        .catch(function(err){ // after method calls reject
-            responseHandler.respondError(err)
-        })
+        var paramObj = responseHandler.getMethodParamObj();
+        try{
+          method(paramObj)
+          .then(responseHandler.respondSuccess)
+          .catch(responseHandler.respondError)
+        }
+        catch(err){
+          responseHandler.respondError(err)
+        }
       })
       .catch(function(err){ // apiRegHandler.getMethod calls  reject
           responseHandler.respondError(err)

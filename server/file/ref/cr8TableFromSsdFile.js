@@ -4,9 +4,11 @@ const config = require('../../ssd-explorer.config.js');
 const getMainColumnNames = require('./getMainColumnNames.js');
 //const knex =  require('knex');
 //const mariasql =  require('mariasql');
-const query =  require('../query/query.js');
-const listSizesOfTables =  require('../query/listSizesOfTables.js');
+const getConnectionHandlerPromise = require('../db/getConnectionHandlerPromise.js');
+const checkIfTableExists =  require('../query/checkIfTableExists.js');
 const promiseWrap = require('../lib/promiseWrap.js')
+const ssdFileHandling_common = require("./ssdFileHandling_common.js")
+
 
 module.exports = cr8TableForSSDImport;
 
@@ -80,6 +82,9 @@ function cr8SqlForTableInfo(tblName){
   FROM INFORMATION_SCHEMA.COLUMNS
   WHERE TABLE_SCHEMA ='${config.database.database}'
   AND TABLE_NAME='${tblName}';`
+
+  sql += `
+  alter table ${tblName} add primary key (${ssdFileHandling_common.PRIMARY_KEY});`
   return sql
 }
 

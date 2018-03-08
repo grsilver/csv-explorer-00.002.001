@@ -4,9 +4,11 @@ module.exports = listMethods;
 
 var aryKeysFilterOut = ["filePath","methodName"]
 
-function listMethods(paramObj,resolve,reject){
-  var ary = getRegisteredMethods()
-  resolve(ary)
+function listMethods(paramObj){
+  return new Promise((resolve,reject)=>{
+    var ary = getRegisteredMethods();
+    resolve(ary)
+  })
 }
 function getRegisteredMethods(){
   var regAryExport = []

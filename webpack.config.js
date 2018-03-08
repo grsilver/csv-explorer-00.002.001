@@ -4,7 +4,7 @@ var path = require("path");
 //npm run build_webpack
 //npm run build_server
 //npm run webpack_and_server
-///Users/gsilvestri/galendev/
+// cd /Users/gsilvestri/galendev/ssd-explorer-00.002.001
 
 module.exports = {
   entry: {

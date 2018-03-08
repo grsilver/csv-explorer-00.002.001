@@ -1,18 +1,19 @@
 module.exports = {
   version: "00.002.001"
-  ,port:8081
+  ,port:8082
   ,database: {
     host: '127.0.0.1'
     ,user: 'root'
     ,password: 'password'
     ,database: 'convivaSSD'
   }
+  ,tblPrimaryKey : "conviva_session_id"
   ,readCsvLine:{
     defaultDirectoryRoot:"./import_cache"
   }
   ,registeredMethods :[
-    {requestPath : "ssdFileHandling.getLineCount"
-      ,filePath:"ssdFileHandling/getLineCount.js"
+    {requestPath : "file.getLineCount"
+      ,filePath:"file/getLineCount.js"
       ,methodName:null
       ,description:"get the total line count of a file"
       ,access : ["tier2"]
@@ -22,8 +23,8 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"100"
     }
-    ,{requestPath : "ssdFileHandling.getMainColumnNames"
-      ,filePath:"ssdFileHandling/getMainColumnNames.js"
+    ,{requestPath : "file.getMainColumnNames"
+      ,filePath:"file/getMainColumnNames.js"
       ,methodName:null
       ,description:"looks at file and sends back MAIN column names"
       ,access : ["tier2"]
@@ -33,20 +34,8 @@ module.exports = {
       ,returnType:"OBJECT_ARRAY"
       ,implemented:"100"
     }
-    ,{requestPath : "ssdFileHandling.cr8TableForSSDImport"
-      ,filePath:"ssdFileHandling/cr8TableForSSDImport.js"
-      ,methodName:null
-      ,description:"cr8's a table with fields from SSD"
-      ,access : ["tier2"]
-      ,params : [
-        {name:"tblName",defaultValue:"ssd2018_02_22_001"}
-        ,{name:"filePath",defaultValue:"Book1.csv"}
-      ]
-      ,returnType:"OBJECT_ARRAY"
-      ,implemented:"50"
-    }
-    ,{requestPath : "ssdFileHandling.listAllTagNames"
-      ,filePath:"ssdFileHandling/listAllTagNames.js"
+    ,{requestPath : "file.listAllTagNames"
+      ,filePath:"file/listAllTagNames.js"
       ,methodName:null
       ,description:`List All Tags in SSD's "column session tags"`
       ,access : ["tier2"]
@@ -56,32 +45,42 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "ssdFileHandling.importSSDLineByLine"
-      ,filePath:"ssdFileHandling/importSSDLineByLine.js"
-      ,methodName:null
-      ,description:`imports csv into existing table`
-      ,access : ["tier2"]
-      ,params : [
-        {name:"tblName",defaultValue:"ssd2018_02_22_001"}
-        ,{name:"filePath",defaultValue:"Book1.csv"}
-      ]
-      ,returnType:"OBJECT"
-      ,implemented:"50"
-    }
-    ,{requestPath : "ssdFileHandling.importSSDbyStreamChunks"
-      ,filePath:"ssdFileHandling/importSSDbyStreamChunks.js"
+    ,{requestPath : "file.importFileByPath"
+      ,filePath:"file/importFileByPath.js"
       ,methodName:null
       ,description:`copies an SSD into a table in streaming chunks`
       ,access : ["tier2"]
       ,params : [
-        {name:"tblName",defaultValue:"ssd2018_02_22_001"}
-        ,{name:"filePath",defaultValue:"Book1.csv"}
+        {name:"tblName",defaultValue:"ssd2"}
+        ,{name:"filePath",defaultValue:"DailySessionLog_BellMedia_2018-01-17.csv"}
       ]
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "ssdFileHandling.copyPortionSSD2File"
-      ,filePath:"ssdFileHandling/copyPortionSSD2File.js"
+    ,{requestPath : "file.importFileByPath.getJobInfoByID"
+      ,filePath:"file/importFileByPath.js"
+      ,methodName:"getJobInfoByID"
+      ,description:`gets info of running job`
+      ,access : ["tier2"]
+      ,params : [
+        {name:"jobID",defaultValue:""}
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"50"
+    }
+    ,{requestPath : "file.importFileByPath.terminateJobByID"
+      ,filePath:"file/importFileByPath.js"
+      ,methodName:"terminateJobByID"
+      ,description:`terminates a running job`
+      ,access : ["tier2"]
+      ,params : [
+        {name:"jobID",defaultValue:""}
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"50"
+    }
+    ,{requestPath : "file.copyPortionSSD2File"
+      ,filePath:"file/copyPortionSSD2File.js"
       ,methodName:null
       ,description:`copies a portion of an SSD to another file`
       ,access : ["tier2"]
@@ -115,9 +114,9 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"100"
     }
-    ,{requestPath : "query"
-      ,filePath:"query/query.js"
-      ,methodName:"api_query"
+    ,{requestPath : "db.query"
+      ,filePath:"db/query.js"
+      ,methodName:"query_api"
       ,description:"an open ended query call. Default: list frist 5 rows"
       ,access : ["tier2"]
       ,params : [
@@ -126,8 +125,8 @@ module.exports = {
       ,returnType:"OBJECT_ARRAY"
       ,implemented:"90"
     }
-    ,{requestPath : "deleteTable"
-      ,filePath:"query/deleteTable.js"
+    ,{requestPath : "db.deleteTable"
+      ,filePath:"db/deleteTable.js"
       ,methodName:null
       ,description:"deletes a tbl by name"
       ,access : ["tier2"]
@@ -137,8 +136,8 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"90"
     }
-    ,{requestPath : "listSizesOfTables"
-      ,filePath:"query/listSizesOfTables.js"
+    ,{requestPath : "db.listTables"
+      ,filePath:"db/listTables.js"
       ,methodName:null
       ,description:"List all tables and their size"
       ,access : ["tier2"]

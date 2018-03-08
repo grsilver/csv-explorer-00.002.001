@@ -1,8 +1,31 @@
 <html>
+<head>
 
+</head>
 <body>
+<div>test</div>
+<script src="//content.jwplatform.com/players/WSIC8ciU-qOwlZG1a.js"></script>
+<script src="//dl.conviva.com/bellmedia/jwplayer/stable/conviva.js"></script>
+<script>
 
+conviva.integrate({
+    key: '7f2330ba2a840abea7033886f7908af9e2104ba8',// change this to PROD_CUSTOMER_KEY when you release to production
+    gateway_host: "//bellmedia-test.testonly.conviva.com" // make sure to remove this line entirely when you release to production
 
+});
+
+debugger
+
+var appMetadata = {
+        player_name: 'Galen_Faisal', // Conviva player name
+        viewer_id: '100.12.88.242', // Conviva viewer id
+        my_app_custom_key: 'custom_1234' // custom key-value
+};
+
+// Conviva App Metadata API
+conviva.updateAppMetadata(appMetadata);
+
+</script>
 </body>
 
 </html>
