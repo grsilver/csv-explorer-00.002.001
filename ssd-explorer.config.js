@@ -45,8 +45,8 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "file.importFileByPath"
-      ,filePath:"file/importFileByPath.js"
+    ,{requestPath : "file.importFileByPath_via_streamChunksAndInsertSql"
+      ,filePath:"file/importFileByPath_via_streamChunksAndInsertSql.js"
       ,methodName:null
       ,description:`copies an SSD into a table in streaming chunks`
       ,access : ["tier2"]
@@ -57,24 +57,14 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "file.importFileByPath.getJobInfoByID"
-      ,filePath:"file/importFileByPath.js"
-      ,methodName:"getJobInfoByID"
-      ,description:`gets info of running job`
+    ,{requestPath : "file.importFileByPath_via_LoadDataLocalInFile"
+      ,filePath:"file/importFileByPath_via_LoadDataLocalInFile.js"
+      ,methodName:null
+      ,description:`copies an SSD into a table in streaming chunks`
       ,access : ["tier2"]
       ,params : [
-        {name:"jobID",defaultValue:""}
-      ]
-      ,returnType:"OBJECT"
-      ,implemented:"50"
-    }
-    ,{requestPath : "file.importFileByPath.terminateJobByID"
-      ,filePath:"file/importFileByPath.js"
-      ,methodName:"terminateJobByID"
-      ,description:`terminates a running job`
-      ,access : ["tier2"]
-      ,params : [
-        {name:"jobID",defaultValue:""}
+        {name:"tblName",defaultValue:"ssd2"}
+        ,{name:"filePath",defaultValue:"DailySessionLog_BellMedia_2018-01-17.csv"}
       ]
       ,returnType:"OBJECT"
       ,implemented:"50"
@@ -110,6 +100,28 @@ module.exports = {
       ,description:"description2 description2"
       ,access : ["everyone","tier1","tier2"]
       ,params : [
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"100"
+    }
+    ,{requestPath : "getJobInfoByID"
+      ,filePath:"lib/jobManager.js"
+      ,methodName:"getJobInfoByID"
+      ,description:"description2 description2"
+      ,access : ["everyone","tier1","tier2"]
+      ,params : [
+        {name:"jobID",defaultValue:""}
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"100"
+    }
+    ,{requestPath : "terminateJobByID"
+      ,filePath:"lib/jobManager.js"
+      ,methodName:"terminateJobByID"
+      ,description:"description2 description2"
+      ,access : ["everyone","tier1","tier2"]
+      ,params : [
+        {name:"jobID",defaultValue:""}
       ]
       ,returnType:"OBJECT"
       ,implemented:"100"

@@ -2,6 +2,7 @@
 const path = require('path');
 const config = require('../../ssd-explorer.config.js');
 const forEach = require ('../lib/forEach.js');
+const cr8Table = require('../db/cr8Table.js')
 
 var m = module.exports = {};
 m.parseHeaderLine = parseHeaderLine
@@ -12,10 +13,40 @@ m.normalizeFilePath = normalizeFilePath;
 m.appDir = path.normalize(path.dirname(require.main.filename )+"/../")
 m.defaultDirectoryRoot =  config.readCsvLine.defaultDirectoryRoot
 m.getPrimaryKey = getPrimaryKey
+m.cr8TableForImportFrom1stChunk = cr8TableForImportFrom1stChunk
 
 
 function getPrimaryKey(){
   return config.tblPrimaryKey
+}
+
+function cr8TableForImportFrom1stChunk(tblName,queryHandler,strChunk){//paramObj.tblName
+  return new Promise((resolve,reject)=>{
+    strChunk = strChunk.toString();
+    var iLineBrk = strChunk.indexOf("\n")
+    // set fieldNames which is declared at a higher scope for multi function reference
+    var headerLine = strChunk.substring(0,iLineBrk);
+
+    // cr8 table if doesn't exist
+    var aryFieldInfo = parseHeaderLine(headerLine)
+    var fieldNamesStr = aryFieldInfo.map(function(fieldInfo) { return fieldInfo.name;}).toString();
+
+    cr8Table({
+      queryHandler:queryHandler
+      ,tblName:tblName
+      ,primaryKey:getPrimaryKey()
+      ,aryFieldInfo:aryFieldInfo
+      ,ignoreIfExists:true
+    })
+    .then(()=>{ // table existed or has been created,
+      resolve({
+        remainingChunk : strChunk.substring(iLineBrk+1)
+        ,aryFieldInfo : aryFieldInfo
+        ,fieldNamesStr:fieldNamesStr
+      })
+    })
+    .catch(reject)
+  })
 }
 
 function normalizeFilePath(requestedPath){
