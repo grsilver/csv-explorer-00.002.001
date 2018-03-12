@@ -17,11 +17,15 @@
       <div id="response_object">
 
         <div class="response_object_item" template="response_object_item">
-          <span class="response_object_item_key" data="data.key">KEY</span>:
-          <span class="response_object_item_val" data="data.value">Value</span>
+          <span class="response_object_item_key" data="key">KEY</span>
+          <span> : <span>
+          <span class="response_object_item_val" data="value">Value</span>
         </div>
         <div class="response_object_child_object" template="response_object_child_object">
-          <span class="response_object_child_object_key" data="data.key">KEY</span>:
+          <div class="response_object_child_object_key_bar">
+            <span data="key">KEY</span>
+            <span>&rarr;</span>
+          </div>
           <div class="response_object_child_object_grandchildren"></div>
         </div>
 

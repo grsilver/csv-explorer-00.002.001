@@ -7,10 +7,10 @@ function matchElementsWithData(parentElement,data,callBack){ //callBack(ele,data
   callBack = callBack || basicDataBind
   var elements = parentElement.querySelectorAll("*[data]")
   forEach(elements,function(ele){
-    var dataNameString = ele.getAttribute("data")
+    var dataNameString = "data." + ele.getAttribute("data")
     var val
     try{
-      val = eval(dataNameString)
+      val = eval(dataNameString) // to do, don't use eval, use a iteration...
     }
     catch(e){
       val =  `Error: can't parse <${ele.tagName} data="${dataNameString}" :`+ e.message

@@ -51,8 +51,12 @@ function importFileByPath_sub(paramObj,resolve,reject){
   log('importFileByPath_sub')
 
   // replyObj
-  var jobInfo = jobManager.getNewJob({fnTerminate:terminate,jobType:"importFileByPath_via_LoadDataLocalInFile"})
-
+  var jobInfo = jobManager
+    .getNewJob()
+    .setTerminateFunction(function(){
+      terminate(true,"terminated via jobInfo")
+    })
+    .setJobType("importFileByPath_via_LoadDataLocalInFile")
   //jobInfo.tableExisted= false
   jobInfo.forcedTermination = false
   jobInfo.cleanedUp = false  //

@@ -48,9 +48,30 @@ class Response_DataMarkup_Object extends DataMarkup {
         matchElementsWithData(itemElement,{value:value,key:key})
 
         if(isObject){
-          var grandChildrenContainer = itemElement.querySelector(".response_object_child_object_grandchildren")
-          
-          iterate(grandChildrenContainer,value)
+          var grandChildrenContainer = itemElement.querySelector(".response_object_child_object_grandchildren");
+
+          var eleKey = itemElement.querySelector(".response_object_child_object_key_bar")
+          var expanded = false
+          var boundGrandChildren = false
+          eleKey.addEventListener("click",function(){
+            expanded?collapse():expand();
+          });
+          collapse()
+          function collapse(){
+            expanded = false
+            grandChildrenContainer.remove()
+          }
+          function expand(){
+            expanded = true
+            itemElement.appendChild(grandChildrenContainer)
+            if(boundGrandChildren)
+              return
+            boundGrandChildren = true;
+            iterate(grandChildrenContainer,value)
+          }
+
+
+
         }
 
 

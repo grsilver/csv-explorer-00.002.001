@@ -41,7 +41,12 @@ function importFileByPath_sub(paramObj,resolve,reject){
   //log('importFileByPath_sub')
 
   // replyObj
-  var jobInfo = jobManager.getNewJob({fnTerminate:terminate,jobType:"importFileByPath_via_streamChunksAndInsertSql"})
+  var jobInfo = jobManager
+    .getNewJob()
+    .setTerminateFunction(function(){
+      terminate(true,"terminated via jobInfo")
+    })
+    .setJobType("importFileByPath_via_streamChunksAndInsertSql")
   //jobInfo.tableExisted= false
   jobInfo.chunkCount = 0
   jobInfo.lineCount = 0

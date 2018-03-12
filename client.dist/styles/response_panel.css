@@ -48,3 +48,10 @@
 .response_object_item{
   border: 1px solid green;
 }
+.response_object_child_object_key_bar{
+  cursor: pointer;
+  background-color: #bac1c6;
+  border: 1px solid black;
+  padding-left: 2px;
+  margin-bottom: 2px;
+}

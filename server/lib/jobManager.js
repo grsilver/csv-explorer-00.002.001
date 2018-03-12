@@ -9,29 +9,39 @@ jobManager.terminateJobByID = terminateJobByID
 jobManager.getJobInfoByID = getJobInfoByID
 
 var holder = {}
-function getNewJob(param){ // {fnTerminate:terminate,jobType:""}
+function getNewJob(){
     var jobInfo = {
         jobID: "job_"+ Date.now()
       , msecsElapsed: 0
       , isServerJobInfo: true
-      , jobType: param.jobType
+      , jobType: null
       , startTime:Date.now()
       , complete: false
       , errorCount: 0
       , method2CheckJobStatus : "getJobInfoByID"
       , terminateJobByID : "terminateJobByID"
     }
+    jobInfo.setTerminateFunction = function(fn){
+      jobInfo.terminate = fn
+      return jobInfo
+    }
+    jobInfo.setJobType = function(strType){
+      jobInfo.jobType = strType
+      return jobInfo
+    }
     jobInfo.updateTimeElasped = function(){
       jobInfo.msecsElapsed = Date.now()-jobInfo.startTime
+      return jobInfo
     }
     jobInfo.setComplete = function (){
       jobInfo.complete = true
+      return jobInfo
     }
     jobInfo.logError = function (err){
       jobInfo.errorCount++
       jobInfo.lastError = err
+      return jobInfo
     }
-    jobInfo.terminate = param.fnTerminate
 
     holder[jobInfo.jobID] = jobInfo
     return jobInfo
@@ -39,7 +49,7 @@ function getNewJob(param){ // {fnTerminate:terminate,jobType:""}
 
 function terminateJobByID(paramObj){
   return new Promise((resolve,reject)=>{
-    var jobInfo = holderJobInfo[paramObj.jobID]
+    var jobInfo = holder[paramObj.jobID]
     if(jobInfo){
       jobInfo.terminate(true,"called by terminateJobByID")
       resolve(jobInfo);
@@ -61,6 +71,9 @@ function getJobInfoByID(paramObj){
         if(key== "terminate") return
         if(key== "setComplete") return
         if(key== "updateTimeElasped") return
+        if(key== "logError") return
+        if(key== "setJobType") return
+        if(key== "setTerminateFunction") return
         obj[key] = val
       })
 
