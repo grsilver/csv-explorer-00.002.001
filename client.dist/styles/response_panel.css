@@ -1,20 +1,17 @@
 #response_panel{
-  border: 1px solid black;
-  padding: 2px;
-  margin:2px;
+
 
 }
-#response_panel_title{
+
+#response_title_bar{
   border: 1px solid black;
   padding: 2px;
   margin:2px;
-
 }
-#response_panel_body{
-  border: 1px solid black;
+#response_container{
   padding: 2px;
   margin:2px;
-
+  background-color: white;
 }
 #response_table{
   border: 1px solid green;
@@ -31,13 +28,10 @@
 
 
 .response_object_child_object_grandchildren{
-  border: 1px solid red;
-  padding: 2px;
-  padding-right: none;
-
   margin:2px;
   margin-right:none;
   margin-left: 10px;
+  margin-bottom:10px;
 }
 .response_object_item_key{
   font-weight: bold;

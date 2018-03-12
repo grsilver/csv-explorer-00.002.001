@@ -8,13 +8,13 @@ import {log as log} from '../lib/log.js';
 import {Response_DataMarkup_Object as Response_DataMarkup_Object} from './Response_DataMarkup_Object.js';
 import {Response_DataMarkup_String as Response_DataMarkup_String} from './Response_DataMarkup_String.js';
 import {Response_DataMarkup_Table as Response_DataMarkup_Table} from './Response_DataMarkup_Table.js';
+import {panelManager as panelManager} from '../panels/panelManager.js';
 
 var m = {}
 export {m as responseManager};
 
 m.init = init;
-m.element
-var pnl
+var _pnl
 var subElements = {}
 
 var response_DataMarkup_Object = new Response_DataMarkup_Object()
@@ -33,19 +33,18 @@ function init(){
   })
 
   aquireMarkup().then(function(ele){
-    pnl = m.element = ele;
-    subElements.response_panel_body = ele.querySelector('*[id="response_panel_body"')
+    _pnl = ele;
+    panelManager.registerPanel("API Result",_pnl)
+    subElements.response_container = ele.querySelector('*[id="response_container"')
+    subElements.response_title = ele.querySelector('*[id="response_title"')
 
     response_DataMarkup_Object.aquireMarkup(ele)
     response_DataMarkup_String.aquireMarkup(ele)
     response_DataMarkup_Table.aquireMarkup(ele)
 
-    document.body.appendChild(ele)
-
   })
-  .catch(function(e){
-    e.message = "panelMethodList got list but error with bindToUI: " + e.message
-    throw e
+  .catch(function(err){
+    throw err
   })
 }
 
@@ -55,7 +54,10 @@ function onSubmit(evt,scope,listenerReg){
 }
 
 function onSuccess(evt,scope,listenerReg){
-  methods_panel.collapse()
+
+  panelManager.showPanel(_pnl)
+
+  response_title.innerHTML = evt.methodRegistrationData.requestPath
 
   var returnType = evt.methodRegistrationData.returnType
   var responseDataMarkup
@@ -69,17 +71,18 @@ function onSuccess(evt,scope,listenerReg){
   else
     responseDataMarkup = response_DataMarkup_String
 
-  subElements.response_panel_body.appendChild(responseDataMarkup.element)
+  subElements.response_container.appendChild(responseDataMarkup.element)
   dealWith_last_response_DataMarkup(responseDataMarkup)
   responseDataMarkup.dataBind(evt.response)
 
 }
 
 function onError(evt,scope,listenerReg){
-  methods_panel.collapse()
+  panelManager.showPanel(_pnl)
   //if( evt.error instanceof Error){debugger}
-  debugger
-  subElements.response_panel_body.appendChild(response_DataMarkup_Object.element)
+  response_title.innerHTML = "ERROR RETURNED"
+
+  subElements.response_container.appendChild(response_DataMarkup_Object.element)
   dealWith_last_response_DataMarkup(response_DataMarkup_Object)
   response_DataMarkup_Object.dataBind(evt.error)
 

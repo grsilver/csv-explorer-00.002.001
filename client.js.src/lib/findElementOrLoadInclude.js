@@ -7,7 +7,8 @@ function findElementOrLoadInclude(querySelector,includePath,scope){
   var ele
   var url = includePath
   return new Promise(function (resolve, reject) {
-    document_ready(function(){
+    document_ready()
+    .then(function(){
       ele = scope.querySelector(querySelector);
       if(ele){
         console.log("findElementOrLoadInclude D")

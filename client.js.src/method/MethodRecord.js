@@ -105,7 +105,7 @@ function MethodRecord(){
       methodParams[param.name] = param.getValue()
     })
 
-    t.eventManager.broadcast.submit({
+    t.eventManager.dispatch.submit({
       methodRecord:t
       ,method: t.dataRecord.requestPath
       ,params:methodParams
@@ -113,7 +113,7 @@ function MethodRecord(){
     })
 
     apiCallHandler.call(t.dataRecord.requestPath,methodParams).then(function(objResp){
-      t.eventManager.broadcast.responseSuccess({
+      t.eventManager.dispatch.responseSuccess({
         methodRecord:t
         ,metaResponse:objResp
         ,response: objResp.response
@@ -124,7 +124,7 @@ function MethodRecord(){
 
     })
     .catch(function (err) {
-      t.eventManager.broadcast.responseError({
+      t.eventManager.dispatch.responseError({
         methodRecord:t
         ,error: err
         ,method: t.dataRecord.requestPath

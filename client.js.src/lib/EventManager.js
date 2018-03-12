@@ -4,8 +4,8 @@ function EventManager(scope){
   var t = this;
   t.registerEvent = registerEvent
   t.add = t.addListener = {}
-  t.cast = t.broadcast = {}
-  t.rmv = t.removeListener = {}
+  t.remove = t.removeListener = {}
+  t.dispatch = {}
   t.br = t.break = {}
   t.eventRegistrations = []
 
@@ -48,7 +48,7 @@ function EventManager(scope){
       }
       eventRegistration.listenerRegistrations = newAry
     }
-    function broadcast(evt){
+    function dispatch(evt){
       eventRegistration.breakRequested = false
       if(!evt)
         evt = eventName
@@ -80,7 +80,7 @@ function EventManager(scope){
       eventRegistration.breakRequested = true
     }
     t.addListener[eventName] = add
-    t.broadcast[eventName] =  broadcast
+    t.dispatch[eventName] =  dispatch
     t.removeListener[eventName] =  remove
     t.break[eventName] =  breakCast
     return t;

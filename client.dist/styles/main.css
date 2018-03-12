@@ -1,25 +1,27 @@
 @import url("methods_panel.css");
 @import url("response_panel.css");
-h1{
-  text-align:center;
+@import url("box_panel.css");
+@import url("menu.css");
+
+
+#app_title{
+  text-align: center;
+  background-color: #7a92a3;
+  padding:10px;
 }
-.pnl_container{
-  border: 1px solid black;
-  padding: 2px;
+#panel_title{
+  font-size: large;
+  text-align: center;
+  background-color: #d9edfc;
+  padding:5px;
+}
+#panel_container{
+  padding: 10px;
+  background-color: #b9ddf7;
+  /*width:960px;*/
 }
 .hidden{
   visibility: hidden;
-}
-.pnl_container{
-  border: 1px solid red;
-  padding: 2px;
-  background-color: #AAA7A7;
-}
-.pnl_title{
-  border: 1px solid black;
-  padding: 2px;
-  margin: 2px;
-  background-color: white;
 }
 .textBtn{
   cursor:pointer;
