@@ -7,6 +7,10 @@ module.exports = {
     ,password: 'password'
     ,database: 'convivaSSD'
   }
+  ,box:{
+    clientID: "bl6m53o5y9yjb96i0eo9u614c6b98utq"
+    ,clientSecret: "YRMFMgp1ICH5epoc6ePD3mZLqNYHFLSZ"
+  }
   ,tblPrimaryKey : "conviva_session_id"
   ,readCsvLine:{
     defaultDirectoryRoot:"./import_cache"
@@ -31,7 +35,7 @@ module.exports = {
       ,params : [
         {name:"filePath",defaultValue:"Book1.csv"}
       ]
-      ,returnType:"OBJECT_ARRAY"
+      ,returnType:"ROWS"
       ,implemented:"100"
     }
     ,{requestPath : "file.listAllTagNames"
@@ -134,7 +138,7 @@ module.exports = {
       ,params : [
         {name:"sql",defaultValue:"SELECT * FROM SSD1 LIMIT 5"}
       ]
-      ,returnType:"OBJECT_ARRAY"
+      ,returnType:"ROWS"
       ,implemented:"90"
     }
     ,{requestPath : "db.deleteTable"
@@ -153,8 +157,19 @@ module.exports = {
       ,methodName:null
       ,description:"List all tables and their size"
       ,access : ["tier2"]
-      ,returnType:"OBJECT_ARRAY"
+      ,returnType:"ROWS"
       ,implemented:"80"
+    }
+    ,{requestPath : "box.getOAuth"
+      ,filePath:"box/getOAuth.js"
+      ,methodName:null
+      ,description:"Get The URL for oAuth into Box"
+      ,access : ["tier2"]
+      ,returnType:"STRING"
+      ,implemented:"100"
+      ,params : [
+        {name:"username",defaultValue:"galen.silvestri@conviva.com"}
+      ]
     }
   ]
 };

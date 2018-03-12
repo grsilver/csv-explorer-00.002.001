@@ -1,15 +1,14 @@
 import {forEach as forEach}  from '../lib/forEach.js';
-import {DataMarkup as DataMarkup} from '../lib/DataMarkup.js';
+import {Display_DataMarkup as Display_DataMarkup} from './Display_DataMarkup.js';
 import {matchElementsWithData as matchElementsWithData} from '../lib/matchElementsWithData.js';
 import {TemplateElementManager as TemplateElementManager} from '../lib/TemplateElementManager.js';
 
-export {Response_DataMarkup_Object as Response_DataMarkup_Object};
+export {Display_DataMarkup_Object as Display_DataMarkup_Object};
 
-class Response_DataMarkup_Object extends DataMarkup {
+class Display_DataMarkup_Object extends Display_DataMarkup {
 
   constructor() {
     super()
-    this.includePath = "/includes/response_panel.html"
     this.querySelectorStr = "#response_object"
   }
 

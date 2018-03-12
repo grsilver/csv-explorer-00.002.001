@@ -1,11 +1,11 @@
 import {forEach as forEach}  from '../lib/forEach.js';
-import {DataMarkup as DataMarkup} from '../lib/DataMarkup.js';
+import {Display_DataMarkup as Display_DataMarkup} from './Display_DataMarkup.js';
 
 
-export {Response_DataMarkup_Table as Response_DataMarkup_Table};
+export {Display_DataMarkup_Table as Display_DataMarkup_Table};
 
 
-class Response_DataMarkup_Table extends DataMarkup {
+class Display_DataMarkup_Table extends Display_DataMarkup {
   constructor() {
     super()
     this.includePath = "/includes/response_panel.html"

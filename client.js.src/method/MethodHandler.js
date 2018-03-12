@@ -1,20 +1,16 @@
 import _ from 'lodash';
 import {log as log} from '../lib/log.js';
-import {apiCallHandler as apiCallHandler} from '../api/apiCallHandler.js';
-import {EventManager as EventManager} from '../lib/EventManager.js';
 
-export {MethodRecord as MethodRecord};
+import {SubmitHandler as SubmitHandler} from './SubmitHandler.js';
+
+export {MethodHandler as MethodHandler};
 
 
-function MethodRecord(){
+function MethodHandler(){
   var t = this;
   t.setElement = setElement
   t.dataBind = dataBind
-  t.dataRecord;
-  t.eventManager = new EventManager(t)
-    .registerEvent("submit")
-    .registerEvent("responseSuccess")
-    .registerEvent("responseError")
+  t.methodRegistrationData;
 
 
   var eleRecord
@@ -31,7 +27,7 @@ function MethodRecord(){
     return t
   }
   function dataBind(record){
-    t.dataRecord = record
+    t.methodRegistrationData = record
     var aryFieldElements = eleRecord.querySelectorAll('*[data]');
 
     _.forEach(aryFieldElements,function(eleField){
@@ -73,7 +69,7 @@ function MethodRecord(){
     var container = eleRecord.querySelector(".method_params")
 
     var count = 0
-    _.forEach(t.dataRecord.params,function(param){
+    _.forEach(t.methodRegistrationData.params,function(param){
       count ++
       var eleParam = eleTemplate_param.cloneNode(true);
       container.appendChild(eleParam);
@@ -97,42 +93,14 @@ function MethodRecord(){
   }
   function submit(){
 
-
-    //log("submit")
-
     var methodParams = {}
-    _.forEach(t.dataRecord.params,function(param){
+    _.forEach(t.methodRegistrationData.params,function(param){
       methodParams[param.name] = param.getValue()
     })
 
-    t.eventManager.dispatch.submit({
-      methodRecord:t
-      ,method: t.dataRecord.requestPath
-      ,params:methodParams
-      ,methodRegistrationData: t.dataRecord
-    })
+    var submitHandler = new SubmitHandler(t.methodRegistrationData,methodParams)
+    submitHandler.submit(methodParams)
 
-    apiCallHandler.call(t.dataRecord.requestPath,methodParams).then(function(objResp){
-      t.eventManager.dispatch.responseSuccess({
-        methodRecord:t
-        ,metaResponse:objResp
-        ,response: objResp.response
-        ,method: t.dataRecord.requestPath
-        ,params:methodParams
-        ,methodRegistrationData: t.dataRecord
-      })
-
-    })
-    .catch(function (err) {
-      t.eventManager.dispatch.responseError({
-        methodRecord:t
-        ,error: err
-        ,method: t.dataRecord.requestPath
-        ,params:methodParams
-        ,methodRegistrationData: t.dataRecord
-      })
-
-    })
 
   }
 

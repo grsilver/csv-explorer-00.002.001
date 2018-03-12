@@ -10,7 +10,7 @@ function matchElementsWithData(parentElement,data,callBack){ //callBack(ele,data
     var dataNameString = "data." + ele.getAttribute("data")
     var val
     try{
-      val = eval(dataNameString) // to do, don't use eval, use a iteration...
+      val = eval(dataNameString) // to do, don't use eval, use a split(".") and an iteration...
     }
     catch(e){
       val =  `Error: can't parse <${ele.tagName} data="${dataNameString}" :`+ e.message

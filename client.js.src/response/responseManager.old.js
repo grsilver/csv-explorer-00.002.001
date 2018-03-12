@@ -1,13 +1,18 @@
 //responseManager
+import {Response_DataMarkup_Object as Response_DataMarkup_Object} from './Response_DataMarkup_Object.js';
+import {Response_DataMarkup_String as Response_DataMarkup_String} from './Response_DataMarkup_String.js';
+import {Response_DataMarkup_Table as Response_DataMarkup_Table} from './Response_DataMarkup_Table.js';
+import {ResponseHandler as ResponseHandler} from './ResponseHandler.js';
+
+
+
 import {findElementOrLoadInclude as findElementOrLoadInclude} from '../lib/findElementOrLoadInclude.js';
 import {methods_panel as methods_panel} from '../method/methods_panel.js';
 import {log as log} from '../lib/log.js';
 
 
 
-import {Response_DataMarkup_Object as Response_DataMarkup_Object} from './Response_DataMarkup_Object.js';
-import {Response_DataMarkup_String as Response_DataMarkup_String} from './Response_DataMarkup_String.js';
-import {Response_DataMarkup_Table as Response_DataMarkup_Table} from './Response_DataMarkup_Table.js';
+
 import {panelManager as panelManager} from '../panels/panelManager.js';
 
 var m = {}
@@ -62,7 +67,7 @@ function onSuccess(evt,scope,listenerReg){
   var returnType = evt.methodRegistrationData.returnType
   var responseDataMarkup
 
-  if(returnType =="OBJECT_ARRAY" && Array.isArray(evt.response) && typeof evt.response[0]==="object"){
+  if(returnType =="ROWS" && Array.isArray(evt.response) && typeof evt.response[0]==="object"){
     responseDataMarkup = response_DataMarkup_Table
   }
   else if(typeof evt.response==="object"){

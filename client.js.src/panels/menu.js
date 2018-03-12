@@ -7,6 +7,7 @@ m.init = init
 m.open = open
 m.close = close
 m.addItem = addItem
+m.removeItem = removeItem
 
 var _menu_include
 var _menu_hamburger_icon
@@ -16,20 +17,40 @@ var _menu_item
 var _opened;
 var _itemPlaceholderAry = []
 
+var _menu_itemS = []
+
 function init(){
-  console.log("menu: init")
-  findElementOrLoadInclude("#menu_include","/includes/menu.html")
-  .then(function(ele){
-    _menu_include = ele
-    return bind2MarkUp(_menu_include)
-  })
-  .then(function(){ // add menu items called before bind2MarkUp
-    forEach(_itemPlaceholderAry,function(obj){
-      addItem_afterMarkeup(obj.lbl,obj.onClick)
+  return new Promise(function(resolve,reject){
+    console.log("menu: init")
+    findElementOrLoadInclude("#menu_include","/includes/menu.html")
+    .then(function(ele){
+      console.log("menu: findElementOrLoadInclude DONE")
+      _menu_include = ele
+      return bind2MarkUp(_menu_include)
     })
+    .then(function(){ // add menu items called before bind2MarkUp
+      console.log("menu: bind2MarkUp DONE")
+      forEach(_itemPlaceholderAry,function(obj){
+        addItem_afterMarkeup(obj.lbl,obj.onClick)
+      })
+      resolve()
+    })
+    .catch(reject)
   })
 }
 
+function removeItem(lbl){
+  var tempAry= []
+  forEach(_menu_itemS,function(menu_itemObj){
+    if(menu_itemObj.label == lbl){
+      menu_itemObj.menu_item.remove();
+    }
+    else{
+      tempAry.push(menu_itemObj)
+    }
+  })
+  _menu_itemS = tempAry
+}
 function addItem(lbl,onClick){
   if(_menu_items_container){
     addItem_afterMarkeup(lbl,onClick)
@@ -47,6 +68,7 @@ function addItem_afterMarkeup(lbl,onClick){
     close();
     onClick();
   });
+  _menu_itemS.push({menu_item:menu_item,label:lbl})
 }
 
 function bind2MarkUp(menu_include){
@@ -71,6 +93,7 @@ function bind2MarkUp(menu_include){
     _menu_item.remove()
 
     close()
+    resolve()
   })
 }
 

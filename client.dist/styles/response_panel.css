@@ -49,3 +49,11 @@
   padding-left: 2px;
   margin-bottom: 2px;
 }
+
+.response_manager_response_summary_container{
+  border: 1px solid black;
+}
+.response_manager_response_summary{
+  border: 1px solid black;
+  margin:2px;
+}

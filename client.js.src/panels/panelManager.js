@@ -7,24 +7,50 @@ export {m as panelManager};
 m.init = init
 m.registerPanel = registerPanel
 m.showPanel = showPanel
+m.setTitle = setTitle
+m.removeReg = removeReg
 
 
 var _registrations = []
 var _currentPanel
 
+
+
 function init(){
+
   console.log("panelManager: init")
-  menu.init()
+  return menu.init()
+}
+
+function setTitle(str){
+  document.querySelector("#panel_title").innerHTML = str;
+  return m
+}
+
+function removeReg(reg){
+  var ary_temp = []
+  forEach(_registrations,function(reg2,i,brk){
+    if(reg2 != reg)
+      ary_temp.push(reg2)
+  })
+  menu.removeItem(reg.lbl)
+  _registrations = ary_temp
+  return m
 }
 
 function registerPanel(lbl,elePanel){
-  _registrations.push({
+  var reg = {
     lbl:lbl
     ,elePanel:elePanel
-  })
+  }
+  _registrations.push(reg)
   menu.addItem(lbl,function(){
     showPanel(elePanel)
   })
+  reg.remove = function(){
+    removeReg(reg)
+  }
+  return reg
 }
 
 function showPanel(elePanel){
@@ -37,11 +63,11 @@ function showPanel(elePanel){
       brk(reg)
   })
 
-  var title = "Panel"
   if(reg){
-    title = reg.lbl
+    setTitle(reg.lbl)
   }
-  
-  document.querySelector("#panel_title").innerHTML = title;
+
   document.querySelector("#panel_container").appendChild(elePanel)
+
+  return m;
 }

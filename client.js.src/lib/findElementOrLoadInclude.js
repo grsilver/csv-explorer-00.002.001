@@ -1,16 +1,43 @@
 import {document_ready as document_ready} from './document_ready.js';
+import {forEach as forEach} from './forEach.js';
 export {findElementOrLoadInclude as findElementOrLoadInclude};
 
+var _registrationHolder = []
 
 function findElementOrLoadInclude(querySelector,includePath,scope){
   scope = scope || document
   var ele
   var url = includePath
   return new Promise(function (resolve, reject) {
+
+    var reg = forEach(_registrationHolder,function(reg2,i,brk){
+      if(
+            (reg2.querySelector == querySelector)
+        &&  (reg2.includePath == includePath)
+        &&  (reg2.scope == scope)
+        &&  (reg2.element)
+      )
+        brk(reg2)
+    })
+
+    if(reg){
+      resolve(reg.element)
+      return;
+    }
+
+    reg = {
+      querySelector : querySelector
+      ,includePath : includePath
+      ,scope : scope
+      ,element:null
+    }
+
     document_ready()
     .then(function(){
       ele = scope.querySelector(querySelector);
       if(ele){
+        reg.element = ele
+        _registrationHolder.push(reg)
         console.log("findElementOrLoadInclude D")
         resolve(ele)
       }
@@ -34,6 +61,8 @@ function findElementOrLoadInclude(querySelector,includePath,scope){
           }
           var ele = doc.querySelector(querySelector);
           if(ele){
+            reg.element = ele
+            _registrationHolder.push(reg)
             resolve(ele)
           }
           else{

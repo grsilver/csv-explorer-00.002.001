@@ -12,7 +12,7 @@ class DataMarkup {
   }
 
   onAquireMarkup(ele){
-
+    // overwrite
   }
 
   dataBind(data){
@@ -24,27 +24,19 @@ class DataMarkup {
     this.element.remove()
   }
 
-
+  getElement(){
+    return this.element
+  }
 
   aquireMarkup (eleContainer){
     var t = this;
     return new Promise (function (resolve, reject) {
-
-      new Promise (function (resolve, reject) {
-
-        findElementOrLoadInclude(t.querySelectorStr ,t.includePath,eleContainer)
-        .then(function(ele){
-            resolve(ele)
-        })
-        .catch(function(err){
-            reject(err)
-        })
-      })
+      findElementOrLoadInclude(t.querySelectorStr ,t.includePath,eleContainer)
       .then(function(ele){
-
-        t.element = ele;
+        t.element = ele.cloneNode(true);
         t.onAquireMarkup(ele)
         ele.remove()
+        resolve(t.element)
       })
       .catch(function(err){
         reject(err)
