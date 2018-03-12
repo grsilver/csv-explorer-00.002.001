@@ -5,23 +5,28 @@
 
 }
 .method_record{
-  border: 1px solid black;
+  border: 2px solid #7a92a3;
   padding: 2px;
   margin:2px;
-  background-color: red;
+  margin-bottom:5px;
+  border-radius:5px;
+  background-color: white;
 }
-.method_record:nth-child(even) {background: #F6F5F5}
-.method_record:nth-child(odd) {background: #FFF}
+
 .method_nameContainer{
   background: #FFF;
   padding: 2px;
   margin:2px;
+  cursor: pointer;
+
 }
 .method_details{
-  border: 1px solid black;
-  background: #8D8C8C;
-  padding: 2px;
-  margin:2px;
+
+  background: #7a92a3;
+  padding: 5px;
+  margin:5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 .method_description{
   border: 1px solid red;
@@ -37,12 +42,17 @@
   width:400px
 }
 .method_submit_container{
-  text-align: right;
+  text-align:center;
+  padding:5px;
+  background-color: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 .method_details_item{
   background: white;
   padding: 2px;
   margin:2px;
+  margin-bottom:10px;
 }
 .method_details_key{
   font-weight: bold;

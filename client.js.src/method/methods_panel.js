@@ -29,6 +29,11 @@ function init(){
   apiCallHandler.call("listMethods",{})
   .then(function(objResp){
     _aryMethodInfoRecords = objResp.response
+    _aryMethodInfoRecords = _aryMethodInfoRecords.sort(function(a, b){
+      if(a.requestPath < b.requestPath) return -1;
+      if(a.requestPath > b.requestPath) return 1;
+      return 0;
+    })
     return findElementOrLoadInclude("#methods_panel","/includes/methods_panel.html")
   })
   .then(function(ele){

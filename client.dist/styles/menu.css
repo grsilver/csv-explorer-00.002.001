@@ -9,6 +9,12 @@
     cursor: pointer;
     background-color: #7a92a3;
     padding:10px;
+    z-index:1000;
+    position: absolute;
+    top:2px;
+    left:2px;
+    border:1px solid #d6e5ff;
+    border-radius: 5px;
 }
 #menu_hamburger_icon > div{
   width: 35px;
@@ -31,14 +37,20 @@
 }
 
 #menu_items_container_outer{
-  background-color: #7a92a3;
+  display:block;
+  position: relative;
   transition: 0.4s;
+}
+
+#menu_items_container{
+  margin-top:40px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .menu_items_container_outer_opened{
   width:400px;
-  padding:10px;
-
+  height:100vh;
 }
 .menu_items_container_outer_closed{
   width:1px;
@@ -46,8 +58,13 @@
 }
 
 .menu_item{
-  border:1px solid black;
-  padding:2px;
-  background-color: white;
+
+  padding:10px;
+  background-color: #b9ddf7;
   cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: center;
 }
+
+/*https://wisdmlabs.com/blog/responsive-tables-using-css-div-tag/*/

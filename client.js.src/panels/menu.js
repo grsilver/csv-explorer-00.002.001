@@ -8,7 +8,7 @@ m.open = open
 m.close = close
 m.addItem = addItem
 
-var _menu_container
+var _menu_include
 var _menu_hamburger_icon
 var _menu_items_container
 var _menu_items_container_outer
@@ -18,11 +18,12 @@ var _itemPlaceholderAry = []
 
 function init(){
   console.log("menu: init")
-  aquireMarkup()
-  .then(function(menu_container){
-    return bind2MarkUp(menu_container)
+  findElementOrLoadInclude("#menu_include","/includes/menu.html")
+  .then(function(ele){
+    _menu_include = ele
+    return bind2MarkUp(_menu_include)
   })
-  .then(function(){
+  .then(function(){ // add menu items called before bind2MarkUp
     forEach(_itemPlaceholderAry,function(obj){
       addItem_afterMarkeup(obj.lbl,obj.onClick)
     })
@@ -48,17 +49,27 @@ function addItem_afterMarkeup(lbl,onClick){
   });
 }
 
-function bind2MarkUp(menu_container){
+function bind2MarkUp(menu_include){
   return new Promise(function (resolve, reject) {
-    document.body.appendChild(menu_container);
-    _menu_item = menu_container.querySelector(".menu_item");
-    _menu_item.remove()
-    _menu_items_container_outer = menu_container.querySelector("#menu_items_container_outer")
-    _menu_items_container = menu_container.querySelector("#menu_items_container")
-    _menu_hamburger_icon = menu_container.querySelector("#menu_hamburger_icon")
+
+    // menu icon hamburger
+    _menu_hamburger_icon = menu_include.querySelector("#menu_hamburger_icon");
+    document.body.appendChild(_menu_hamburger_icon)
     _menu_hamburger_icon.addEventListener("click",function(){
       (_opened)?close():open()
     });
+
+    _menu_items_container = menu_include.querySelector("#menu_items_container");
+    _menu_items_container_outer = menu_include.querySelector("#menu_items_container_outer");
+
+    var menu_placeholder = document.querySelector("#menu_placeholder");
+    var parentNode = menu_placeholder.parentNode
+    parentNode.insertBefore(_menu_items_container_outer,menu_placeholder);
+    menu_placeholder.remove()
+
+    _menu_item = menu_items_container_outer.querySelector(".menu_item");
+    _menu_item.remove()
+
     close()
   })
 }
@@ -71,6 +82,10 @@ function open(){
   _menu_hamburger_icon.classList.add("menu_hamburger_opened");
   _menu_items_container_outer.classList.add("menu_items_container_outer_opened")
   _menu_items_container_outer.classList.remove("menu_items_container_outer_closed");
+
+  //document.querySelector("#app_middle_left").classList.add("app_middle_item_menu_opened")
+  //document.querySelector("#app_middle_center").classList.add("app_middle_item_menu_opened")
+
 }
 function close(){
   if(_opened == false)
@@ -82,19 +97,14 @@ function close(){
   _menu_items_container_outer.classList.remove("menu_items_container_outer_opened")
   _menu_items_container_outer.classList.add("menu_items_container_outer_closed");
 
+  //document.querySelector("#app_middle_left").classList.remove("app_middle_item_menu_opened")
+  //document.querySelector("#app_middle_center").classList.remove("app_middle_item_menu_opened")
+
 }
 
 function aquireMarkup (){
   console.log("menu: aquireMarkup")
   return new Promise(function (resolve, reject) {
-    findElementOrLoadInclude("#menu_container","/includes/menu.html")
-    .then(function(ele){
-      _menu_container = ele
-      resolve(ele)
-    })
-    .catch(function(err){
-      console.log("panelMenu: error:"+ err)
-      reject(err)
-    })
+
   })
 }

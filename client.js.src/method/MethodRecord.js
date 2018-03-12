@@ -49,7 +49,7 @@ function MethodRecord(){
     var btnSubmit = method_submit_container.querySelector("span")
     btnSubmit.addEventListener("click",submit);
 
-    var btnExpandCollapse = eleRecord.querySelector(".method_nameContainer").querySelector("span")
+    var btnExpandCollapse = eleRecord.querySelector(".method_nameContainer")
     btnExpandCollapse.addEventListener("click",function(){
       if(expanded){
         collapse()
