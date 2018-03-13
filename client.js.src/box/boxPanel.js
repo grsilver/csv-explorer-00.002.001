@@ -9,7 +9,7 @@ https://conviva.app.box.com/developers/console/app/536698/configuration
 */
 
 var m = {}
-export {m as boxManager};
+export {m as boxPanel};
 m.init = init
 
 var _pnl

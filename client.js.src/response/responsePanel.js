@@ -1,11 +1,12 @@
 import {findElementOrLoadInclude as findElementOrLoadInclude} from '../lib/findElementOrLoadInclude.js';
 import {panelManager as panelManager} from '../panels/panelManager.js';
-import {submission_listener_responseHandler_cr8er as submission_listener_responseHandler_cr8er} from './submission_listener_responseHandler_cr8er.js';
 import {forEach as forEach}  from '../lib/forEach.js';
+import {SubmitHandler as SubmitHandler} from '../method/SubmitHandler.js';
+import {ResponseHandler_WithDataMarkUps as ResponseHandler_WithDataMarkUps} from './ResponseHandler_WithDataMarkUps.js';
 
 
 var m = {}
-export {m as responseManagerPanel};
+export {m as responsePanel};
 
 m.init = init;
 
@@ -15,15 +16,19 @@ var _summaries_container
 var _responseSummaries = []
 
 function init(){
+
   return new Promise(function(resolve,reject){
-    findElementOrLoadInclude("#response_manager_panel","/includes/responseManagerPanel.html")
-    .then(function(response_manager_panel){
-      _pnl = response_manager_panel
-      _summaries_container = _pnl.querySelector("#response_manager_summaries")
-      _templateResponseSummary = _pnl.querySelector(".response_manager_summary")
+
+
+    findElementOrLoadInclude("#response_panel","/includes/response_panel.html")
+    .then(function(response_panel){
+      _pnl = response_panel
+      _summaries_container = _pnl.querySelector("#response_panel_summaries")
+      _templateResponseSummary = _pnl.querySelector(".response_panel_summary")
+      
       _templateResponseSummary.remove()
 
-      submission_listener_responseHandler_cr8er.eventManager.addListener.newResponseHandler(onNewResponseHandler)
+      SubmitHandler.eventManager.addListener.newSubmission(onNewSubmission)
 
       panelManager.registerPanel("Response Manager",_pnl)
 
@@ -39,9 +44,16 @@ function init(){
 }
 
 
-function onNewResponseHandler(evt){
-  //console.log("onNewResponseHandler")
-  var responseHandler = evt.responseHandler
+function onNewSubmission(evt){
+
+  //console.log("onNewSubmission")
+
+  var submitHandler = evt.submitHandler
+  var responseHandler = new ResponseHandler_WithDataMarkUps(submitHandler)
+
+
+
+
   var eleResponseSummary = _templateResponseSummary.cloneNode(true);
   _summaries_container.appendChild(eleResponseSummary)
 
@@ -59,7 +71,7 @@ function onNewResponseHandler(evt){
 
   var btnShow= eleResponseSummary.querySelector("*[template_id=btnshow]")
   btnShow.addEventListener("click",function(){
-    //console.log("response_manager_response_summary_show")
+    //console.log("response_panel_response_summary_show")
     responseHandler.show()
   });
 

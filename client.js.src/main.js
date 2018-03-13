@@ -1,7 +1,7 @@
 import {panelManager as panelManager} from './panels/panelManager.js';
 import {methodPanel as methodPanel} from './method/methodPanel.js';
-import {submission_listener_responseHandler_cr8er as submission_listener_responseHandler_cr8er} from './response/submission_listener_responseHandler_cr8er.js';
-import {boxManager as boxManager} from './box/boxManager.js';
+import {responsePanel as responsePanel} from './response/responsePanel.js';
+import {boxPanel as boxPanel} from './box/boxPanel.js';
 import {queryPanel as queryPanel} from './query/queryPanel.js';
 
 
@@ -12,15 +12,15 @@ panelManager.init()
   return methodPanel.init()
 })
 .then(function(){
-  //console.log("main.js: methodManager.init DONE");
-  return submission_listener_responseHandler_cr8er.init()
+  //console.log("main.js: methodPanel.init DONE");
+  return responsePanel.init()
 })
 .then(function(){
-  //console.log("main.js: submission_listener_responseHandler_cr8er.init DONE");
-  return boxManager.init()
+  //console.log("main.js: responsePanel.init DONE");
+  return boxPanel.init()
 })
 .then(function(){
-  //console.log("main.js: boxManager.init DONE");
+  //console.log("main.js: boxPanel.init DONE");
   return queryPanel.init()
 })
 .then(function(){

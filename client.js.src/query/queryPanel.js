@@ -46,7 +46,7 @@ function onMarkUp(ele){
 function query(){
 
   var sql = textAreaHandler.getValue()
-  debugger;
+
   console.log("query:" + sql)
 
   var methodRegistrationData = {
