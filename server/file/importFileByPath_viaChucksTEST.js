@@ -11,7 +11,7 @@ const cr8Table = require('../db/cr8Table.js')
 const ReadWriteStreamHandler = require('../lib/ReadWriteStreamHandler.js')
 const jobManager = require('../lib/jobManager.js')
 
-module.exports = importFileByPath_via_streamChunksAndInsertSql;
+module.exports = importFileByPath_viaChucksTEST;
 
 //insert method: msecsElapsed:    218542  (3.64 min)
 //load data method: msecsElapsed: 204534  (3.4)
@@ -19,7 +19,7 @@ module.exports = importFileByPath_via_streamChunksAndInsertSql;
 const ssdLineDeliminator = "\n"
 var holderJobInfo = {}
 
-function importFileByPath_via_streamChunksAndInsertSql(paramObj){
+function importFileByPath_viaChucksTEST(paramObj){
   return new Promise((resolve,reject)=>{
     importFileByPath_sub(paramObj,resolve,reject)
   })

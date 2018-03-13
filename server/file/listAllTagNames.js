@@ -1,12 +1,18 @@
 const readLineByLine = require("./readLineByLine.js")
-const ssdFileHandling_common = require("./ssdFileHandling_common.js")
+const ssd_file_utils = require("./ssd_file_utils.js")
 const forEach = require ('../lib/forEach.js');
 module.exports = listAllTagNames;
 
 
+function listAllTagNames(paramObj){
+  return new Promise(function(resolve,reject){
+    listAllTagNames_sub(paramObj,resolve,reject)
+  })
+}
 
-function listAllTagNames(paramObj,resolve,reject){
-  paramObj.filePath = ssdFileHandling_common.normalizeFilePath(paramObj.filePath)
+
+function listAllTagNames_sub(paramObj,resolve,reject){
+  paramObj.filePath = ssd_file_utils.normalizeFilePath(paramObj.filePath)
   //paramObj.endLineNum = 10;
   paramObj.onLine = onLine;
 
@@ -68,7 +74,7 @@ function listAllTagNames(paramObj,resolve,reject){
           tagHolder[tagName] = {
             count:0
             ,examples : []
-            ,db_friendly_field_name: ssdFileHandling_common.convertToProperDBFieldName(tagName)
+            ,db_friendly_field_name: ssd_file_utils.convertToProperDBFieldName(tagName)
           }
         }
         tagHolder[tagName].count++

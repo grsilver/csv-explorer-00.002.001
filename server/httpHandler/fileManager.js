@@ -21,7 +21,7 @@ function handleHttpRequest(req, res){
 
 function checkIfPathExists(strRequestedPath, res,callback){
   //var strRelativePath = dirRoot + "/" + strRequestedPath;
-  var strRelativePath = config.server_root + "/" + strRequestedPath;
+  var strRelativePath = config.server.root + "/" + strRequestedPath;
   fs.exists(strRelativePath, function (boolExists) {
       //console.log(`loadRequestedPath: ${strRelativePath}. boolExists:${boolExists}`);
       if(!boolExists) {

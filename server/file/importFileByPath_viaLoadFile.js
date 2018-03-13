@@ -11,7 +11,7 @@ const cr8Table = require('../db/cr8Table.js')
 const ReadWriteStreamHandler = require('../lib/ReadWriteStreamHandler.js')
 const jobManager = require('../lib/jobManager.js')
 
-module.exports = importFileByPath_via_LoadDataLocalInFile;
+module.exports = importFileByPath_viaLoadFile;
 
 
 //insert method: msecsElapsed:    218542
@@ -29,7 +29,7 @@ You can also look at how many inserts were performed per second by finding the l
 const ssdLineDeliminator = "\n"
 var holderJobInfo = {}
 
-function importFileByPath_via_LoadDataLocalInFile(paramObj){
+function importFileByPath_viaLoadFile(paramObj){
   return new Promise((resolve,reject)=>{
     importFileByPath_sub(paramObj,resolve,reject)
   })

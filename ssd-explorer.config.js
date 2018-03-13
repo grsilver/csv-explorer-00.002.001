@@ -1,7 +1,9 @@
 module.exports = {
   version: "00.002.001"
-  ,port:8082
-  ,server_root:"./client.export"//client.dist
+  ,server{
+    ,port:8082
+    ,root:"./client.export"//client.dist
+  }
   ,database: {
     host: '127.0.0.1'
     ,user: 'root'
@@ -50,8 +52,8 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "file.importFileByPath_via_streamChunksAndInsertSql"
-      ,filePath:"file/importFileByPath_via_streamChunksAndInsertSql.js"
+    ,{requestPath : "file.importFileByPath_viaChucks"
+      ,filePath:"file/importFileByPath_viaChucks.js"
       ,methodName:null
       ,description:`copies an SSD into a table in streaming chunks`
       ,access : ["tier2"]
@@ -62,8 +64,20 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "file.importFileByPath_via_LoadDataLocalInFile"
-      ,filePath:"file/importFileByPath_via_LoadDataLocalInFile.js"
+    ,{requestPath : "file.importFileByPath_viaChucksTEST"
+      ,filePath:"file/importFileByPath_viaChucksTEST.js"
+      ,methodName:null
+      ,description:`copies an SSD into a table in streaming chunks`
+      ,access : ["tier2"]
+      ,params : [
+        {name:"tblName",defaultValue:"ssd2"}
+        ,{name:"filePath",defaultValue:"DailySessionLog_BellMedia_2018-01-17.csv"}
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"50"
+    }
+    ,{requestPath : "file.importFileByPath_viaLoadFile"
+      ,filePath:"file/importFileByPath_viaLoadFile.js"
       ,methodName:null
       ,description:`copies an SSD into a table in streaming chunks`
       ,access : ["tier2"]

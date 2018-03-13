@@ -10,8 +10,9 @@ exports.listen = listen;
 
 
 function listen(){
-  http.createServer(onHttpRequest).listen(parseInt(config.port));
-  console.log(`Server listening on port ${config.port}`);
+  var port = parseInt(config.server.port)
+  http.createServer(onHttpRequest).listen(port);
+  console.log(`Server listening on port ${port}`);
 }
 
 function onHttpRequest (req, res) {
