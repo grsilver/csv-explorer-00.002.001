@@ -1,0 +1,32 @@
+
+.query_panel_textarea_container {
+  border: 1px solid black;
+  padding:2px;
+  margin:2px;
+  height:550px
+}
+
+.query_panel_textarea_container textarea{
+
+
+}
+.query_panel_btnSql_container{
+  width:100%
+  border: 1px solid black;
+  padding:2px;
+  margin:2px;
+  background-color: white;
+}
+.query_panel_btnSubmit_container{
+  width:100%
+  border: 1px solid black;
+  padding:2px;
+  margin:2px;
+  background-color: white;
+}
+
+.CodeMirror {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: auto;
+}

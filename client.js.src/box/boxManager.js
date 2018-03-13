@@ -17,6 +17,8 @@ var _iframe
 var _textBtn
 var _oAuthCode
 var _tokenInfo
+var _textarea
+var _textareaParent
 
 
 function init(){
@@ -42,10 +44,16 @@ function onMarkup(ele){
   //console.log("boxManager: got markup")
   _pnl = ele
   panelManager.registerPanel("Box Integration",_pnl)
+
+  _textarea = ele.querySelector("#box_panel_toke_info_textarea");
+  _textareaParent = _textarea.parentNode
+  _textarea.remove()
+
   _iframe = ele.querySelector("iframe");
   _iframe.remove()
   _textBtn = ele.querySelector("#btnLogin");
   _textBtn.addEventListener("click",login)
+
 }
 
 function login(){
@@ -68,7 +76,7 @@ function login(){
     //  acquiredAtMS: 1464129218402,
     //  accessTokenTTLMS: 3600000,
     // }
-    _pnl.querySelector("*[data=token_info]").innerHTML= JSON.stringify(tokenInfo);
+    dispolayTokenInfo(tokenInfo)
     return apiCallHandler.call("box.checkToken",{accessToken:tokenInfo.accessToken})
   })
   .then(function(response){
@@ -78,6 +86,11 @@ function login(){
   .catch(function(err){
     throw err
   })
+}
+
+function dispolayTokenInfo(tokenInfo){
+  _textareaParent.appendChild(_textarea)
+  _textarea.value = JSON.stringify(tokenInfo);
 }
 
 

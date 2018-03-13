@@ -43,9 +43,17 @@ function registerPanel(lbl,elePanel){
     lbl:lbl
     ,elePanel:elePanel
   }
+  reg.setOnSHow = function(fn){
+    reg.onShow = fn
+  }
+  reg.removeOnShow = function(){
+    reg.onShow = null
+  }
   _registrations.push(reg)
   menu.addItem(lbl,function(){
     showPanel(elePanel)
+    if(reg.onShow)
+      reg.onShow(reg)
   })
   reg.remove = function(){
     removeReg(reg)

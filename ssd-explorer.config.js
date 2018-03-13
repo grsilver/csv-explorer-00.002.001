@@ -1,6 +1,7 @@
 module.exports = {
   version: "00.002.001"
   ,port:8082
+  ,server_root:"./client.export"//client.dist
   ,database: {
     host: '127.0.0.1'
     ,user: 'root'

@@ -2,6 +2,7 @@ const url = require('url');
 const fs = require('fs');
 const path = require('path');
 const contentTypeMap = require('./contentTypeMap.js')
+const config = require('../../ssd-explorer.config.js');
 const dirRoot = "./client.dist"
 
 var exports = module.exports = {};
@@ -19,7 +20,8 @@ function handleHttpRequest(req, res){
 }
 
 function checkIfPathExists(strRequestedPath, res,callback){
-  var strRelativePath = dirRoot + "/" + strRequestedPath;
+  //var strRelativePath = dirRoot + "/" + strRequestedPath;
+  var strRelativePath = config.server_root + "/" + strRequestedPath;
   fs.exists(strRelativePath, function (boolExists) {
       //console.log(`loadRequestedPath: ${strRelativePath}. boolExists:${boolExists}`);
       if(!boolExists) {
