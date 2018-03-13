@@ -22,6 +22,7 @@ https://webmasters.stackexchange.com/questions/7932/what-is-the-standard-width-f
 html, body
 {
     height: 100%;
+    font-family: "Segoe UI",Arial,sans-serif;
 }
 #app_title{
   text-align: center;
@@ -75,4 +76,20 @@ https://stackoverflow.com/questions/7357818/how-can-an-html-element-fill-out-100
 }
 .label1:first-of-type{
   padding-left:0px;
+}
+.subheader{
+  font-size: large;
+  background-color: #d9edfc;
+  padding:2px;
+  margin: 2px;
+}
+.section1{
+  padding:2px;
+  border: 2px solid #7a92a3;
+  background-color: #d9edfc;
+}
+.section1 > div{
+  background-color: white;
+  margin:3px;
+  padding:2px;
 }

@@ -160,8 +160,8 @@ module.exports = {
       ,returnType:"ROWS"
       ,implemented:"80"
     }
-    ,{requestPath : "box.getOAuth"
-      ,filePath:"box/getOAuth.js"
+    ,{requestPath : "box.getOAuthUrl"
+      ,filePath:"box/getOAuthUrl.js"
       ,methodName:null
       ,description:"Get The URL for oAuth into Box"
       ,access : ["tier2"]
@@ -169,6 +169,28 @@ module.exports = {
       ,implemented:"100"
       ,params : [
         {name:"username",defaultValue:"galen.silvestri@conviva.com"}
+      ]
+    }
+    ,{requestPath : "box.getToken"
+      ,filePath:"box/getToken.js"
+      ,methodName:null
+      ,description:"send authcode get token: {accessToken: 'ACCESS_TOKEN',refreshToken: 'REFRESH_TOKEN',acquiredAtMS: 1464129218402, accessTokenTTLMS: 3600000,}"
+      ,access : ["tier2"]
+      ,returnType:"STRING"
+      ,implemented:"100"
+      ,params : [
+        {name:"authCode",defaultValue:null}
+      ]
+    }
+    ,{requestPath : "box.checkToken"
+      ,filePath:"box/checkToken.js"
+      ,methodName:null
+      ,description:"check if accesToken works "
+      ,access : ["tier2"]
+      ,returnType:"STRING"
+      ,implemented:"100"
+      ,params : [
+        {name:"accessToken",defaultValue:null}
       ]
     }
   ]

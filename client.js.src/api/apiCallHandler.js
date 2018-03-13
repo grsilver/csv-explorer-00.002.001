@@ -25,7 +25,7 @@ function call(methodPath,methodParam,callback){
           if(!objResp || !objResp.success){
             reject({message:"API Communication Successful But API Error. objResp.success is false.",innerError:objResp})
           }
-          resolve(objResp)
+          resolve(objResp.response)
         }catch(e){
           reject({message:"response has bad JSON",responseText:xhr.responseText})
         }

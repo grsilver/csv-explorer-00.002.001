@@ -1,28 +1,12 @@
 
 
-.response_handler_submission_params, .response_handler_submission{
-  padding:2px;
-  border: 2px solid #7a92a3;
-  background-color: #d9edfc;
-}
 
-.response_handler_submission_params div, .response_handler_submission div{
-  background-color: white;
-  margin:3px;
-  padding:2px;
-}
+
 
 .response_handler_response_container{
   overflow: scroll;
   padding:2px;
   border: 2px solid #7a92a3;
-}
-
-.response_handler_subheader{
-  font-size: large;
-  background-color: #d9edfc;
-  padding:2px;
-  margin: 2px;
 }
 
 

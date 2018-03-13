@@ -17,7 +17,6 @@ function SubmitHandler(methodRegistrationData){
   t.completed = false
   t.successful = false
   t.error = null
-  t.metaResponse = null
   t.response = null
   t.methodParams = null;
   t.submit = submit
@@ -35,9 +34,8 @@ function SubmitHandler(methodRegistrationData){
 
 
     apiCallHandler.call(t.methodRegistrationData.requestPath,methodParams)
-    .then(function(objResp){
-      t.metaResponse = objResp
-      t.response = objResp.response
+    .then(function(response){
+      t.response = response
       onComplete(true)
 
       t.eventManager.dispatch.responseSuccess({

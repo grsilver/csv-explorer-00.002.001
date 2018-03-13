@@ -27,8 +27,8 @@ function init(){
 
   return new Promise(function(resolve,reject){
     apiCallHandler.call("listMethods",{})
-    .then(function(objResp){
-      _aryMethodInfoRecords = objResp.response
+    .then(function(response){
+      _aryMethodInfoRecords = response
       _aryMethodInfoRecords = _aryMethodInfoRecords.sort(function(a, b){
         if(a.requestPath < b.requestPath) return -1;
         if(a.requestPath > b.requestPath) return 1;
