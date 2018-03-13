@@ -91,11 +91,15 @@ function parseHeaderLine(firstLine){
 }
 function convertToProperDBFieldName(csv_col_name){
 
-  var db_friendly_field_name = convert_csv_colVal_2_fieldName_by_ssd_docs_standards(csv_col_name)
-  if(db_friendly_field_name)
-    return db_friendly_field_name
   db_friendly_field_name = csv_col_name;
   db_friendly_field_name = db_friendly_field_name.replace(/["]+/g, '') // remove quotes:
+
+
+  var mapp_attempt = convert_csv_colVal_2_fieldName_by_ssd_docs_standards(db_friendly_field_name)
+  if(mapp_attempt)
+    return mapp_attempt
+
+
   db_friendly_field_name = db_friendly_field_name.replace(/\s+/g, '_');
   db_friendly_field_name = db_friendly_field_name.replace(/\./g, '_');
   db_friendly_field_name = db_friendly_field_name.replace(/\//g, '_');
