@@ -4,25 +4,29 @@
 
 
     <div class="response_handler">
-
+      <div class="response_handler_subheader">
+        Status
+      </div>
       <div class="response_handler_submission">
-        <div><span>api path: </span><span data="filePath"></span></div>
-        <div><span>time submitted: </span><span data="timeSubmitted"></span></div>
-        <div><span>completed</span><span data="completed"></span></div>
+        <div><span class="label1">method: </span><span data="method"></span></div>
+        <div><span class="label1">submitted: </span><span data="timeSubmitted"></span></div>
+        <div><span class="label1">durration: </span><span data="timeElasped"></span></div>
+        <div><span class="label1">error: </span><span data="error"></span></div>
+        <div><span class="label1">completed: </span><span data="completed"></span></div>
       </div>
 
-      <div>
-        Parameters:
+      <div class="response_handler_subheader">
+        Parameters
       </div>
-      <div class="response_handler_submission_param_container">
+      <div class="response_handler_submission_params">
         <div class="response_handler_submission_param">
-          <span data="key"></span>
+          <span data="key" class="label1"></span>
           <span> : </span>
           <span data="value"></span>
         </div>
       </div>
 
-      <div>
+      <div class="response_handler_subheader">
         Result:
       </div>
       <div class="response_handler_response_container">
@@ -34,7 +38,7 @@
     </div><!-- response_handler -->
 
 
-    <table id="response_table">
+    <table class="response_table">
       <thead></thead>
       <tbody>
         <tr>
@@ -42,7 +46,7 @@
       </tbody>
     </table>
 
-    <div id="response_object">
+    <div class="response_object">
 
       <div class="response_object_item" template="response_object_item">
         <span class="response_object_item_key" data="key">KEY</span>
@@ -60,7 +64,7 @@
 
     </div><!-- response_object -->
 
-    <div id="response_string">
+    <div class="response_string">
       STRING
       <span data="value">Value</span>
     </div>

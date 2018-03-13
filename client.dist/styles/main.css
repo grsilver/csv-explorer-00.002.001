@@ -1,5 +1,6 @@
 @import url("methods_panel.css");
-@import url("response_panel.css");
+@import url("responseHandler.css");
+@import url("responseManagerPanel.css");
 @import url("box_panel.css");
 @import url("menu.css");
 
@@ -12,6 +13,8 @@
   cursor:pointer;
   color:blue;
   text-decoration:underline;
+  background: white;
+  padding:2px;
 }
 /* What is the standard width for a website in pixels?
 https://webmasters.stackexchange.com/questions/7932/what-is-the-standard-width-for-a-website-in-pixels
@@ -63,4 +66,13 @@ https://stackoverflow.com/questions/7357818/how-can-an-html-element-fill-out-100
   background-color: #b9ddf7;
   min-height: 100vh;
 
+}
+
+.label1{
+  font-weight: bold;
+  color:#c18f38;
+  padding-left:10px;
+}
+.label1:first-of-type{
+  padding-left:0px;
 }

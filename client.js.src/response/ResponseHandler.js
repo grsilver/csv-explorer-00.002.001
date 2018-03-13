@@ -1,6 +1,8 @@
 
 import {findElementOrLoadInclude as findElementOrLoadInclude} from '../lib/findElementOrLoadInclude.js';
+import {forEach as forEach} from '../lib/forEach.js';
 import {panelManager as panelManager} from '../panels/panelManager.js';
+import {matchElementsWithData as matchElementsWithData} from '../lib/matchElementsWithData.js';
 
 
 export {ResponseHandler as ResponseHandler};
@@ -9,11 +11,12 @@ export {ResponseHandler as ResponseHandler};
 class ResponseHandler{
 
   constructor(submitHandler) {
-    console.log("new ResponseHandler created")
+    //console.log("new ResponseHandler created")
     var t = this
     t.submitHandler = submitHandler
     t.element = null
     submitHandler.eventManager.addListener.complete(function(){
+      //console.log("ResponseHandler: submitHandler.eventManager.addListener.complete")
       t._onSubmitComplete()
     })
 
@@ -41,8 +44,20 @@ class ResponseHandler{
 
  _displayComplete(){
    var t = this;
-   var eleCompleted = t.element.querySelector("*[data=completed]")
-   eleCompleted.innerHTML = t.submitHandler.completed
+   var response_handler_submission = t.element.querySelector(".response_handler_submission")
+
+
+   var submissionData = {
+      method:t.submitHandler.method
+     ,timeSubmitted: new Date(t.submitHandler.timeSubmitted).toString()
+     ,error: t.submitHandler.error ? "yes" : "no"
+     ,completed: t.submitHandler.completed ? "yes" : "no"
+   }
+   if(t.submitHandler.timeElasped){
+     submissionData.timeElasped = t.submitHandler.timeElasped;
+   }
+
+   matchElementsWithData(response_handler_submission,submissionData)
 
 
    var response_container = t.element.querySelector(".response_handler_response_container");
@@ -59,16 +74,33 @@ class ResponseHandler{
    return new Promise(function(resolve, reject){
      t.element = templateEle.cloneNode(true);
 
-     t.paramTemplate = t.element.querySelector(".response_handler_submission_param")
-     t.paramTemplate.remove()
+     var paramTemplate = t.element.querySelector(".response_handler_submission_param")
+     paramTemplate.remove()
+     var paramsContainer = t.element.querySelector(".response_handler_submission_params")
+     forEach(t.submitHandler.methodParams,function(val,key){
+       var eleParam = paramTemplate.cloneNode(true)
+       paramsContainer.appendChild(eleParam)
+       eleParam.querySelector("*[data=key]").innerHTML = key;
+       eleParam.querySelector("*[data=value]").innerHTML = val;
+     })
 
 
-     var filePath = t.element.querySelector("*[data=filePath]")
-     filePath.innerHTML = t.submitHandler.method
 
-     var timeSubmitted = t.element.querySelector("*[data=timeSubmitted]")
-     var dtTimeSubmitted = new Date(t.submitHandler.timeSubmitted)
-     timeSubmitted.innerHTML = dtTimeSubmitted.toString();
+
+     var response_handler_submission = t.element.querySelector(".response_handler_submission")
+
+
+     var submissionData = {
+        method:t.submitHandler.method
+       ,timeSubmitted: new Date(t.submitHandler.timeSubmitted).toString()
+       ,error: t.submitHandler.error ? "yes" : "no"
+       ,completed: t.submitHandler.completed ? "yes" : "no"
+     }
+
+     matchElementsWithData(response_handler_submission,submissionData);
+
+
+
 
      if(t.submitHandler.completed){
        try{
@@ -101,9 +133,9 @@ class ResponseHandler{
         resolve()
       })
       .catch(function(err){
-        var err2 = new Error("ResponseHandler: Can't aquire markup");
-        err2.innerError = err
-        throw err2
+        //var err2 = new Error("ResponseHandler: Can't aquire markup");
+        //err2.innerError = err
+        throw err
       })
     })
   }

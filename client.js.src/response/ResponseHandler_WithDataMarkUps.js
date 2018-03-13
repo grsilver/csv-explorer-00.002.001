@@ -15,9 +15,11 @@ class ResponseHandler_WithDataMarkUps extends ResponseHandler{
   }
 
   _displayComplete(){
+    super._displayComplete();
     var t = this;
-    var completed = t.element.querySelector("*[data=completed]")
-    completed.innerHTML = t.submitHandler.completed
+
+    var container = t.element.querySelector(".response_handler_response_container");
+    container.innerHTML = ""
 
     var returnType = t.submitHandler.methodRegistrationData.returnType
     var response = t.submitHandler.response || t.submitHandler.error
@@ -38,7 +40,7 @@ class ResponseHandler_WithDataMarkUps extends ResponseHandler{
     }
 
 
-    var container = t.element.querySelector(".response_handler_response_container");
+
 
     display_DataMarkup
     .aquireMarkup()

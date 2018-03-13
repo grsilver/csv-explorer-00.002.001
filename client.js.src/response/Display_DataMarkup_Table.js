@@ -8,7 +8,7 @@ export {Display_DataMarkup_Table as Display_DataMarkup_Table};
 class Display_DataMarkup_Table extends Display_DataMarkup {
   constructor() {
     super()
-    this.querySelectorStr = "#response_table"
+    this.querySelectorStr = ".response_table"
   }
 
   onAquireMarkup(ele){

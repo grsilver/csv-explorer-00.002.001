@@ -11,16 +11,16 @@ m.init = init;
 
 var _pnl;
 var _templateResponseSummary
-var _summary_container
+var _summaries_container
 var _responseSummaries = []
 
 function init(){
   return new Promise(function(resolve,reject){
-    findElementOrLoadInclude("#response_manager_panel","/includes/responseManager.html")
+    findElementOrLoadInclude("#response_manager_panel","/includes/responseManagerPanel.html")
     .then(function(response_manager_panel){
       _pnl = response_manager_panel
-      _summary_container = _pnl.querySelector(".response_manager_response_summary_container")
-      _templateResponseSummary = _pnl.querySelector(".response_manager_response_summary")
+      _summaries_container = _pnl.querySelector("#response_manager_summaries")
+      _templateResponseSummary = _pnl.querySelector(".response_manager_summary")
       _templateResponseSummary.remove()
 
       submission_listener_responseHandler_cr8er.eventManager.addListener.newResponseHandler(onNewResponseHandler)
@@ -40,10 +40,10 @@ function init(){
 
 
 function onNewResponseHandler(evt){
-  console.log("onNewResponseHandler")
+  //console.log("onNewResponseHandler")
   var responseHandler = evt.responseHandler
   var eleResponseSummary = _templateResponseSummary.cloneNode(true);
-  _summary_container.appendChild(eleResponseSummary)
+  _summaries_container.appendChild(eleResponseSummary)
 
   var submitHandler = responseHandler.submitHandler
 
@@ -57,9 +57,9 @@ function onNewResponseHandler(evt){
   var eleCompleted= eleResponseSummary.querySelector("*[data=completed]")
   eleCompleted.innerHTML = submitHandler.completed
 
-  var btnShow= eleResponseSummary.querySelector(".response_manager_response_summary_show")
+  var btnShow= eleResponseSummary.querySelector("*[template_id=btnshow]")
   btnShow.addEventListener("click",function(){
-    console.log("response_manager_response_summary_show")
+    //console.log("response_manager_response_summary_show")
     responseHandler.show()
   });
 
@@ -68,9 +68,20 @@ function onNewResponseHandler(evt){
     ,responseHandler: responseHandler
   }
 
+
+  submitHandler.eventManager.addListener.complete(function(evt){
+    //console.log("responseManagerPanel: submitHandler.eventManager.addListener.complete")
+    if(evt.success){
+      eleCompleted.innerHTML = "success"
+    }
+    else{
+      eleCompleted.innerHTML = "failed"
+    }
+  })
+
   _responseSummaries.push(responseSummaryReg);
 
-  var btnRemove= eleResponseSummary.querySelector(".response_manager_response_summary_remove")
+  var btnRemove= eleResponseSummary.querySelector("*[template_id=btnremove]")
   btnRemove.addEventListener("click",function(){
     removeResponseSummary(responseSummaryReg)
   });

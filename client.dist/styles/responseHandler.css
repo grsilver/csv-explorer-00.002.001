@@ -1,0 +1,65 @@
+
+
+.response_handler_submission_params, .response_handler_submission{
+  padding:2px;
+  border: 2px solid #7a92a3;
+  background-color: #d9edfc;
+}
+
+.response_handler_submission_params div, .response_handler_submission div{
+  background-color: white;
+  margin:3px;
+  padding:2px;
+}
+
+.response_handler_response_container{
+  overflow: scroll;
+  padding:2px;
+  border: 2px solid #7a92a3;
+}
+
+.response_handler_subheader{
+  font-size: large;
+  background-color: #d9edfc;
+  padding:2px;
+  margin: 2px;
+}
+
+
+.response_table{
+  border: 2px solid #7a92a3;
+  background-color: white
+}
+.response_object{
+  border: 2px solid #7a92a3;
+}
+.response_string{
+  border: 2px solid #7a92a3;
+}
+
+.response_table tr:nth-child(even) {background: #CCC}
+.response_table tr:nth-child(odd) {background: #FFF}
+
+
+.response_object_child_object_grandchildren{
+  margin:2px;
+  margin-right:none;
+  margin-left: 10px;
+  margin-bottom:10px;
+}
+.response_object_item_key{
+  font-weight: bold;
+}
+.response_object_item_val{
+  color: green;
+}
+.response_object_item{
+  border: 1px solid green;
+}
+.response_object_child_object_key_bar{
+  cursor: pointer;
+  background-color: #bac1c6;
+  border: 1px solid black;
+  padding-left: 2px;
+  margin-bottom: 2px;
+}

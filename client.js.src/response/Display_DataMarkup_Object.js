@@ -9,7 +9,7 @@ class Display_DataMarkup_Object extends Display_DataMarkup {
 
   constructor() {
     super()
-    this.querySelectorStr = "#response_object"
+    this.querySelectorStr = ".response_object"
   }
 
   onAquireMarkup(ele){

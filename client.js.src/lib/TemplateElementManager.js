@@ -33,7 +33,7 @@ class TemplateElementManager {
       ele = elements[i]
 
       id = ele.getAttribute("template")
-      console.log("template: "+ id)
+      //console.log("template: "+ id)
       this.templateElementRegistrations.push({
         id:id
         ,element:ele

@@ -59,11 +59,11 @@ function EventManager(scope){
       if(!evt.name){
         evt.name = eventName
       }
-      var oldAry = eventRegistration.listenerRegistrations
+      var tempAry = eventRegistration.listenerRegistrations.slice(0)
       var lastListenerReg
       alertListener(0)
       function alertListener(i){
-        var listenerRegistration = eventRegistration.listenerRegistrations[i]
+        var listenerRegistration = tempAry[i]
         if( listenerRegistration == null)
           return
         if (listenerRegistration == lastListenerReg)
@@ -72,7 +72,7 @@ function EventManager(scope){
           return
 
         listenerRegistration.listener(evt,scope,listenerRegistration)
-        alertListener(0+1)
+        alertListener(i+1)
       }
 
     }

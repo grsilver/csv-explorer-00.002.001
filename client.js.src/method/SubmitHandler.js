@@ -57,6 +57,7 @@ function SubmitHandler(methodRegistrationData){
   }
 
   function onComplete(success){
+    //console.log("onComplete")
     t.timeElasped = Date.now() - t.timeSubmitted
     t.completed = true
     t.successful = success
