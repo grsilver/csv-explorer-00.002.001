@@ -31,11 +31,15 @@ class DataMarkup {
   aquireMarkup (eleContainer){
     var t = this;
     return new Promise (function (resolve, reject) {
+      if(t.element){
+        resolve(t.element)
+        return
+      }
       findElementOrLoadInclude(t.querySelectorStr ,t.includePath,eleContainer)
-      .then(function(ele){
-        t.element = ele.cloneNode(true);
-        t.onAquireMarkup(ele)
-        ele.remove()
+      .then(function(eleTemplate){
+        t.element = eleTemplate.cloneNode(true);
+        t.onAquireMarkup(t.element)
+        eleTemplate.remove()
         resolve(t.element)
       })
       .catch(function(err){

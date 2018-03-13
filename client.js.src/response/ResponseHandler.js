@@ -41,12 +41,12 @@ class ResponseHandler{
 
  _displayComplete(){
    var t = this;
-   var completed = t.element.querySelector("*[data=completed]")
-   completed.innerHTML = t.submitHandler.completed
+   var eleCompleted = t.element.querySelector("*[data=completed]")
+   eleCompleted.innerHTML = t.submitHandler.completed
 
 
    var response_container = t.element.querySelector(".response_handler_response_container");
-   if(t.error){
+   if(t.submitHandler.error){
      response_container.innerHTML = JSON.stringify(t.submitHandler.error)
    }
    else{
@@ -71,7 +71,13 @@ class ResponseHandler{
      timeSubmitted.innerHTML = dtTimeSubmitted.toString();
 
      if(t.submitHandler.completed){
-       t._displayComplete()
+       try{
+         t._displayComplete()
+       }
+       catch(err){
+         reject(err)
+       }
+
      }
 
      resolve()
