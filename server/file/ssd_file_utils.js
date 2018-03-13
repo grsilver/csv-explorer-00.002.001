@@ -90,7 +90,11 @@ function parseHeaderLine(firstLine){
   return aryReturn
 }
 function convertToProperDBFieldName(csv_col_name){
-  var db_friendly_field_name = csv_col_name;
+
+  var db_friendly_field_name = convert_csv_colVal_2_fieldName_by_ssd_docs_standards(csv_col_name)
+  if(db_friendly_field_name)
+    return db_friendly_field_name
+  db_friendly_field_name = csv_col_name;
   db_friendly_field_name = db_friendly_field_name.replace(/["]+/g, '') // remove quotes:
   db_friendly_field_name = db_friendly_field_name.replace(/\s+/g, '_');
   db_friendly_field_name = db_friendly_field_name.replace(/\./g, '_');
@@ -155,11 +159,12 @@ function proposeDbFieldTypeByName(name){
 
   if(strMatchInAry(name,[
     "time"
-    ,"average_bitrate"
+    ,"bitrate"
     ,"startup_error"
     ,"percentage"
     ,"count"
     ,"video_playback_failure"
+    ,"vpf" // according to SSD docuementation standards
     ,"interrupts"
   ])){
     return  "int(8)"
@@ -182,4 +187,40 @@ function strMatchInAry(str,ary){
       fnBreak(true)
     }
   })
+}
+
+
+function convert_csv_colVal_2_fieldName_by_ssd_docs_standards(csv_col_name){
+  //https://community.conviva.com/site/global/resources/ssd/index.gsp#ssd_fields
+  var map = {
+    "viewerId":"viewerId"
+    ,"asset":"asset"
+    ,"device/os":"deviceos"
+    ,"country":"country"
+    ,"state":"state"
+    ,"city":"city"
+    ,"asn":"asn"
+    ,"isp":"isp"
+    ,"start time (unix time)":"starttime"
+    ,"startup time (ms)":"startuptime"
+    ,"playing time (ms)":"playingtime"
+    ,"buffering time (ms)":"bufferingtime"
+    ,"interrupts":"interrupts"
+    ,"average bitrate (kbps)":"averagebitrate"
+    ,"startup error":"startup_error"
+    ,"session tags":"sessiontags"
+    ,"ip address":"ipaddress"
+    ,"cdn":"cdn"
+    ,"browser":"browser"
+    ,"conviva session id":"convivasessionid"
+    ,"stream url":"streamurl"
+    ,"error list":"errorlist"
+    ,"percentage complete":"percentagecomplete"
+    ,"connection induced re-buffering time (ms)":"cibufferingtime"
+    ,"video restart time (ms)":"vrestarttime"
+    ,"re-joined count":"rejoincount"
+    ,"VPF":"vpf"
+    ,"VPF error list":"vpf_error_list"
+  }
+  return map[csv_col_name]
 }

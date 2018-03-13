@@ -22,7 +22,7 @@ module.exports = {
       ,description:"get the total line count of a file"
       ,access : ["tier2"]
       ,params : [
-        {name:"filePath",defaultValue:"Book1.csv"}
+        {name:"filePath",defaultValue:"DailySessionLog_BellMedia_2018-01-17.csv"}
       ]
       ,returnType:"OBJECT"
       ,implemented:"100"
@@ -30,7 +30,7 @@ module.exports = {
     ,{requestPath : "file.getMainColumnNames"
       ,filePath:"file/getMainColumnNames.js"
       ,methodName:null
-      ,description:"looks at file and sends back MAIN column names"
+      ,description:"TODO: turn into streaming. Won't work on large files. looks at file and sends back MAIN column names."
       ,access : ["tier2"]
       ,params : [
         {name:"filePath",defaultValue:"Book1.csv"}
