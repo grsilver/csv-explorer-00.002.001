@@ -17,8 +17,8 @@ class Display_DataMarkup_String extends Display_DataMarkup {
 
   dataBind (data){
     super.dataBind(data);
-    var eleVal = this.element.querySelectorAll("*[data=value]")
-    eleVal.innerHTML = eleVal
+    var eleVal = this.element.querySelector("*[data=value]")
+    eleVal.innerHTML = data
   }
 
 }
