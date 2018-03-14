@@ -1,7 +1,7 @@
 module.exports = {
   version: "00.002.001"
-  ,server{
-    ,port:8082
+  ,server:{
+    port:8082
     ,root:"./client.export"//client.dist
   }
   ,database: {
@@ -64,22 +64,10 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "file.importFileByPath_viaChucksTEST"
-      ,filePath:"file/importFileByPath_viaChucksTEST.js"
-      ,methodName:null
-      ,description:`copies an SSD into a table in streaming chunks`
-      ,access : ["tier2"]
-      ,params : [
-        {name:"tblName",defaultValue:"ssd2"}
-        ,{name:"filePath",defaultValue:"DailySessionLog_BellMedia_2018-01-17.csv"}
-      ]
-      ,returnType:"OBJECT"
-      ,implemented:"50"
-    }
     ,{requestPath : "file.importFileByPath_viaLoadFile"
       ,filePath:"file/importFileByPath_viaLoadFile.js"
       ,methodName:null
-      ,description:`copies an SSD into a table in streaming chunks`
+      ,description:`copies an SSD into a table via mySql `
       ,access : ["tier2"]
       ,params : [
         {name:"tblName",defaultValue:"ssd2"}
