@@ -266,24 +266,31 @@ function importFileByPath_sub(paramObj,resolve,reject){
     //jobInfo.lineCount += strChunk.match(/\n/g).length;
     var aryLines = strChunk.split("\n")
     var strRecordS = ""
+    var delim =
     forEach(aryLines,function(line,lineCount){
-      if(!line || line == "" || line.length < 5)
+      if(!line || line == "")
         return
+
+      var aryCsvValues = line.split('","')
+
+      if(aryCsvValues.length < _aryFields_fromCSV.length)
+        return;
+
       if(lineCount!=0){
         strRecordS += "\n,"
       }
 
-      strRecordS +=  "(" + parseLine(line) + ")"
+      strRecordS +=  "(" + parseLine(line,aryCsvValues) + ")"
     })
     //values = values.replace(/"\n/g,'")\n,(')
     //values = "("+values
 
     return strRecordS
   }
-  function parseLine(line){
+  function parseLine(line,aryCsvValues){
     jobInfo.lineCount ++;
-    var delim = '","'
-    var aryCsvValues = line.split(delim)
+
+
     var strReturnLine = ""
     var tagsObj = {}
 

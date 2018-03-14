@@ -52,8 +52,8 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "file.importFileByPath_viaChucks"
-      ,filePath:"file/importFileByPath_viaChucks.js"
+    ,{requestPath : "file.importByPath_wChucks"
+      ,filePath:"file/importByPath_wChucks.js"
       ,methodName:null
       ,description:`copies an SSD into a table in streaming chunks`
       ,access : ["tier2"]
@@ -64,8 +64,20 @@ module.exports = {
       ,returnType:"OBJECT"
       ,implemented:"50"
     }
-    ,{requestPath : "file.importFileByPath_viaLoadFile"
-      ,filePath:"file/importFileByPath_viaLoadFile.js"
+    ,{requestPath : "file.importByPath_wChucks_wTgs"
+      ,filePath:"file/importByPath_wChucks_wTgs.js"
+      ,methodName:null
+      ,description:`copies an SSD into a table in streaming chunks also makes columns for tags`
+      ,access : ["tier2"]
+      ,params : [
+        {name:"tblName",defaultValue:"ssd2"}
+        ,{name:"filePath",defaultValue:"DailySessionLog_BellMedia_2018-01-17.csv"}
+      ]
+      ,returnType:"OBJECT"
+      ,implemented:"50"
+    }
+    ,{requestPath : "file.importByPath_wLoadFile"
+      ,filePath:"file/importByPath_wLoadFile.js"
       ,methodName:null
       ,description:`copies an SSD into a table via mySql `
       ,access : ["tier2"]
